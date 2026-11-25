@@ -1,5 +1,5 @@
 /* Biblioteca Virtual · Service Worker (caché local, sin rastreo) */
-const VERSION = "bv-v6-1-pdf";
+const VERSION = "bv-v6-2-descargas";
 const NUCLEO = [
   "./", "./index.html", "./manifest.webmanifest",
   "./css/base.css", "./css/paginas.css", "./css/juegos.css", "./css/lector.css", "./css/adaptable.css",
@@ -10,7 +10,7 @@ const NUCLEO = [
   "./assets/svg/ilu-nube.svg", "./assets/svg/ilu-dragon.svg", "./assets/svg/ilu-luna.svg", "./assets/svg/ilu-jardin.svg", "./assets/svg/ilu-fabula.svg",
   "./assets/svg/ilu-bosque-cuento.svg", "./assets/svg/ilu-castillo-magico.svg", "./assets/svg/ilu-mar.svg", "./assets/svg/ilu-conejo.svg",
   "./assets/svg/ilu-espejo.svg", "./assets/svg/ilu-marioneta.svg", "./assets/svg/ilu-estrellas.svg", "./assets/svg/ilu-maiz.svg", "./assets/svg/ilu-biblioteca-noche.svg",
-  "./js/nucleo.js", "./js/componentes.js", "./js/secciones.js", "./js/lector.js", "./js/juegos.js", "./js/app.js"
+  "./js/pdf-local.js", "./js/nucleo.js", "./js/componentes.js", "./js/secciones.js", "./js/lector.js", "./js/juegos.js", "./js/app.js"
 ];
 
 self.addEventListener("install", (event) => {
