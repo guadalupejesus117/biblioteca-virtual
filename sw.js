@@ -1,5 +1,5 @@
 /* Biblioteca Virtual · Service Worker (caché local, sin rastreo) */
-const VERSION = "bv-v5-instalable";
+const VERSION = "bv-v6-pio";
 const NUCLEO = [
   "./", "./index.html", "./manifest.webmanifest",
   "./css/base.css", "./css/paginas.css", "./css/juegos.css", "./css/lector.css", "./css/adaptable.css",
