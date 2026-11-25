@@ -301,3 +301,5 @@ window.BV_RECURSOS = [
     edad: "Secundaria y docentes"
   }
 ];
+
+window.BV_LOGROS.push({id:"mitad-aventura",nombre:"A mitad de la aventura",descripcion:"Alcanza el 50% de una lectura.",icono:"libro",recompensa:5,meta:1,valor:s=>Object.values(s.lectura||{}).some(l=>l.percent>=50)?1:0},{id:"semana-lectora",nombre:"Semana de constancia",descripcion:"Mantén una racha de 7 días de actividad en la biblioteca.",icono:"estrella",recompensa:25,meta:7,valor:s=>s.streak?.count||0});
