@@ -50,7 +50,7 @@
 
   function ilustracionHTML(recurso, indice = 0, clase = "") {
     const lista = (window.BV_ILUSTRACIONES || {})[recurso.id] || [];
-    if (!lista.length) return "";
+    if (indice === 0 || !lista.length) return `<figure class="lector-ilustracion ${clase}"><img src="assets/arte/${esc(recurso.id)}.svg" alt="${esc(recurso.titulo)}" width="800" height="500"></figure>`;
     const ilu = lista[indice % lista.length];
     return `<figure class="lector-ilustracion ${clase}">
       <img src="${esc(ilu.archivo)}" alt="${esc(ilu.alt)}" width="800" height="500" loading="lazy">

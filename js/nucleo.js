@@ -878,7 +878,7 @@
         <div class="portada paleta-${paleta}${mini ? " portada--mini" : ""}" aria-hidden="true">
           <span class="portada__serie">${esc(serie)}</span>
           <span class="portada__marco"></span>
-          <span class="portada__icono"><svg viewBox="0 0 24 24"><use href="assets/svg/iconos.svg#${esc(MAPA_ICONOS[motivo] || motivo || "book-open")}"></use></svg></span>
+          <span class="portada__icono" style="width:90%;height:auto;aspect-ratio:8/5"><img src="assets/arte/${esc(recurso.id)}.svg" alt="" style="width:100%;height:100%;object-fit:contain;border-radius:8px"></span>
           <span class="portada__texto">
             <span class="portada__titulo ${claseTitulo}">${esc(titulo)}</span>
             <span class="portada__autor">${esc(recurso.autor || "Biblioteca Virtual")}</span>
