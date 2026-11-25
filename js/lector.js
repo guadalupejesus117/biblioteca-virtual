@@ -219,96 +219,90 @@
         titulo: `${recurso.titulo} · Lectura`,
         html,
         init() {
+
           const cuerpo = document.getElementById("lector-cuerpo");
+          const articulo = document.getElementById("lector-articulo");
           const barraProgreso = document.getElementById("lector-progreso-barra");
           const selector = document.getElementById("selector-capitulo");
           const escalaOut = document.getElementById("leer-escala");
-          let escalaActual = escala;
-          let ultimoGuardado = 0;
-          let terminado = false;
-          let despejado = false;
-
-          document.body.classList.add("modo-lector");
-
-          const botonDespejar = document.getElementById("leer-despejar");
-          const botonSalir = document.getElementById("salir-despejar");
-          const alternarDespeje = (activar) => {
-            const progreso = calcular();
-            despejado = typeof activar === "boolean" ? activar : !despejado;
-            document.body.classList.toggle("lector-despejado", despejado);
-            if (botonSalir) botonSalir.hidden = !despejado;
-            if (botonDespejar) botonDespejar.setAttribute("aria-pressed", String(despejado));
-            BV.ui.anunciar(despejado ? "Modo lectura activado. Pulsa Escape para volver." : "Modo lectura desactivado.");
-            window.requestAnimationFrame(() => {
-              const maximo = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-              window.scrollTo(0, (progreso / 100) * maximo);
+          let escalaActual = escala, terminado = false, paginas = [], actual = 0;
+          const clave = "bv:pagina:" + recurso.id;
+          let guardado = null;
+          try { guardado = JSON.parse(localStorage.getItem(clave)); } catch(e) {}
+          document.body.classList.add("modo-lector", "lector-paginado");
+          const estilo = document.createElement("style"); estilo.textContent = "\n@media screen {\nbody.lector-paginado .cabecera,body.lector-paginado .pie,body.lector-paginado .mascota-flotante,body.lector-paginado .burbuja-mascota,body.lector-paginado .lector-texto__portada,body.lector-paginado .lector-texto__resumen,body.lector-paginado .lector-indice,body.lector-paginado .lector-ilustracion--portada,body.lector-paginado .lector-texto__fin,body.lector-paginado .lector-texto__sugerencias,body.lector-paginado .lector-salir{display:none!important}\nbody.lector-paginado #vista{padding:0!important}\nbody.lector-paginado .lector{padding:0!important}\nbody.lector-paginado .lector-barra{position:relative;top:auto;z-index:5}\nbody.lector-paginado .lector-barra__interior{display:flex;flex-wrap:wrap;gap:6px;padding:6px 0}\nbody.lector-paginado .lector-barra__titulo{flex:1;min-width:0;order:0}\nbody.lector-paginado .lector-barra__titulo strong{font-size:.8rem}\nbody.lector-paginado .lector-barra__titulo span{display:none}\nbody.lector-paginado .lector-barra__acciones{position:absolute;top:100%;right:8px;width:min(340px,95vw);padding:12px;background:var(--superficie-solida);border:1px solid var(--borde);border-radius:14px;display:flex;flex-wrap:wrap;box-shadow:0 12px 30px #0005}\nbody.lector-paginado [hidden]{display:none!important}\nbody.lector-paginado .lector-texto{width:min(96%,760px);padding:10px 0;margin:auto}\nbody.lector-paginado .lector-texto__cuerpo{font-size:calc(1rem * var(--lector-escala,1));line-height:1.55}\n.hoja-marco{perspective:1200px;padding:0 5px 5px}\n.hoja-libro{height:calc(100dvh - 145px);min-height:180px;overflow:auto;box-sizing:border-box;padding:clamp(15px,4vw,38px);background:#faf0dc;color:#392b22;border-radius:5px 12px 12px 5px;box-shadow:4px 4px #c6b89f,8px 8px #95846e,0 14px 35px #0005;transform-origin:left center;font-family:Georgia,serif;touch-action:pan-y;overflow-wrap:anywhere}\n.hoja-libro h2{color:#62472f!important;font-size:1.25em;margin:0 0 12px}\n.hoja-libro p{color:inherit!important;margin:0 0 .65em;text-align:left}\n.hoja-libro img{max-height:30vh;object-fit:contain}\n.hoja-nav{display:flex;align-items:center;justify-content:space-between;gap:5px;margin:12px 4px 0;font:600 .75rem system-ui}\n.hoja-nav button{min-height:38px}\n.hoja-nav output{text-align:center}\n}\n"; document.head.append(estilo);
+          const barra = document.querySelector(".lector-barra");
+          const acciones = barra.querySelector(".lector-barra__acciones");
+          const menu = document.createElement("button");
+          menu.className = "lector-boton"; menu.textContent = "☰ Opciones";
+          menu.setAttribute("aria-expanded","false");
+          acciones.before(menu);
+          acciones.hidden = true;
+          const abrir = (v) => { acciones.hidden = !v; menu.setAttribute("aria-expanded", String(v)); };
+          menu.onclick = () => abrir(acciones.hidden);
+          document.getElementById("leer-despejar").hidden = true;
+          const fuentes = Array.from(cuerpo.querySelectorAll(".lector-capitulo")).map(n => Array.from(n.children).filter(x=>!x.matches(".capitulo-siguiente")));
+          cuerpo.innerHTML = '<div class="hoja-marco"><div class="hoja-libro" tabindex="0" aria-label="Página de lectura"></div></div><nav class="hoja-nav" aria-label="Navegación de páginas"><button type="button" class="lector-boton hoja-anterior">‹ Anterior</button><output aria-live="polite"></output><button type="button" class="lector-boton hoja-siguiente">Siguiente ›</button></nav>';
+          const hoja = cuerpo.querySelector(".hoja-libro"), salida = cuerpo.querySelector("output");
+          const anterior = cuerpo.querySelector(".hoja-anterior"), siguiente = cuerpo.querySelector(".hoja-siguiente");
+          const guardarProgreso = pct => BV.progreso.actualizarLectura(recurso.id, Math.max(porcentaje, estado().lectura[recurso.id]?.percent || 0, pct));
+          function mostrar(n, animar = false) {
+            actual = Math.max(0, Math.min(paginas.length-1,n));
+            const p = paginas[actual]; if(!p) return;
+            hoja.replaceChildren(...p.nodos.map(x=>x.cloneNode(true)));
+            hoja.scrollTop = 0;
+            if(animar && !estado().movimiento && !matchMedia("(prefers-reduced-motion: reduce)").matches && hoja.animate) hoja.animate([{transform:"rotateY(12deg)",opacity:.65},{transform:"rotateY(0)",opacity:1}],{duration:300,easing:"ease-out"});
+            salida.textContent = "Página "+(actual+1)+" / "+paginas.length+" · Cap. "+(p.cap+1);
+            anterior.disabled = actual===0; siguiente.textContent = actual===paginas.length-1 ? "Finalizar ✓" : "Siguiente ›";
+            if(selector) selector.value=String(p.cap);
+            const pct = Math.floor(actual / Math.max(1,paginas.length)*100);
+            barraProgreso.setAttribute("aria-valuenow",String(pct)); barraProgreso.firstElementChild.style.width=pct+"%";
+            guardarProgreso(pct);
+            try {localStorage.setItem(clave,JSON.stringify({cap:p.cap,offset:p.offset}));}catch(e){}
+          }
+          function paginar(pos) {
+            paginas=[]; hoja.replaceChildren();
+            fuentes.forEach((nodos,cap)=>{
+              let lote=[], offset=0, inicio=0;
+              function cerrar(){if(lote.length) paginas.push({cap,offset:inicio,nodos:lote}); lote=[]; hoja.replaceChildren(); inicio=offset;}
+              function agregar(n){
+                const copia=n.cloneNode(true); hoja.append(copia);
+                if(hoja.scrollHeight>hoja.clientHeight+2 && lote.length){copia.remove();cerrar();hoja.append(copia);}
+                lote.push(n);offset++;
+              }
+              nodos.forEach(n=>{
+                if(n.matches("p") && n.textContent.length>240 && !n.children.length){
+                  const partes=n.textContent.match(/\S+\s*/g)||[];
+                  let texto="";
+                  partes.forEach(w=>{if(texto.length+w.length>240 && texto){const q=n.cloneNode(false);q.textContent=texto;agregar(q);texto="";}texto+=w;});
+                  if(texto){const q=n.cloneNode(false);q.textContent=texto;agregar(q);}
+                }else agregar(n);
+              });cerrar();
             });
+            let destino=0;
+            if(pos) paginas.forEach((p,i)=>{if(p.cap===pos.cap && p.offset<=pos.offset) destino=i;});
+            else if(porcentaje>0 && porcentaje<100) destino=Math.floor(paginas.length*porcentaje/100);
+            mostrar(destino);
+          }
+          const ajustarEscala = delta => {
+            const pos=paginas[actual]; escalaActual=U.limitar(Math.round((escalaActual+delta)*100)/100,.9,1.5);
+            articulo.style.setProperty("--lector-escala",escalaActual); escalaOut.textContent=Math.round(escalaActual*100)+"%"; guardarEscala(escalaActual); paginar(pos);
           };
-          botonDespejar?.addEventListener("click", () => alternarDespeje(true));
-          botonSalir?.addEventListener("click", () => alternarDespeje(false));
-          const alTeclear = (e) => { if (e.key === "Escape" && despejado) alternarDespeje(false); };
-          window.addEventListener("keydown", alTeclear);
-
-          const ajustarEscala = (delta) => {
-            escalaActual = U.limitar(Math.round((escalaActual + delta) * 100) / 100, 0.9, 1.5);
-            cuerpo.style.setProperty("--lector-escala", escalaActual);
-            escalaOut.textContent = `${Math.round(escalaActual * 100)}%`;
-            guardarEscala(escalaActual);
-            BV.sonido("clic");
-          };
-          document.getElementById("leer-menos").addEventListener("click", () => ajustarEscala(-0.1));
-          document.getElementById("leer-mas").addEventListener("click", () => ajustarEscala(0.1));
-
-          const calcular = () => {
-            const maximo = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-            return U.limitar(Math.round((window.scrollY / maximo) * 100), 0, 100);
-          };
-          const pintar = (pct) => {
-            if (barraProgreso) {
-              barraProgreso.setAttribute("aria-valuenow", String(pct));
-              barraProgreso.firstElementChild.style.width = `${pct}%`;
-            }
-            if (selector) {
-              const idx = capituloActual(secciones);
-              if (Number(selector.value) !== idx) selector.value = String(idx);
-            }
-          };
-          const guardarProgreso = (pct) => {
-            if (pct <= ultimoGuardado && !terminado) return;
-            ultimoGuardado = pct;
-            BV.progreso.actualizarLectura(recurso.id, pct);
-            if (pct >= 97 && !terminado && !estado().lectura[recurso.id]?.completed) {
-              terminado = true;
-              BV.progreso.completarLibro(recurso.id);
-            }
-            pintar(pct);
-          };
-          let temporizador = null;
-          const alDesplazarse = () => {
-            window.clearTimeout(temporizador);
-            temporizador = window.setTimeout(() => guardarProgreso(calcular()), 260);
-          };
-          window.addEventListener("scroll", alDesplazarse, { passive: true });
-          pintar(porcentaje);
-
-          if (selector) selector.addEventListener("change", () => {
-            const destino = document.getElementById(`capitulo-${selector.value}`);
-            if (destino) destino.scrollIntoView({ behavior: estado().movimiento ? "auto" : "smooth", block: "start" });
-          });
-          document.querySelectorAll("[data-capitulo-link]").forEach((enlace) => {
-            enlace.addEventListener("click", (e) => {
-              e.preventDefault();
-              const destino = document.getElementById(`capitulo-${enlace.dataset.capituloLink}`);
-              if (destino) destino.scrollIntoView({ behavior: estado().movimiento ? "auto" : "smooth", block: "start" });
-            });
-          });
-          document.querySelectorAll("[data-capitulo-siguiente]").forEach((boton) => {
-            boton.addEventListener("click", () => {
-              const destino = document.getElementById(`capitulo-${boton.dataset.capituloSiguiente}`);
-              if (destino) destino.scrollIntoView({ behavior: estado().movimiento ? "auto" : "smooth", block: "start" });
-            });
-          });
-
+          document.getElementById("leer-menos").onclick=()=>ajustarEscala(-.1);
+          document.getElementById("leer-mas").onclick=()=>ajustarEscala(.1);
+          const avanzar=()=>{if(actual===paginas.length-1){terminar();}else mostrar(actual+1,true);};
+          anterior.onclick=()=>mostrar(actual-1,true); siguiente.onclick=avanzar;
+          if(selector) selector.onchange=()=>{const i=paginas.findIndex(p=>p.cap===Number(selector.value));if(i>=0)mostrar(i,true);abrir(false);};
+          let x=0,y=0;
+          hoja.addEventListener("touchstart",e=>{x=e.changedTouches[0].clientX;y=e.changedTouches[0].clientY;},{passive:true});
+          hoja.addEventListener("touchend",e=>{const dx=e.changedTouches[0].clientX-x,dy=e.changedTouches[0].clientY-y;if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.5){if(dx<0 && actual<paginas.length-1)mostrar(actual+1,true);else if(dx>0)mostrar(actual-1,true);}},{passive:true});
+          hoja.addEventListener("click",()=>abrir(false));
+          const alTeclear=e=>{if(e.key==="Escape")abrir(false);if(e.target.closest("button,select,input,textarea"))return;if(e.key==="ArrowRight"&&actual<paginas.length-1)mostrar(actual+1,true);if(e.key==="ArrowLeft")mostrar(actual-1,true);};
+          window.addEventListener("keydown",alTeclear);
+          let temporizador;
+          const redimensionar=()=>{clearTimeout(temporizador);temporizador=setTimeout(()=>paginar(paginas[actual]),150);};
+          window.addEventListener("resize",redimensionar);
+          paginar(guardado);
           const hablar = (boton) => {
             const idx = selector ? Number(selector.value) : 0;
             const cap = secciones[U.limitar(idx, 0, secciones.length - 1)];
@@ -346,22 +340,14 @@
             if (b) b.addEventListener("click", terminar);
           });
 
-          if (porcentaje > 2 && porcentaje < 96) {
-            window.requestAnimationFrame(() => {
-              const maximo = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-              window.scrollTo(0, (porcentaje / 100) * maximo);
-              BV.ui.toast({ titulo: "Continúa donde lo dejaste", texto: `${porcentaje}% leído · ${recurso.titulo}`, tipo: "info", iconoNombre: "libroMarcado", duracion: 4200 });
-            });
-          }
 
           BV.progreso.iniciarLectura(recurso.id);
           BV.progreso.iniciarRacha();
-
           this.destruir = () => {
-            window.removeEventListener("scroll", alDesplazarse);
-            window.removeEventListener("keydown", alTeclear);
-            window.clearTimeout(temporizador);
-            document.body.classList.remove("modo-lector", "lector-despejado", "imprimir-libro");
+            window.removeEventListener("resize",redimensionar);
+            window.removeEventListener("keydown",alTeclear);
+            clearTimeout(temporizador); estilo.remove();
+            document.body.classList.remove("modo-lector","lector-paginado","imprimir-libro");
           };
         },
         destruir() {}
