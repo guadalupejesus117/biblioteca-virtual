@@ -212,10 +212,13 @@
 
   /* ---------------- Mascota ---------------- */
   const CONSEJOS = [
+    {titulo:"Un ratito de lectura",texto:"¿Leemos una historia? Cinco minutos también cuentan."},
+    {titulo:"Vamos a aprender",texto:"Cada pregunta es una oportunidad para descubrir algo nuevo."},
+    {titulo:"A tu ritmo",texto:"No hay prisa. Disfruta la historia y descansa cuando quieras."},
     { titulo: "Empieza por un cuento", texto: "Si no sabes qué leer, abre la biblioteca y filtra por tu nivel. ¡Siempre hay algo para ti!", accion: { texto: "Ver biblioteca", href: "#/biblioteca" } },
     { titulo: "Escucha mientras lees", texto: "Pulsa «Escuchar» y la voz de tu navegador te acompañará. Puedes cambiar la velocidad en ajustes.", accion: { texto: "Abrir ajustes", id: "btn-ajustes" } },
     { titulo: "Las estrellas suman", texto: "Terminar un libro da 8 estrellas y cada juego también. Con ellas se desbloquean logros y diplomas.", accion: { texto: "Mis logros", href: "#/logros" } },
-    { titulo: "Prueba un trabalenguas", texto: "Leer en voz alta entrenar tu lengua. Empieza despacio y luego intenta más rápido.", accion: { texto: "Ir a trabalenguas", href: "#/trabalenguas" } },
+    { titulo: "Prueba un trabalenguas", texto: "Leer en voz alta ayuda a practicar la pronunciación. Empieza despacio y luego intenta más rápido.", accion: { texto: "Ir a trabalenguas", href: "#/trabalenguas" } },
     { titulo: "Tú decides cómo ver", texto: "Cambia el tamaño del texto, el tema o el contraste desde el botón de ajustes. Tu lectura, a tu manera.", accion: { texto: "Abrir ajustes", id: "btn-ajustes" } },
     { titulo: "Guarda tus favoritos", texto: "Toca el corazón de un libro y aparecerá en tu estantería personal. Solo tú la ves.", accion: { texto: "Mis favoritos", href: "#/favoritos" } }
   ];
@@ -262,7 +265,7 @@
     const bienvenida = "biblioteca-virtual:bienvenida-draco";
     try {
       if (!localStorage.getItem(bienvenida)) {
-        window.setTimeout(() => mostrarConsejo(0), 2600);
+        window.setTimeout(() => {if(!document.body.classList.contains("lector-paginado")) mostrarConsejo(0);}, 12000);
         localStorage.setItem(bienvenida, "1");
       }
     } catch (e) { /* almacenamiento opcional */ }
@@ -305,11 +308,7 @@
       const progreso = e.target.closest("#descargar-progreso");
       if (progreso) {
         e.preventDefault();
-        document.body.classList.add("imprimir-progreso");
-        BV.ui.dialogo("Descargar mi progreso en PDF", "<p>Se abrirá la ventana de impresión. Elige <strong>Guardar como PDF</strong> para conservar tu reporte de lectura, logros y libros en curso.</p>", [
-          { texto: "Cancelar", clase: "boton--fantasma", accion: () => { document.body.classList.remove("imprimir-progreso"); } },
-          { texto: "Abrir impresión", clase: "boton--primario", accion: () => { window.setTimeout(() => window.print(), 120); } }
-        ]);
+        window.BVPDF.descargar(document.getElementById("hoja-progreso"),"Mi progreso",true).catch(()=>BV.ui.toast({titulo:"No se pudo descargar",tipo:"error"}));
       }
     });
 
@@ -352,3 +351,11 @@
 })();
 
 (function(){function nav(){const r=location.hash.split("?")[0];document.querySelectorAll(".pio-nav a").forEach(a=>{const h=a.getAttribute("href");if(r===h||h==="#/juegos"&&r.startsWith("#/juego/")||h==="#/biblioteca"&&r.startsWith("#/leer/")||!r&&h==="#/inicio")a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});}window.addEventListener("hashchange",nav);nav();})();
+(function(){
+function init(){const b=document.getElementById("mascota-flotante"),p=document.getElementById("burbuja-mascota");if(!b||!p)return;let start=null,moved=false,block=false;
+function place(x,y){const limit=innerWidth<=900?96:12;const w=b.offsetWidth||64,h=b.offsetHeight||64;x=Math.max(8,Math.min(innerWidth-w-8,x));y=Math.max(8,Math.min(innerHeight-h-limit,y));b.style.setProperty("left",x+"px","important");b.style.setProperty("top",y+"px","important");b.style.setProperty("right","auto","important");b.style.setProperty("bottom","auto","important");const pw=Math.min(300,innerWidth-24);p.style.width=pw+"px";p.style.left=Math.max(12,Math.min(innerWidth-pw-12,x+w-pw))+"px";p.style.right="auto";p.style.bottom="auto";p.style.top=Math.max(12,Math.min(innerHeight-(p.offsetHeight||180)-limit,y>220?y-(p.offsetHeight||180)-10:y+h+10))+"px";}
+b.addEventListener("pointerdown",e=>{if(e.button!==0)return;const r=b.getBoundingClientRect();start={x:e.clientX,y:e.clientY,l:r.left,t:r.top};moved=false;b.setPointerCapture(e.pointerId);});b.addEventListener("pointermove",e=>{if(!start)return;let dx=e.clientX-start.x,dy=e.clientY-start.y;if(Math.hypot(dx,dy)>7)moved=true;if(moved)place(start.l+dx,start.t+dy);});function end(){if(moved){block=true;setTimeout(()=>block=false,300);try{localStorage.setItem("bv:pio-pos",JSON.stringify([parseFloat(b.style.left),parseFloat(b.style.top)]));}catch(e){}}start=null;}b.addEventListener("pointerup",end);b.addEventListener("pointercancel",end);b.addEventListener("click",e=>{if(block){e.stopImmediatePropagation();e.preventDefault();}},true);
+try{const pos=JSON.parse(localStorage.getItem("bv:pio-pos"));if(pos)place(...pos);}catch(e){}window.addEventListener("resize",()=>{if(b.style.left)place(parseFloat(b.style.left),parseFloat(b.style.top));});new MutationObserver(()=>{if(!p.hidden&&b.style.left)place(parseFloat(b.style.left),parseFloat(b.style.top));}).observe(p,{attributes:true,attributeFilter:["hidden"]});
+setInterval(()=>{if(document.hidden||!p.hidden||document.querySelector("dialog[open]")||document.body.classList.contains("lector-paginado")||!/^#\/(inicio|biblioteca)?$/.test(location.hash)&&location.hash)return;b.click();setTimeout(()=>{if(!p.hidden)b.click();},9000);},180000);
+}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
+})();
