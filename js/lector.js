@@ -338,6 +338,7 @@
             function paso(){
               if(!narrando||token!==turno)return;
               hoja.querySelectorAll(".voz-activa").forEach(n=>n.classList.remove("voz-activa"));
+              hoja.querySelectorAll(".voz-palabra").forEach(m=>m.replaceWith(document.createTextNode(m.textContent)));
               if(i>=bloques.length){
                 if(actual+1<paginas.length){mostrar(actual+1,true,true);narrarPagina();}
                 else {detenerVoz();terminar();}
@@ -352,7 +353,7 @@
               u.onboundary=e=>{
                 if(token!==turno||!narrando||e.name!=="word")return;
                 if(n.children.length && !n.querySelector(".voz-palabra"))return;
-                const inicio=e.charIndex, fin=inicio+(e.charLength||((texto.slice(inicio).match(/^\\S+/)||[""])[0].length));
+                const inicio=e.charIndex, fin=inicio+(e.charLength||((texto.slice(inicio).match(/^\S+/)||[""])[0].length));
                 const marca=document.createElement("mark");marca.className="voz-palabra";marca.textContent=texto.slice(inicio,fin);
                 n.replaceChildren(document.createTextNode(texto.slice(0,inicio)),marca,document.createTextNode(texto.slice(fin)));
               };
