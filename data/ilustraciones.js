@@ -49,3 +49,62 @@
 
   window.BV_ILUSTRACIONES = B;
 })();
+
+Object.assign(window.BV_ILUSTRACIONES,{
+  "semilla-valiente": [
+    {
+      "archivo": "assets/svg/ilu-jardin.svg",
+      "alt": "Ilustración temática para La semillita valiente",
+      "titulo": ""
+    }
+  ],
+  "gatito-colores": [
+    {
+      "archivo": "assets/svg/ilu-jardin.svg",
+      "alt": "Ilustración temática para El gatito de los colores",
+      "titulo": ""
+    }
+  ],
+  "tren-numeros": [
+    {
+      "archivo": "assets/svg/ilu-jardin.svg",
+      "alt": "Ilustración temática para El tren de los números",
+      "titulo": ""
+    }
+  ],
+  "robot-jardin": [
+    {
+      "archivo": "assets/svg/ilu-jardin.svg",
+      "alt": "Ilustración temática para El robot que cuidaba un jardín",
+      "titulo": ""
+    }
+  ],
+  "mapa-rio": [
+    {
+      "archivo": "assets/svg/ilu-bosque-cuento.svg",
+      "alt": "Ilustración temática para El mapa del río escondido",
+      "titulo": ""
+    }
+  ],
+  "misterio-biblioteca": [
+    {
+      "archivo": "assets/svg/ilu-biblioteca-noche.svg",
+      "alt": "Ilustración temática para El misterio del reloj de la biblioteca",
+      "titulo": ""
+    }
+  ],
+  "estacion-orbita": [
+    {
+      "archivo": "assets/svg/ilu-estrellas.svg",
+      "alt": "Ilustración temática para La estación del último amanecer",
+      "titulo": ""
+    }
+  ],
+  "ciudad-memoria": [
+    {
+      "archivo": "assets/svg/ilu-biblioteca-noche.svg",
+      "alt": "Ilustración temática para La ciudad de los recuerdos prestados",
+      "titulo": ""
+    }
+  ]
+});
