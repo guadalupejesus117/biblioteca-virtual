@@ -1,5 +1,5 @@
 /* Biblioteca Virtual · Service Worker (caché local, sin rastreo) */
-const VERSION = "bv-v3-narracion";
+const VERSION = "bv-v4-educativa";
 const NUCLEO = [
   "./", "./index.html", "./manifest.webmanifest",
   "./css/base.css", "./css/paginas.css", "./css/juegos.css", "./css/lector.css", "./css/adaptable.css",
