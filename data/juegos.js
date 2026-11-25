@@ -348,3 +348,5 @@ window.BV_JUEGOS = {
     { palabra: "VALENTIA", pista: "Fuerza para enfrentar el miedo.", nivel: "secundaria", categoria: "valores" }
   ]
 };
+
+window.BV_JUEGOS.sopas.push(...[{"id":"primeras-letras","titulo":"Mis primeras palabras","tema":"letras","nivel":"facil","tamano":5,"direcciones":["H","V"],"palabras":["SOL","PAN","OSO","MAR"],"descripcion":"Cuatro palabras cortas para empezar a leer."},{"id":"ciencia","titulo":"Exploradores de ciencia","tema":"ciencia","nivel":"medio","tamano":10,"direcciones":["H","V","DIAG"],"palabras":["AGUA","ENERGIA","PLANETA","CELULA","LUZ","ATOMO"],"descripcion":"Encuentra palabras de ciencia."},{"id":"tecnologia","titulo":"Desafío tecnológico","tema":"tecnologia","nivel":"dificil","tamano":14,"direcciones":["H","V","HINV","VINV","DIAG","DIAGINV"],"palabras":["ALGORITMO","PROGRAMACION","ROBOTICA","INTERNET","SISTEMA","DATOS","PRIVACIDAD"],"descripcion":"Un desafío de vocabulario tecnológico."}]);
