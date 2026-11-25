@@ -378,3 +378,214 @@ window.BV_TEXTOS = {
     ]
   }
 };
+
+Object.assign(window.BV_TEXTOS,{
+  "semilla-valiente": {
+    "id": "semilla-valiente",
+    "titulo": "La semillita valiente",
+    "autor": "Biblioteca Virtual",
+    "bloques": [
+      {
+        "t": "p",
+        "x": "Lola era una semilla pequeña. Dormía bajo la tierra."
+      },
+      {
+        "t": "p",
+        "x": "Una gota de lluvia llegó. —Hola, Lola. ¡Es hora de despertar!"
+      },
+      {
+        "t": "p",
+        "x": "Lola sacó una raíz. Luego sacó dos hojitas verdes."
+      },
+      {
+        "t": "p",
+        "x": "El sol la calentó. Lola creció hasta convertirse en una flor."
+      },
+      {
+        "t": "p",
+        "x": "Una abeja llegó a visitarla. Lola estaba feliz."
+      }
+    ]
+  },
+  "gatito-colores": {
+    "id": "gatito-colores",
+    "titulo": "El gatito de los colores",
+    "autor": "Biblioteca Virtual",
+    "bloques": [
+      {
+        "t": "p",
+        "x": "Milo vio una flor roja. —¡Rojo! —dijo."
+      },
+      {
+        "t": "p",
+        "x": "Luego encontró una hoja verde y una pelota azul."
+      },
+      {
+        "t": "p",
+        "x": "Una mariposa amarilla voló sobre su nariz."
+      },
+      {
+        "t": "p",
+        "x": "Milo dibujó un arcoíris para su mamá. ¡Cuántos colores!"
+      }
+    ]
+  },
+  "tren-numeros": {
+    "id": "tren-numeros",
+    "titulo": "El tren de los números",
+    "autor": "Biblioteca Virtual",
+    "bloques": [
+      {
+        "t": "p",
+        "x": "Un tren llegó a la estación con un vagón."
+      },
+      {
+        "t": "p",
+        "x": "Subieron dos osos. Después llegaron tres patitos."
+      },
+      {
+        "t": "p",
+        "x": "Cuatro conejos saludaron desde el puente."
+      },
+      {
+        "t": "p",
+        "x": "Cinco niños agitaron sus manos. ¡El tren salió feliz!"
+      }
+    ]
+  },
+  "robot-jardin": {
+    "id": "robot-jardin",
+    "titulo": "El robot que cuidaba un jardín",
+    "autor": "Biblioteca Virtual",
+    "bloques": [
+      {
+        "t": "p",
+        "x": "Ada construyó un robot para regar las plantas de su escuela. Lo llamó Rulo."
+      },
+      {
+        "t": "p",
+        "x": "Rulo regaba todas las macetas por igual, pero algunas plantas comenzaron a enfermar."
+      },
+      {
+        "t": "p",
+        "x": "Ada observó la tierra y descubrió que cada planta necesitaba una cantidad distinta de agua."
+      },
+      {
+        "t": "p",
+        "x": "Juntos programaron un sensor de humedad y probaron el sistema durante una semana."
+      },
+      {
+        "t": "p",
+        "x": "Las plantas se recuperaron. Ada comprendió que una buena solución empieza con una buena pregunta."
+      }
+    ]
+  },
+  "mapa-rio": {
+    "id": "mapa-rio",
+    "titulo": "El mapa del río escondido",
+    "autor": "Biblioteca Virtual",
+    "bloques": [
+      {
+        "t": "p",
+        "x": "Inés encontró un mapa dentro de un libro de su abuelo. Una línea azul atravesaba el dibujo de un bosque."
+      },
+      {
+        "t": "p",
+        "x": "Invitó a su amigo Tomás y pidieron a una persona adulta que los acompañara por el sendero."
+      },
+      {
+        "t": "p",
+        "x": "En el camino encontraron huellas, piedras brillantes y una señal que indicaba un antiguo manantial."
+      },
+      {
+        "t": "p",
+        "x": "El mapa no llevaba a un tesoro de oro, sino a un pequeño río lleno de vida."
+      },
+      {
+        "t": "p",
+        "x": "Decidieron regresar con su clase para recoger basura del sendero y proteger aquel lugar."
+      }
+    ]
+  },
+  "misterio-biblioteca": {
+    "id": "misterio-biblioteca",
+    "titulo": "El misterio del reloj de la biblioteca",
+    "autor": "Biblioteca Virtual",
+    "bloques": [
+      {
+        "t": "p",
+        "x": "El lunes, el reloj de la biblioteca se detuvo a las nueve. Dentro de un libro, Clara encontró una nota: busca donde duerme el tiempo."
+      },
+      {
+        "t": "p",
+        "x": "Clara y Diego revisaron el catálogo. Encontraron un libro sobre relojes antiguos con una fotografía del edificio."
+      },
+      {
+        "t": "p",
+        "x": "En la fotografía aparecía una caja detrás del reloj. La bibliotecaria les permitió examinarla."
+      },
+      {
+        "t": "p",
+        "x": "Dentro había cartas de estudiantes de hacía cincuenta años. Una de ellas pedía que la caja se abriera ese mismo lunes."
+      },
+      {
+        "t": "p",
+        "x": "La bibliotecaria explicó que había detenido el reloj para iniciar una búsqueda del tesoro. Clara y Diego organizaron una exposición con las cartas."
+      }
+    ]
+  },
+  "estacion-orbita": {
+    "id": "estacion-orbita",
+    "titulo": "La estación del último amanecer",
+    "autor": "Biblioteca Virtual",
+    "bloques": [
+      {
+        "t": "p",
+        "x": "La estación orbital perdió contacto con la Tierra durante una tormenta solar. Mara, aprendiz de ingeniería, observó que las reservas de energía disminuían."
+      },
+      {
+        "t": "p",
+        "x": "El equipo propuso apagar el laboratorio para conservar oxígeno. Sin embargo, allí se encontraba el único sistema capaz de reparar la antena."
+      },
+      {
+        "t": "p",
+        "x": "Mara calculó que podían alternar los equipos en ciclos cortos, pero necesitaban comprobar sus estimaciones antes de actuar."
+      },
+      {
+        "t": "p",
+        "x": "Tras varias simulaciones, encontraron un equilibrio. Cada integrante asumió una tarea y registró los resultados."
+      },
+      {
+        "t": "p",
+        "x": "Al amanecer, la antena recuperó la señal. Mara comprendió que la responsabilidad científica incluye reconocer los límites de lo que sabemos."
+      }
+    ]
+  },
+  "ciudad-memoria": {
+    "id": "ciudad-memoria",
+    "titulo": "La ciudad de los recuerdos prestados",
+    "autor": "Biblioteca Virtual",
+    "bloques": [
+      {
+        "t": "p",
+        "x": "En una ciudad futura, las personas podían almacenar recuerdos en una biblioteca digital. El servicio prometía conservarlos para siempre."
+      },
+      {
+        "t": "p",
+        "x": "Nicolás descubrió que una empresa utilizaba recuerdos anónimos para entrenar sus sistemas. Algunos podían vincularse nuevamente con sus propietarios."
+      },
+      {
+        "t": "p",
+        "x": "Junto con su amiga Elena investigó las condiciones del servicio y entrevistó a usuarios que habían perdido el control de sus archivos."
+      },
+      {
+        "t": "p",
+        "x": "Presentaron una propuesta: consentimiento claro, almacenamiento local y derecho a retirar los recuerdos."
+      },
+      {
+        "t": "p",
+        "x": "La ciudad no abandonó la tecnología. Aprendió a construirla alrededor de las personas, en lugar de exigir que las personas se adaptaran a ella."
+      }
+    ]
+  }
+});
