@@ -229,9 +229,11 @@
         </button>
       </section>
 
+      <section aria-labelledby="ajuste-app"><h3 id="ajuste-app">Aplicación sin Internet</h3><p id="bv-pwa-status" role="status">Comprobando disponibilidad…</p><button type="button" class="boton boton--primario" id="bv-install">Instalar aplicación</button> <button type="button" class="boton" id="bv-update">Buscar actualizaciones</button></section>
       <section aria-labelledby="ajuste-progreso">
         <h3 id="ajuste-progreso">Mi progreso</h3>
         <p class="texto-ayuda">Todo se guarda en este navegador. Si borras los datos del sitio, el progreso también se borra.</p>
+        <button type="button" class="boton" id="bv-backup">Guardar respaldo</button> <button type="button" class="boton" id="bv-restore">Restaurar respaldo</button><input type="file" id="bv-backup-file" accept=".json,application/json" hidden>
         <button type="button" class="boton boton--peligro boton--pequeno" id="reiniciar-progreso">
           <svg class="icono" aria-hidden="true"><use href="assets/svg/iconos.svg#trash-2"></use></svg> Reiniciar mi progreso
         </button>
@@ -266,5 +268,6 @@
   <script src="js/lector.js" defer></script>
   <script src="js/juegos.js" defer></script>
   <script src="js/app.js" defer></script>
+  <script src="js/pwa.js" defer></script>
 </body>
 </html>
