@@ -1246,3 +1246,246 @@ window.BV_CATALOGO = [
     nota: "Texto original con actividad de comprensión lectora integrada en la Zona de juegos."
   }
 ];
+
+window.BV_CATALOGO.push(...[
+  {
+    "id": "semilla-valiente",
+    "titulo": "La semillita valiente",
+    "autor": "Biblioteca Virtual",
+    "anio": "2026",
+    "genero": "narrativo",
+    "subgenero": "cuento",
+    "niveles": [
+      "preescolar"
+    ],
+    "descripcion": "Una semilla descubre cómo crecer.",
+    "tiempo": "2 min",
+    "paginas": 1,
+    "tipo": "texto",
+    "portada": {
+      "paleta": "cielo",
+      "motivo": "libro"
+    },
+    "licencia": "Texto original · CC BY-SA 4.0",
+    "fuente": "Biblioteca Virtual",
+    "acceso": "abierto",
+    "descargable": true,
+    "destacado": false,
+    "serie": "Nuevas lecturas",
+    "etiquetas": [
+      "preescolar",
+      "cuento"
+    ],
+    "nota": "Cuento original."
+  },
+  {
+    "id": "gatito-colores",
+    "titulo": "El gatito de los colores",
+    "autor": "Biblioteca Virtual",
+    "anio": "2026",
+    "genero": "narrativo",
+    "subgenero": "cuento",
+    "niveles": [
+      "preescolar"
+    ],
+    "descripcion": "Un gatito aprende los colores.",
+    "tiempo": "2 min",
+    "paginas": 1,
+    "tipo": "texto",
+    "portada": {
+      "paleta": "cielo",
+      "motivo": "libro"
+    },
+    "licencia": "Texto original · CC BY-SA 4.0",
+    "fuente": "Biblioteca Virtual",
+    "acceso": "abierto",
+    "descargable": true,
+    "destacado": false,
+    "serie": "Nuevas lecturas",
+    "etiquetas": [
+      "preescolar",
+      "cuento"
+    ],
+    "nota": "Cuento original."
+  },
+  {
+    "id": "tren-numeros",
+    "titulo": "El tren de los números",
+    "autor": "Biblioteca Virtual",
+    "anio": "2026",
+    "genero": "narrativo",
+    "subgenero": "cuento",
+    "niveles": [
+      "preescolar"
+    ],
+    "descripcion": "Cuenta del uno al cinco con un tren.",
+    "tiempo": "2 min",
+    "paginas": 1,
+    "tipo": "texto",
+    "portada": {
+      "paleta": "cielo",
+      "motivo": "libro"
+    },
+    "licencia": "Texto original · CC BY-SA 4.0",
+    "fuente": "Biblioteca Virtual",
+    "acceso": "abierto",
+    "descargable": true,
+    "destacado": false,
+    "serie": "Nuevas lecturas",
+    "etiquetas": [
+      "preescolar",
+      "cuento"
+    ],
+    "nota": "Cuento original."
+  },
+  {
+    "id": "robot-jardin",
+    "titulo": "El robot que cuidaba un jardín",
+    "autor": "Biblioteca Virtual",
+    "anio": "2026",
+    "genero": "narrativo",
+    "subgenero": "cuento",
+    "niveles": [
+      "primaria"
+    ],
+    "descripcion": "Un robot aprende a observar la naturaleza.",
+    "tiempo": "4 min",
+    "paginas": 1,
+    "tipo": "texto",
+    "portada": {
+      "paleta": "turquesa",
+      "motivo": "libro"
+    },
+    "licencia": "Texto original · CC BY-SA 4.0",
+    "fuente": "Biblioteca Virtual",
+    "acceso": "abierto",
+    "descargable": true,
+    "destacado": false,
+    "serie": "Nuevas lecturas",
+    "etiquetas": [
+      "primaria",
+      "cuento"
+    ],
+    "nota": "Cuento original."
+  },
+  {
+    "id": "mapa-rio",
+    "titulo": "El mapa del río escondido",
+    "autor": "Biblioteca Virtual",
+    "anio": "2026",
+    "genero": "narrativo",
+    "subgenero": "cuento",
+    "niveles": [
+      "primaria"
+    ],
+    "descripcion": "Una aventura de amistad y exploración.",
+    "tiempo": "4 min",
+    "paginas": 1,
+    "tipo": "texto",
+    "portada": {
+      "paleta": "turquesa",
+      "motivo": "libro"
+    },
+    "licencia": "Texto original · CC BY-SA 4.0",
+    "fuente": "Biblioteca Virtual",
+    "acceso": "abierto",
+    "descargable": true,
+    "destacado": false,
+    "serie": "Nuevas lecturas",
+    "etiquetas": [
+      "primaria",
+      "cuento"
+    ],
+    "nota": "Cuento original."
+  },
+  {
+    "id": "misterio-biblioteca",
+    "titulo": "El misterio del reloj de la biblioteca",
+    "autor": "Biblioteca Virtual",
+    "anio": "2026",
+    "genero": "narrativo",
+    "subgenero": "novela",
+    "niveles": [
+      "primaria"
+    ],
+    "descripcion": "Una novela corta de pistas y deducción.",
+    "tiempo": "4 min",
+    "paginas": 1,
+    "tipo": "texto",
+    "portada": {
+      "paleta": "turquesa",
+      "motivo": "libro"
+    },
+    "licencia": "Texto original · CC BY-SA 4.0",
+    "fuente": "Biblioteca Virtual",
+    "acceso": "abierto",
+    "descargable": true,
+    "destacado": false,
+    "serie": "Nuevas lecturas",
+    "etiquetas": [
+      "primaria",
+      "novela"
+    ],
+    "nota": "Micronovela original de lectura breve."
+  },
+  {
+    "id": "estacion-orbita",
+    "titulo": "La estación del último amanecer",
+    "autor": "Biblioteca Virtual",
+    "anio": "2026",
+    "genero": "narrativo",
+    "subgenero": "novela",
+    "niveles": [
+      "secundaria"
+    ],
+    "descripcion": "Ciencia ficción sobre decisiones y cooperación.",
+    "tiempo": "4 min",
+    "paginas": 1,
+    "tipo": "texto",
+    "portada": {
+      "paleta": "indigo",
+      "motivo": "libro"
+    },
+    "licencia": "Texto original · CC BY-SA 4.0",
+    "fuente": "Biblioteca Virtual",
+    "acceso": "abierto",
+    "descargable": true,
+    "destacado": false,
+    "serie": "Nuevas lecturas",
+    "etiquetas": [
+      "secundaria",
+      "novela"
+    ],
+    "nota": "Micronovela original de lectura breve."
+  },
+  {
+    "id": "ciudad-memoria",
+    "titulo": "La ciudad de los recuerdos prestados",
+    "autor": "Biblioteca Virtual",
+    "anio": "2026",
+    "genero": "narrativo",
+    "subgenero": "novela",
+    "niveles": [
+      "secundaria"
+    ],
+    "descripcion": "Una historia especulativa sobre identidad y privacidad.",
+    "tiempo": "4 min",
+    "paginas": 1,
+    "tipo": "texto",
+    "portada": {
+      "paleta": "indigo",
+      "motivo": "libro"
+    },
+    "licencia": "Texto original · CC BY-SA 4.0",
+    "fuente": "Biblioteca Virtual",
+    "acceso": "abierto",
+    "descargable": true,
+    "destacado": false,
+    "serie": "Nuevas lecturas",
+    "etiquetas": [
+      "secundaria",
+      "novela"
+    ],
+    "nota": "Micronovela original de lectura breve."
+  }
+]);
