@@ -37,19 +37,7 @@
   <header class="cabecera" id="cabecera">
     <div class="cabecera__interior">
       <a class="marca" href="#/inicio" aria-label="Biblioteca Virtual, ir al inicio">
-        <span class="marca__icono" aria-hidden="true">
-          <svg viewBox="0 0 48 48" class="marca__svg">
-            <defs>
-              <linearGradient id="marca-grad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#ffd166"/><stop offset="1" stop-color="#ff8fab"/>
-              </linearGradient>
-            </defs>
-            <path d="M6 12c6-2 12-1 18 3v27c-6-4-12-5-18-3V12Z" fill="#ffffff" opacity=".95"/>
-            <path d="M42 12c-6-2-12-1-18 3v27c6-4 12-5 18-3V12Z" fill="url(#marca-grad)"/>
-            <path d="M24 15v27" stroke="#19123b" stroke-width="2" stroke-linecap="round"/>
-            <path d="m33 4 1.7 3.5 3.8.5-2.8 2.6.7 3.8-3.4-1.8-3.4 1.8.7-3.8L27.5 8l3.8-.5L33 4Z" fill="#ffd166"/>
-          </svg>
-        </span>
+        <span class="marca__icono" aria-hidden="true"><img src="assets/img/icono-biblioteca.svg" alt="" width="48" height="48"></span>
         <span class="marca__texto">
           <strong>Biblioteca</strong>
           <span>Virtual</span>
@@ -103,7 +91,7 @@
   </header>
 
   <aside class="bv-instalar-franja" id="bv-instalar-franja" aria-label="Instalar biblioteca"><div><strong>Tu biblioteca, siempre contigo</strong><p>Instálala y conserva tus lecturas y logros.</p></div><button type="button" class="boton boton--primario" data-bv-instalar>Instalar biblioteca</button></aside>
-  <main id="vista" tabindex="-1" aria-label="Contenido de la biblioteca">
+  <nav class="pio-nav" aria-label="Accesos rápidos"><a href="#/inicio">⌂ Inicio</a><a href="#/biblioteca">📚 Libros</a><a href="#/juegos">🎮 Juegos</a><a href="#/logros">🏆 Logros</a></nav><main id="vista" tabindex="-1" aria-label="Contenido de la biblioteca">
     <div class="cargando-pagina">
       <span class="cargando-pagina__libro"></span>
       <p>Abriendo la biblioteca…</p>
@@ -113,14 +101,7 @@
   <footer class="pie" id="pie">
     <div class="pie__interior">
       <div class="pie__marca">
-        <span class="marca__icono marca__icono--grande" aria-hidden="true">
-          <svg viewBox="0 0 48 48">
-            <path d="M6 12c6-2 12-1 18 3v27c-6-4-12-5-18-3V12Z" fill="currentColor" opacity=".12"/>
-            <path d="M42 12c-6-2-12-1-18 3v27c6-4 12-5 18-3V12Z" fill="currentColor" opacity=".22"/>
-            <path d="M24 15v27" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <path d="m33 4 1.7 3.5 3.8.5-2.8 2.6.7 3.8-3.4-1.8-3.4 1.8.7-3.8L27.5 8l3.8-.5L33 4Z" fill="#ffd166"/>
-          </svg>
-        </span>
+        <span class="marca__icono marca__icono--grande" aria-hidden="true"><img src="assets/img/icono-biblioteca.svg" alt="" width="48" height="48"></span>
         <div>
           <strong>Biblioteca Virtual</strong>
           <p>Un mundo de historias para leer, escuchar y jugar.</p>
@@ -156,15 +137,15 @@
     </div>
   </footer>
 
-  <button type="button" class="mascota-flotante" id="mascota-flotante" aria-expanded="false" aria-controls="burbuja-mascota" title="Hablar con Draco">
+  <button type="button" class="mascota-flotante" id="mascota-flotante" aria-expanded="false" aria-controls="burbuja-mascota" title="Hablar con Pío">
     <img src="assets/svg/mascota-draco.svg" alt="" width="72" height="72">
-    <span class="visualmente-oculto">Abrir consejos de Draco</span>
+    <span class="visualmente-oculto">Abrir consejos de Pío</span>
   </button>
   <div class="burbuja-mascota" id="burbuja-mascota" role="status" hidden>
     <button type="button" class="burbuja-mascota__cerrar" id="cerrar-burbuja" aria-label="Cerrar consejo">
       <svg class="icono icono--xs" aria-hidden="true"><use href="assets/svg/iconos.svg#x"></use></svg>
     </button>
-    <strong id="burbuja-titulo">¡Hola! Soy Draco</strong>
+    <strong id="burbuja-titulo">¡Hola! Soy Pío</strong>
     <p id="burbuja-texto">¿Buscamos una historia juntos?</p>
     <div id="burbuja-acciones" class="burbuja-mascota__acciones"></div>
   </div>
