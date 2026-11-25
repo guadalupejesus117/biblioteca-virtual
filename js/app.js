@@ -350,3 +350,5 @@
  document.getElementById("bv-respaldo")?.addEventListener("click",()=>{const blob=new Blob([JSON.stringify(window.BV.store.estado,null,2)],{type:"application/json"});const u=URL.createObjectURL(blob);const a=document.createElement("a");a.href=u;a.download="biblioteca-progreso.json";a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);});
  refresh();
 })();
+
+(function(){function nav(){const r=location.hash.split("?")[0];document.querySelectorAll(".pio-nav a").forEach(a=>{const h=a.getAttribute("href");if(r===h||h==="#/juegos"&&r.startsWith("#/juego/")||h==="#/biblioteca"&&r.startsWith("#/leer/")||!r&&h==="#/inicio")a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});}window.addEventListener("hashchange",nav);nav();})();
