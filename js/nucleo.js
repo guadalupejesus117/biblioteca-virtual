@@ -318,6 +318,40 @@
     get estado() { return estado; },
     guardar,
     reiniciar,
+    exportarRespaldo() {
+      const contenido = JSON.stringify({ formato: "biblioteca-virtual-backup", version: 1, fecha: new Date().toISOString(), progreso: estado }, null, 2);
+      const blob = new Blob([contenido], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "biblioteca-virtual-respaldo-" + new Date().toISOString().slice(0, 10) + ".json";
+      document.body.append(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    },
+    async importarRespaldo(archivo) {
+      if (!archivo || archivo.size > 1024 * 1024) throw new Error("El archivo debe ser JSON y ocupar menos de 1 MB.");
+      const datos = JSON.parse(await archivo.text());
+      if (datos?.formato !== "biblioteca-virtual-backup" || datos.version !== 1 ||
+          !datos.progreso || typeof datos.progreso !== "object" || Array.isArray(datos.progreso)) {
+        throw new Error("El archivo no es un respaldo válido de Biblioteca Virtual.");
+      }
+      const respaldo = datos.progreso;
+      if (!respaldo.stats || typeof respaldo.stats !== "object" || !respaldo.logros || typeof respaldo.logros !== "object") {
+        throw new Error("Al respaldo le faltan campos esenciales.");
+      }
+      const anterior = estado;
+      estado = fusionar(estadoInicial(), respaldo);
+      try {
+        localStorage.setItem(CLAVE, JSON.stringify(estado));
+        document.dispatchEvent(new CustomEvent("bv:estado", { detail: estado }));
+        aplicarPreferencias();
+      } catch (error) {
+        estado = anterior;
+        throw new Error("No se pudo almacenar el respaldo en este dispositivo.");
+      }
+    },
     CLAVE
   };
 
