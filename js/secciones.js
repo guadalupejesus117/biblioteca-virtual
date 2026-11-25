@@ -28,6 +28,12 @@
       .sort((a, b) => String(b.datos.updated).localeCompare(String(a.datos.updated)));
   }
 
+
+  const retosPio=[["Patrones","preescolar","🟡","Completa la serie: rojo, azul, rojo, azul…",["Rojo","Verde","Amarillo"],0,"Se alternan rojo y azul."],["Cuenta objetos","preescolar","🍎","Tienes 3 manzanas y recibes 2. ¿Cuántas tienes?",["4","5","6"],1,"Tres más dos son cinco."],["Sonidos iniciales","preescolar","🔤","¿Qué palabra comienza como sol?",["Luna","Mesa","Sapo"],2,"Sol y sapo comienzan con S."],["Clasifica","preescolar","🐾","¿Cuál no es un animal?",["Perro","Silla","Gato"],1,"La silla es un objeto."],["Orden temporal","primaria","⏳","¿Qué sucede primero al cultivar una planta?",["Cosechar","Sembrar","Recoger frutos"],1,"Primero se siembra."],["Detective lógico","primaria","🔎","Ana es mayor que Luis y Luis mayor que Eva. ¿Quién es menor?",["Ana","Luis","Eva"],2,"Eva es menor que Luis y Ana."],["Fracciones","primaria","🍕","Una pizza tiene 8 partes. Comes 2. ¿Qué fracción queda?",["1/4","3/4","1/2"],1,"Quedan seis octavos, equivalentes a tres cuartos."],["Sinónimos","primaria","💬","¿Qué palabra significa algo parecido a veloz?",["Rápido","Lento","Pesado"],0,"Rápido y veloz tienen significados similares."],["Ciencia cotidiana","primaria","💧","¿Por qué desaparece agua de un charco al sol?",["Se evapora","Se convierte en tierra","Se congela"],0,"El calor favorece la evaporación."],["Código secreto","secundaria","🔐","Si A=1, B=2, C=3, ¿qué suma da CAB?",["5","6","7"],1,"3+1+2=6."],["Probabilidad","secundaria","🎲","Una bolsa tiene 3 bolas rojas y 1 azul. ¿Probabilidad de azul?",["25%","50%","75%"],0,"Una de cuatro posibilidades."],["Pensamiento crítico","secundaria","🧠","Una noticia sorprendente no cita fuentes. ¿Qué haces primero?",["Compartir","Verificar fuentes independientes","Creerla por sus likes"],1,"La evidencia importa más que la popularidad."]];
+  function panelPio(){const st=estado();const dias=st.pioDias||[];const hoy=U.fechaLocal();return '<section class="pio-panel"><h2>🐥 Tu aventura lectora</h2><p>'+ (dias.includes(hoy)?'¡Ya avanzaste hoy!':'¿Leemos unas páginas hoy?')+'</p><div class="pio-dias">'+Array.from({length:7},(_,i)=>{const d=new Date();d.setDate(d.getDate()-6+i);const k=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");return '<span>'+ (dias.includes(k)?'🔥':'○')+' '+d.toLocaleDateString("es",{weekday:"short"})+'</span>';}).join("")+'</div><p>⭐ '+st.stats.starsEarned+' estrellas · 📚 '+st.stats.booksCompleted+' libros terminados</p></section>';}
+  function retosHTML(){return '<section class="pio-panel"><h2>Laboratorio de ideas</h2><p>12 retos de razonamiento, separados de la comprensión de libros.</p><div class="pio-retos">'+retosPio.map((r,i)=>'<button class="pio-reto" data-reto-pio="'+i+'" data-nivel-pio="'+r[1]+'"><strong>'+r[2]+' '+r[0]+'</strong>'+({preescolar:"Fácil",primaria:"Medio",secundaria:"Avanzado"}[r[1]])+(estado().gamesCompletedList.includes("pio-"+i)?" · ✓":"")+'</button>').join("")+'</div><div id="pio-jugar" hidden></div></section>';}
+  function activarRetos(){document.querySelectorAll("[data-reto-pio]").forEach(b=>b.onclick=()=>{const i=Number(b.dataset.retoPio),r=retosPio[i],p=document.getElementById("pio-jugar");p.hidden=false;p.innerHTML='<h3>'+r[0]+'</h3><p>'+r[3]+'</p><div class="pio-opciones">'+r[4].map((x,j)=>'<button class="boton" data-respuesta="'+j+'">'+x+'</button>').join("")+'</div><p role="status"></p>';p.scrollIntoView({block:"nearest"});p.querySelectorAll("[data-respuesta]").forEach(a=>a.onclick=()=>{const out=p.querySelector("[role=status]");if(Number(a.dataset.respuesta)!==r[5]){out.textContent="Inténtalo otra vez. "+r[6];return;}out.textContent="¡Bien hecho! "+r[6];p.querySelectorAll("button").forEach(x=>x.disabled=true);if(!estado().gamesCompletedList.includes("pio-"+i)){BV.progreso.registrarJuego("pio-"+i,{estrellas:2,aciertos:1});b.textContent=r[2]+" "+r[0]+" ✓";}});});}
+
   function hero() {
     const abiertos = D.abiertos();
     const flotantes = [D.buscarRecurso("alicia"), D.buscarRecurso("nube"), D.buscarRecurso("poema-estrella")].filter(Boolean);
@@ -45,7 +51,7 @@
               </div>
               <div class="hero__datos">
                 <span>${icono("checkCirculo")} ${abiertos.length} lecturas abiertas</span>
-                <span>${icono("juego")} 8 juegos educativos</span>
+                <span>${icono("juego")} 20 actividades educativas</span>
                 <span>${icono("accesibilidad")} Accesible para todos</span>
               </div>
             </div>
@@ -54,8 +60,8 @@
               <div class="hero__marco">
                 <img src="assets/svg/hero-biblioteca.svg" alt="Ilustración de una biblioteca mágica de noche: estanterías, libros flotantes, una ventana con castillo y un búho que acompaña." width="800" height="670" fetchpriority="high">
               </div>
-              <img class="hero__mascota" src="assets/svg/mascota-draco.svg" alt="Draco, el dragón lector de la biblioteca" width="148" height="148">
-              <div class="hero__burbuja">¡Hola! Soy Draco. ¿Busco una historia para ti?</div>
+              <img class="hero__mascota" src="assets/svg/mascota-draco.svg" alt="Pío, el pollito lector de la biblioteca" width="148" height="148">
+              <div class="hero__burbuja">¡Hola! Soy Pío. ¿Busco una historia para ti?</div>
               <div class="hero__placa"><span>${icono("libroAbierto")}</span> Abierto las 24 horas</div>
             </div>
           </div>`)}
@@ -69,7 +75,7 @@
       <div class="contenedor">
         <div class="tira-datos" aria-label="Datos de la biblioteca">
           <div class="tira-datos__item">${icono("libroAbierto")}<div><strong>${abiertos}</strong><span>lecturas abiertas</span></div></div>
-          <div class="tira-datos__item">${icono("juego")}<div><strong>8</strong><span>juegos para aprender</span></div></div>
+          <div class="tira-datos__item">${icono("juego")}<div><strong>20</strong><span>juegos para aprender</span></div></div>
           <div class="tira-datos__item">${icono("premio")}<div><strong>${logros}</strong><span>logros por descubrir</span></div></div>
           <div class="tira-datos__item">${icono("graduacion")}<div><strong>3</strong><span>niveles educativos</span></div></div>
         </div>
@@ -147,7 +153,7 @@
       <section class="seccion seccion--alterna">
         ${cont(`
           <div class="seccion__cabecera">
-            <div><span class="etiqueta etiqueta--coral">Leer también es jugar</span><h2>Ocho retos para entrenar la lectura</h2><p>Sopas de letras, crucigramas, memorama y más. Cada juego completado suma estrellas y acerca nuevos logros.</p></div>
+            <div><span class="etiqueta etiqueta--coral">Leer también es jugar</span><h2>Veinte actividades para entrenar la lectura</h2><p>Sopas de letras, crucigramas, memorama y más. Cada juego completado suma estrellas y acerca nuevos logros.</p></div>
             <div class="seccion__acciones"><a class="boton" href="#/juegos">Ver todos los juegos ${icono("flecha")}</a></div>
           </div>
           <div class="rejilla-juegos">${juegos.slice(0, 4).map((j) => C.tarjetaJuego(j, completados.includes(j.clave))).join("")}</div>`)}
@@ -177,7 +183,7 @@
 
   secciones.inicio = () => ({
     titulo: "Biblioteca Virtual · Un mundo de historias para leer y jugar",
-    html: `${hero()}${tiraDatos()}${continuarSeccion()}${destacados()}${generosSeccion()}${nivelesSeccion()}${juegosSeccion()}${citaSeccion()}`,
+    html: `${hero()}${panelPio()}${tiraDatos()}${continuarSeccion()}${destacados()}${generosSeccion()}${nivelesSeccion()}${juegosSeccion()}${citaSeccion()}`,
     init() {
       const escena = $("#hero-escena");
       if (!escena || estado().movimiento) return;
@@ -553,12 +559,12 @@
           <p>Ocho retos para reconocer palabras, comprender textos, memorizar, deletrear y pensar. Cada juego completado suma estrellas; los logros se desbloquean solos.</p>
           <div class="fila" style="margin-top:16px">
             <span class="etiqueta etiqueta--dorada">${icono("estrella", "icono--xs")} ${estrellasJuegos} estrellas</span>
-            <span class="etiqueta etiqueta--turquesa">${completados.length} de 8 juegos completados</span>
+            <span class="etiqueta etiqueta--turquesa">${completados.length} de 20 actividades completadas</span>
             <a class="boton boton--pequeno" href="#/logros">Ver mis logros ${icono("flecha")}</a>
           </div>`)}
         </section>
         <section class="seccion seccion--compacta" style="padding-top:0">
-          ${cont(`<div class="fila" role="group" aria-label="Nivel de juegos" style="margin-bottom:18px">${[["todos","Todos"],["preescolar","Kínder · Fácil"],["primaria","Primaria · Medio"],["secundaria","Secundaria · Difícil"]].map(([id,n])=>`<button type="button" class="boton boton--pequeno" data-nivel-juego="${id}" aria-pressed="${id==="todos"}">${n}</button>`).join("")}</div><div class="rejilla-juegos" id="juegos-por-nivel">${juegos.map((j) => `<div data-clave-juego="${esc(j.clave)}">${C.tarjetaJuego(j, completados.includes(j.clave))}</div>`).join("")}</div>`)}
+          ${cont(`<div class="fila" role="group" aria-label="Nivel de juegos" style="margin-bottom:18px">${[["todos","Todos"],["preescolar","Kínder · Fácil"],["primaria","Primaria · Medio"],["secundaria","Secundaria · Difícil"]].map(([id,n])=>`<button type="button" class="boton boton--pequeno" data-nivel-juego="${id}" aria-pressed="${id==="todos"}">${n}</button>`).join("")}</div><div class="rejilla-juegos" id="juegos-por-nivel">${juegos.map((j) => `<div data-clave-juego="${esc(j.clave)}">${C.tarjetaJuego(j, completados.includes(j.clave))}</div>`).join("")}</div>${retosHTML()}`)}
         </section>
         <section class="seccion seccion--alterna">
           ${cont(`
@@ -569,7 +575,7 @@
               <article class="tarjeta-nivel"><span class="tarjeta-nivel__icono">${icono("medalla", "icono--lg")}</span><div><h3>Desbloquea logros</h3><p>Cada logro se guarda en este dispositivo. Algunos desbloquean diplomas imprimibles.</p></div></article>
             </div>`)}
         </section>`,
-      init(){const grupos={preescolar:["memorama","rompecabezas","adivinanzas"],primaria:["sopa","memorama","rompecabezas","adivinanzas","trabalenguas","comprension"],secundaria:["sopa","crucigrama","trabalenguas","comprension"]};document.querySelectorAll("[data-nivel-juego]").forEach(b=>b.onclick=()=>{const n=b.dataset.nivelJuego;document.querySelectorAll("[data-nivel-juego]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));document.querySelectorAll("[data-clave-juego]").forEach(x=>x.hidden=n!=="todos"&&!grupos[n].includes(x.dataset.claveJuego));});}
+      init(){activarRetos();const grupos={preescolar:["memorama","rompecabezas","adivinanzas"],primaria:["sopa","memorama","rompecabezas","adivinanzas","trabalenguas","comprension"],secundaria:["sopa","crucigrama","trabalenguas","comprension"]};document.querySelectorAll("[data-nivel-juego]").forEach(b=>b.onclick=()=>{const n=b.dataset.nivelJuego;document.querySelectorAll("[data-nivel-juego]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));document.querySelectorAll("[data-clave-juego]").forEach(x=>x.hidden=n!=="todos"&&!grupos[n].includes(x.dataset.claveJuego));document.querySelectorAll("[data-nivel-pio]").forEach(x=>x.hidden=n!=="todos"&&x.dataset.nivelPio!==n);});}
     };
   };
 
