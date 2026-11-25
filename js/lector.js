@@ -230,7 +230,7 @@
           let guardado = null;
           try { guardado = JSON.parse(localStorage.getItem(clave)); } catch(e) {}
           document.body.classList.add("modo-lector", "lector-paginado");
-          const estilo = document.createElement("style"); estilo.textContent = "\n@media screen {\nbody.lector-paginado .cabecera,body.lector-paginado .pie,body.lector-paginado .mascota-flotante,body.lector-paginado .burbuja-mascota,body.lector-paginado .lector-texto__portada,body.lector-paginado .lector-texto__resumen,body.lector-paginado .lector-indice,body.lector-paginado .lector-ilustracion--portada,body.lector-paginado .lector-texto__fin,body.lector-paginado .lector-texto__sugerencias,body.lector-paginado .lector-salir{display:none!important}\nbody.lector-paginado #vista{padding:0!important}\nbody.lector-paginado .lector{padding:0!important}\nbody.lector-paginado .lector-barra{position:relative;top:auto;z-index:5}\nbody.lector-paginado .lector-barra__interior{display:flex;flex-wrap:wrap;gap:6px;padding:6px 0}\nbody.lector-paginado .lector-barra__titulo{flex:1;min-width:0;order:0}\nbody.lector-paginado .lector-barra__titulo strong{font-size:.8rem}\nbody.lector-paginado .lector-barra__titulo span{display:none}\nbody.lector-paginado .lector-barra__acciones{position:absolute;top:100%;right:8px;width:min(340px,95vw);padding:12px;background:var(--superficie-solida);border:1px solid var(--borde);border-radius:14px;display:flex;flex-wrap:wrap;box-shadow:0 12px 30px #0005}\nbody.lector-paginado [hidden]{display:none!important}\nbody.lector-paginado .lector-texto{width:min(96%,760px);padding:10px 0;margin:auto}\nbody.lector-paginado .lector-texto__cuerpo{font-size:calc(1rem * var(--lector-escala,1));line-height:1.55}\n.hoja-marco{perspective:1200px;padding:0 5px 5px}\n.hoja-libro{height:calc(100dvh - 185px);min-height:180px;overflow:auto;box-sizing:border-box;padding:clamp(15px,4vw,38px);background:#faf0dc;color:#392b22;border-radius:5px 12px 12px 5px;box-shadow:4px 4px #c6b89f,8px 8px #95846e,0 14px 35px #0005;transform-origin:left center;font-family:Georgia,serif;touch-action:pan-y;overflow-wrap:anywhere}\n.hoja-libro h2{color:#62472f!important;font-size:1.25em;margin:0 0 12px}\n.hoja-libro p{color:inherit!important;margin:0 0 .65em;text-align:left}\n.hoja-libro img{max-height:30vh;object-fit:contain}\n.hoja-nav{display:flex;align-items:center;justify-content:space-between;gap:5px;margin:12px 4px 0;font:600 .75rem system-ui}\n.hoja-nav button{min-height:38px}\n.hoja-nav output{text-align:center}\n}\n"; document.head.append(estilo);
+          const estilo = document.createElement("style"); estilo.textContent = "\n@media screen {\nbody.lector-paginado .cabecera,body.lector-paginado .pie,body.lector-paginado .mascota-flotante,body.lector-paginado .burbuja-mascota,body.lector-paginado .lector-texto__portada,body.lector-paginado .lector-texto__resumen,body.lector-paginado .lector-indice,body.lector-paginado .lector-ilustracion--portada,body.lector-paginado .lector-texto__fin,body.lector-paginado .lector-texto__sugerencias,body.lector-paginado .lector-salir{display:none!important}\nbody.lector-paginado #vista{padding:0!important}\nbody.lector-paginado .lector{padding:0!important}\nbody.lector-paginado .lector-barra{position:relative;top:auto;z-index:5}\nbody.lector-paginado .lector-barra__interior{display:flex;flex-wrap:wrap;gap:6px;padding:6px 0}\nbody.lector-paginado .lector-barra__titulo{flex:1;min-width:0;order:0}\nbody.lector-paginado .lector-barra__titulo strong{font-size:.8rem}\nbody.lector-paginado .lector-barra__titulo span{display:none}\nbody.lector-paginado .lector-barra__acciones{position:absolute;top:100%;right:8px;width:min(340px,95vw);padding:12px;background:var(--superficie-solida);border:1px solid var(--borde);border-radius:14px;display:flex;flex-wrap:wrap;box-shadow:0 12px 30px #0005}\nbody.lector-paginado [hidden]{display:none!important}\nbody.lector-paginado .lector-texto{width:min(96%,760px);padding:10px 0;margin:auto}\nbody.lector-paginado .lector-texto__cuerpo{font-size:calc(1rem * var(--lector-escala,1));line-height:1.55}\n.hoja-marco{position:relative;perspective:1200px;padding:0 5px 5px}\n.hoja-libro{height:calc(100dvh - 120px);min-height:180px;overflow:auto;box-sizing:border-box;padding:52px clamp(15px,4vw,38px) 18px;background:#faf0dc;color:#392b22;border-radius:5px 12px 12px 5px;box-shadow:4px 4px #c6b89f,8px 8px #95846e,0 14px 35px #0005;transform-origin:left center;font-family:Georgia,serif;touch-action:pan-y;overflow-wrap:anywhere}\n.hoja-libro h2{color:#62472f!important;font-size:1.25em;margin:0 0 12px}\n.hoja-libro p{color:inherit!important;margin:0 0 .65em;text-align:left}\n.hoja-libro img{max-height:30vh;object-fit:contain}\n.hoja-nav{display:flex;align-items:center;justify-content:space-between;gap:5px;margin:12px 4px 0;font:600 .75rem system-ui}\n.hoja-nav button{min-height:38px}\n.hoja-nav output{text-align:center}\n}\n"; document.head.append(estilo);
           const barra = document.querySelector(".lector-barra");
           const acciones = barra.querySelector(".lector-barra__acciones");
           const menu = document.createElement("button");
@@ -245,7 +245,7 @@
           cuerpo.innerHTML = '<div class="hoja-marco"><div class="hoja-libro" tabindex="0" aria-label="Página de lectura"></div></div><nav class="hoja-nav" aria-label="Navegación de páginas"><button type="button" class="lector-boton hoja-anterior">‹ Anterior</button><output aria-live="polite"></output><button type="button" class="lector-boton hoja-siguiente">Siguiente ›</button></nav>';
           const hoja = cuerpo.querySelector(".hoja-libro"), salida = cuerpo.querySelector("output");
           const anterior = cuerpo.querySelector(".hoja-anterior"), siguiente = cuerpo.querySelector(".hoja-siguiente");
-          const guardarProgreso = pct => BV.progreso.actualizarLectura(recurso.id, Math.max(porcentaje, estado().lectura[recurso.id]?.percent || 0, pct));
+          const guardarProgreso = pct => { BV.progreso.actualizarLectura(recurso.id, Math.max(porcentaje, estado().lectura[recurso.id]?.percent || 0, pct), {page:actual+1,totalPages:paginas.length}); if(pct>=50) BV.progreso.evaluarLogros(); };
           let vozLista=false;
           function mostrar(n, animar = false, desdeVoz = false) {
             if (vozLista && !desdeVoz && narrando) detenerVoz();
@@ -273,6 +273,7 @@
             const pct = Math.floor(actual / Math.max(1,paginas.length)*100);
             barraProgreso.setAttribute("aria-valuenow",String(pct)); barraProgreso.firstElementChild.style.width=pct+"%";
             guardarProgreso(pct);
+            salida.textContent += " · "+pct+"%";
             try {localStorage.setItem(clave,JSON.stringify({cap:p.cap,offset:p.offset}));}catch(e){}
           }
           function paginar(pos) {
@@ -321,8 +322,8 @@
           const botonVoz = document.getElementById("leer-en-voz");
           const controlVoz = document.createElement("button");
           controlVoz.type="button"; controlVoz.className="lector-boton"; controlVoz.textContent="▶ Escuchar";
-          cuerpo.querySelector(".hoja-nav").after(controlVoz);
-          controlVoz.style.cssText="display:block;margin:6px auto;min-height:36px";
+          cuerpo.querySelector(".hoja-marco").append(controlVoz);
+          controlVoz.style.cssText="position:absolute;top:8px;right:12px;z-index:2;min-height:34px;background:#f8e6c4;color:#392b22;border:1px solid #c8a875;border-radius:20px;padding:0 12px";
           let narrando=false, turno=0;
           const motor=window.speechSynthesis;
           function detenerVoz(){
@@ -370,6 +371,7 @@
             controlVoz.textContent="■ Detener audio";botonVoz.textContent="Detener audio";abrir(false);narrarPagina();
           }
           estilo.textContent += '\n.voz-activa{background:#f4dfaa!important;border-radius:5px;outline:2px solid #d7a84a;outline-offset:2px}.voz-palabra{background:#f6b84c;color:#302010;border-radius:3px}';
+          estilo.textContent += "\n@media screen and (max-width:600px){body.lector-paginado .lector-barra__interior{flex-wrap:nowrap;width:calc(100% - 12px)}body.lector-paginado .lector-barra__titulo{flex-basis:0;overflow:hidden}body.lector-paginado .lector-barra__titulo strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}body.lector-paginado .hoja-nav button{padding:0 7px}.hoja-nav output{font-size:.65rem}} @media screen and (min-width:900px){body.lector-paginado .lector-texto{width:min(92%,850px)}.hoja-libro{padding-inline:65px}.hoja-nav{font-size:.9rem}}";
           vozLista=true;
           botonVoz.addEventListener("click",alternarVoz);controlVoz.addEventListener("click",alternarVoz);
           const imprimir = () => {
