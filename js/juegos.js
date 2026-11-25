@@ -94,13 +94,7 @@
           return id;
         };
         const botonImprimir = document.querySelector("[data-imprimir-juego]");
-        if (botonImprimir) botonImprimir.addEventListener("click", () => {
-          document.body.classList.add("imprimir-juego");
-          BV.ui.dialogo("Descargar ficha en PDF", "<p>Se abrirá la ventana de impresión. Elige <strong>Guardar como PDF</strong> para descargar la ficha diseñada con el ejercicio, el nombre del estudiante y las instrucciones.</p>", [
-            { texto: "Cancelar", clase: "boton--fantasma", accion: () => { document.body.classList.remove("imprimir-juego"); } },
-            { texto: "Abrir impresión", clase: "boton--primario", accion: () => { window.setTimeout(() => window.print(), 120); } }
-          ]);
-        });
+        if (botonImprimir) botonImprimir.addEventListener("click", async () => { if(!hoja.querySelector("h1")||/Tablero disponible|Elige un|Genera la ficha/.test(hoja.textContent)){BV.ui.dialogo("Elige una actividad","<p>Selecciona un tablero o ejercicio para descargar su ficha individual.</p>");return;} try{await window.BVPDF.descargar(hoja,hoja.querySelector("h1").textContent,true);}catch(e){BV.ui.dialogo("No se pudo descargar","<p>Intenta nuevamente.</p>");} });
         init(ctx);
       },
       destruir() {
@@ -611,7 +605,7 @@
       });
       document.getElementById("adi-siguiente").addEventListener("click", () => { indice += 1; pintar(); });
     };
-    ctx.pintarHoja(hojaBase("Adivinanzas con pistas", "Lee cada adivinanza y escribe tu respuesta en la línea.", "<p>Genera la ficha desde una partida para incluir las adivinanzas seleccionadas.</p>", "adivinanzas"));
+    ctx.pintarHoja(hojaBase("Adivinanzas con pistas", "Lee cada adivinanza y escribe tu respuesta en la línea.", `<ol class="hoja-preguntas">${preguntas.map(a=>`<li>${esc(a.pregunta)}<div class="hoja-linea"></div></li>`).join("")}</ol>`, "adivinanzas"));
     pintar();
   }
 
@@ -665,7 +659,7 @@
       document.getElementById("tra-logre").addEventListener("click", () => { BV.sonido("correcto"); siguiente(true); });
       document.getElementById("tra-saltar").addEventListener("click", () => siguiente(false));
     };
-    ctx.pintarHoja(hojaBase("Reto de trabalenguas", "Lee cada trabalenguas en voz alta, primero despacio y luego más rápido.", "<p>Genera la ficha desde una partida para incluir los trabalenguas seleccionados.</p>", "trabalenguas"));
+    ctx.pintarHoja(hojaBase("Reto de trabalenguas", "Lee cada trabalenguas en voz alta, primero despacio y luego más rápido.", `<ol class="hoja-preguntas">${lista.map(t=>`<li>${esc(t.texto)}<div class="hoja-linea"></div></li>`).join("")}</ol>`, "trabalenguas"));
     pintar();
   }
 
@@ -951,7 +945,7 @@
         }
       });
     };
-    ctx.pintarHoja(hojaBase("Completa la palabra", "Usa las letras del banco para completar cada palabra.", "<p>Genera la ficha desde una partida para incluir las palabras seleccionadas.</p>", "completa"));
+    ctx.pintarHoja(hojaBase("Completa la palabra", "Usa las letras del banco para completar cada palabra.", `<ol class="hoja-preguntas">${palabras.map(p=>`<li>${esc(p.pista)}<div class="hoja-linea"></div></li>`).join("")}</ol>`, "completa"));
     pintar();
   }
 
