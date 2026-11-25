@@ -102,6 +102,7 @@
     </div>
   </header>
 
+  <aside class="bv-instalar-franja" id="bv-instalar-franja" aria-label="Instalar biblioteca"><div><strong>Tu biblioteca, siempre contigo</strong><p>Instálala y conserva tus lecturas y logros.</p></div><button type="button" class="boton boton--primario" data-bv-instalar>Instalar biblioteca</button></aside>
   <main id="vista" tabindex="-1" aria-label="Contenido de la biblioteca">
     <div class="cargando-pagina">
       <span class="cargando-pagina__libro"></span>
@@ -172,13 +173,14 @@
     <div class="dialogo-ajustes__cabecera">
       <div>
         <span class="etiqueta">A tu manera</span>
-        <h2 id="titulo-ajustes">Ajustes de lectura</h2>
+        <h2 id="titulo-ajustes">Ajustes de la biblioteca</h2>
       </div>
       <button type="button" class="boton-cerrar" id="cerrar-ajustes" aria-label="Cerrar ajustes">
         <svg class="icono" aria-hidden="true"><use href="assets/svg/iconos.svg#x"></use></svg>
       </button>
     </div>
     <div class="dialogo-ajustes__cuerpo">
+      <section aria-labelledby="ajuste-app"><h3 id="ajuste-app">Aplicación y actualizaciones</h3><p id="bv-estado-app" class="bv-estado" role="status">Comprobando disponibilidad…</p><div class="bv-ajustes-acciones"><button type="button" class="boton boton--primario" data-bv-instalar>Instalar biblioteca</button><button type="button" class="boton boton--suave" id="bv-actualizar">Buscar actualizaciones</button><button type="button" class="boton boton--suave" id="bv-offline">Descargar libros para leer sin internet</button></div><p class="texto-ayuda">Las actualizaciones se descargan al conectarte. Tus estrellas, favoritos y progreso permanecen en este navegador. Los PDF requieren descarga previa; la voz sin internet depende de tu dispositivo.</p></section>
       <section aria-labelledby="ajuste-tema">
         <h3 id="ajuste-tema">Tema de la biblioteca</h3>
         <div class="grupo-opciones" role="group" aria-label="Tema de color">
@@ -219,7 +221,7 @@
 
       <section aria-labelledby="ajuste-voz">
         <h3 id="ajuste-voz">Lectura en voz alta</h3>
-        <p class="texto-ayuda">El botón «Escuchar» usa la voz de tu navegador. No se envía texto a ningún servidor.</p>
+        <p class="texto-ayuda">El botón «Escuchar» usa la voz de tu navegador. Algunas voces del sistema pueden requerir internet.</p>
         <label class="campo">
           <span>Velocidad de la voz</span>
           <input type="range" id="ajuste-velocidad" min="0.6" max="1.4" step="0.1" value="0.95">
@@ -232,7 +234,7 @@
       <section aria-labelledby="ajuste-progreso">
         <h3 id="ajuste-progreso">Mi progreso</h3>
         <p class="texto-ayuda">Todo se guarda en este navegador. Si borras los datos del sitio, el progreso también se borra.</p>
-        <button type="button" class="boton boton--peligro boton--pequeno" id="reiniciar-progreso">
+        <div class="bv-ajustes-acciones"><button type="button" class="boton boton--suave" id="bv-respaldo">Guardar respaldo de progreso</button></div><p class="texto-ayuda">Guarda una copia JSON de tus datos antes de borrar el almacenamiento.</p><button type="button" class="boton boton--peligro boton--pequeno" id="reiniciar-progreso">
           <svg class="icono" aria-hidden="true"><use href="assets/svg/iconos.svg#trash-2"></use></svg> Reiniciar mi progreso
         </button>
       </section>
