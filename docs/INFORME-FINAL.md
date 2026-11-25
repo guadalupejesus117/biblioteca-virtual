@@ -27,6 +27,8 @@ A petición del usuario, **no se abre el PDF original dentro del sitio**. En su 
 3. Se descartaron números de página, encabezados, índices y portadas del archivo original.
 4. El lector pinta su propia portada, índice, capítulos, tipografía y controles (`js/lector.js`).
 5. El botón «Descargar PDF» genera una edición propia mediante la impresión del navegador: portada, índice, capítulos y colofón con la fuente y la licencia.
+6. Se crearon 14 ilustraciones SVG originales (`assets/svg/ilu-*.svg`) y un mapa por obra (`data/ilustraciones.js`). Aparecen en la portada del lector y al inicio de cada capítulo, con texto alternativo. No se usan cubiertas ni imágenes de ediciones comerciales.
+7. Se añadió el modo «Despejar pantalla»: oculta cabecera, barra, menú, avisos y elementos decorativos; deja únicamente el texto y las ilustraciones. Se sale con el botón flotante o con `Escape`.
 
 Los PDF originales quedaron fuera del repositorio público, en `_analysis/libros_originales`, como fuente de verificación.
 

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Castillo de cuento con banderas, luna y estrellas">
+<defs>
+  <linearGradient id="cielo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b2357"/><stop offset="1" stop-color="#7c5cff"/></linearGradient>
+  <linearGradient id="suelo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b4b9e"/><stop offset="1" stop-color="#332a63"/></linearGradient>
+  <radialGradient id="brillo"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="800" height="500" rx="24" fill="url(#cielo)"/>
+<circle cx="690" cy="90" r="120" fill="url(#brillo)" opacity=".7"/>
+<g fill="#fff" opacity=".85"><circle cx="70" cy="70" r="4"/><circle cx="160" cy="45" r="5"/><circle cx="250" cy="90" r="3"/><circle cx="340" cy="55" r="4"/><circle cx="430" cy="95" r="5"/><circle cx="530" cy="45" r="3"/><circle cx="610" cy="120" r="4"/><circle cx="740" cy="60" r="5"/><circle cx="120" cy="150" r="3"/><circle cx="470" cy="160" r="4"/><circle cx="770" cy="190" r="5"/></g>
+<path d="M0 360 Q140 290 270 355 T520 345 T800 350 V500 H0Z" fill="url(#suelo)"/>
+<circle cx="680" cy="95" r="52" fill="#fff3c4"/><g transform="translate(400 310)"><rect x="-130" y="0" width="260" height="150" rx="8" fill="#b9a4e8"/><rect x="-190" y="30" width="60" height="120" fill="#9d86d6"/><rect x="130" y="30" width="60" height="120" fill="#9d86d6"/><path d="M-210 30 -160-30 -110 30Z" fill="#6b4de6"/><path d="M-150 0 0-110 150 0Z" fill="#7c5cff"/><path d="M110 30 160-30 210 30Z" fill="#6b4de6"/><path d="M-40 150 V70 Q0 30 40 70 V150Z" fill="#3d2f6b"/><g fill="#ffd166"><rect x="-100" y="50" width="26" height="34" rx="12"/><rect x="74" y="50" width="26" height="34" rx="12"/></g><g stroke="#ffd166" stroke-width="5"><path d="M-160-28 V-90 l40 14 -40 14"/><path d="M0-108 V-170 l40 14 -40 14"/><path d="M160-28 V-90 l40 14 -40 14"/></g></g></svg>

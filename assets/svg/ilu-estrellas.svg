@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-label="Cielo nocturno con estrellas, libros abiertos y una luna">
+<defs>
+  <linearGradient id="cielo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#241d47"/><stop offset="1" stop-color="#6b4de6"/></linearGradient>
+  <linearGradient id="suelo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b3167"/><stop offset="1" stop-color="#241d47"/></linearGradient>
+  <radialGradient id="brillo"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="800" height="500" rx="24" fill="url(#cielo)"/>
+<circle cx="690" cy="90" r="120" fill="url(#brillo)" opacity=".7"/>
+<g fill="#fff" opacity=".85"><circle cx="70" cy="70" r="3"/><circle cx="160" cy="45" r="4"/><circle cx="250" cy="90" r="5"/><circle cx="340" cy="55" r="3"/><circle cx="430" cy="95" r="4"/><circle cx="530" cy="45" r="5"/><circle cx="610" cy="120" r="3"/><circle cx="740" cy="60" r="4"/><circle cx="120" cy="150" r="5"/><circle cx="470" cy="160" r="3"/><circle cx="770" cy="190" r="4"/></g>
+<path d="M0 360 Q140 290 270 355 T520 345 T800 350 V500 H0Z" fill="url(#suelo)"/>
+<circle cx="660" cy="100" r="54" fill="#fff3c4"/><circle cx="70" cy="70" r="3"/><circle cx="160" cy="45" r="4"/><circle cx="250" cy="90" r="5"/><circle cx="340" cy="55" r="3"/><circle cx="430" cy="95" r="4"/><circle cx="530" cy="45" r="5"/><circle cx="610" cy="120" r="3"/><circle cx="740" cy="60" r="4"/><circle cx="120" cy="150" r="5"/><circle cx="470" cy="160" r="3"/><circle cx="770" cy="190" r="4"/><g transform="translate(400 330)"><path d="M-150 40 Q-75-30 0 20 Q75-30 150 40 Q75 100 0 80 Q-75 100-150 40Z" fill="#fff" opacity=".95"/><path d="M0 20 V80" stroke="#7c5cff" stroke-width="6"/><g stroke="#c9c2ff" stroke-width="3"><path d="M-110 40 Q-60 12-20 50"/><path d="M20 50 Q60 12 110 40"/></g></g><g fill="#ffd166"><path d="m180 120 6 14 15 2-11 11 3 15-13-7-13 7 3-15-11-11 15-2Z"/><path d="m600 180 5 12 13 2-9 9 2 13-11-6-11 6 2-13-9-9 13-2Z"/></g></svg>

@@ -302,6 +302,82 @@
 .lector-boton select { max-width: 220px; }
 #selector-capitulo { padding: 0 8px; font-size: 0.72rem; color: var(--tinta-suave); }
 
+/* ---------- Ilustraciones de las historias ---------- */
+.lector-ilustracion {
+  margin: 28px 0 32px;
+  text-align: center;
+}
+.lector-ilustracion img {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  height: auto;
+  margin-inline: auto;
+  border-radius: 18px;
+  border: 1px solid var(--borde);
+  box-shadow: var(--sombra-sm);
+}
+.lector-ilustracion figcaption {
+  margin-top: 9px;
+  color: var(--tinta-tenue);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+.lector-ilustracion--portada { margin: 10px 0 30px; }
+.lector-capitulo .lector-ilustracion { margin: 8px 0 26px; }
+.lector-capitulo .lector-ilustracion img { max-width: 620px; }
+
+/* ---------- Modo lectura (pantalla despejada) ---------- */
+.lector-salir {
+  position: fixed;
+  top: 14px;
+  right: 18px;
+  z-index: 70;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 13px;
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  background: var(--superficie-solida);
+  color: var(--tinta-suave);
+  font-size: 0.72rem;
+  font-weight: 800;
+  box-shadow: var(--sombra-sm);
+  opacity: 0.5;
+  transition: opacity 180ms ease, color 180ms ease;
+}
+.lector-salir:hover, .lector-salir:focus-visible { opacity: 1; color: var(--primario); }
+body.lector-despejado .cabecera,
+body.lector-despejado .pie,
+body.lector-despejado .mascota-flotante,
+body.lector-despejado .burbuja-mascota,
+body.lector-despejado .fondo-magico,
+body.lector-despejado .salto-contenido,
+body.lector-despejado .lector-barra,
+body.lector-despejado .lector-texto__portada,
+body.lector-despejado .lector-texto__resumen,
+body.lector-despejado .lector-indice,
+body.lector-despejado .lector-texto__fin,
+body.lector-despejado .lector-texto__sugerencias,
+body.lector-despejado .toasts,
+body.lector-despejado .confeti { display: none !important; }
+body.lector-despejado .lector { padding-top: 0; }
+body.lector-despejado .lector-texto { width: min(100% - 32px, 780px); padding-top: 26px; }
+body.lector-despejado .lector-texto__cuerpo {
+  font-size: calc(1.16rem * var(--lector-escala, 1));
+  line-height: 2;
+}
+body.lector-despejado .lector-capitulo > h2 {
+  text-align: center;
+  font-size: clamp(1.7rem, 3.6vw, 2.4rem);
+  margin-top: 2em;
+}
+body.lector-despejado .lector-capitulo:first-child > h2 { margin-top: 0.4em; }
+body.lector-despejado .lector-ilustracion { margin: 16px 0 28px; }
+body.lector-despejado .lector-ilustracion img { max-width: 680px; }
+
 /* ---------- PDF generado (solo impresión) ---------- */
 .libro-impresion { display: none; }
 @page { size: A4; margin: 20mm 18mm 18mm; }

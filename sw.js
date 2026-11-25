@@ -6,7 +6,10 @@ const NUCLEO = [
   "./assets/fuentes/google-fonts.css", "./assets/fuentes/baloo-2-latin.woff2", "./assets/fuentes/nunito-latin.woff2",
   "./assets/svg/hero-biblioteca.svg", "./assets/svg/mascota-draco.svg", "./assets/svg/iconos.svg",
   "./assets/img/icono-biblioteca.svg",
-  "./data/catalogo.js", "./data/generos.js", "./data/logros.js", "./data/textos.js", "./data/juegos.js", "./data/clasicos.js",
+  "./data/catalogo.js", "./data/generos.js", "./data/logros.js", "./data/textos.js", "./data/juegos.js", "./data/clasicos.js", "./data/ilustraciones.js",
+  "./assets/svg/ilu-nube.svg", "./assets/svg/ilu-dragon.svg", "./assets/svg/ilu-luna.svg", "./assets/svg/ilu-jardin.svg", "./assets/svg/ilu-fabula.svg",
+  "./assets/svg/ilu-bosque-cuento.svg", "./assets/svg/ilu-castillo-magico.svg", "./assets/svg/ilu-mar.svg", "./assets/svg/ilu-conejo.svg",
+  "./assets/svg/ilu-espejo.svg", "./assets/svg/ilu-marioneta.svg", "./assets/svg/ilu-estrellas.svg", "./assets/svg/ilu-maiz.svg", "./assets/svg/ilu-biblioteca-noche.svg",
   "./js/nucleo.js", "./js/componentes.js", "./js/secciones.js", "./js/lector.js", "./js/juegos.js", "./js/app.js"
 ];
 

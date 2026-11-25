@@ -29,7 +29,7 @@
     }
     paginaActual = null;
     BV.voz.detener();
-    document.body.classList.remove("imprimir-libro", "imprimir-juego", "imprimir-progreso", "modo-lector", "menu-abierto");
+    document.body.classList.remove("imprimir-libro", "imprimir-juego", "imprimir-progreso", "modo-lector", "lector-despejado", "menu-abierto");
   }
 
   function navActiva(segmentos) {

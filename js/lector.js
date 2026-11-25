@@ -48,6 +48,16 @@
     }
   }
 
+  function ilustracionHTML(recurso, indice = 0, clase = "") {
+    const lista = (window.BV_ILUSTRACIONES || {})[recurso.id] || [];
+    if (!lista.length) return "";
+    const ilu = lista[indice % lista.length];
+    return `<figure class="lector-ilustracion ${clase}">
+      <img src="${esc(ilu.archivo)}" alt="${esc(ilu.alt)}" width="800" height="500" loading="lazy">
+      ${ilu.titulo ? `<figcaption>${esc(ilu.titulo)}</figcaption>` : ""}
+    </figure>`;
+  }
+
   function seccionesDe(recurso) {
     const clasicos = window.BV_CLASICOS || {};
     if (clasicos[recurso.id]) {
@@ -89,6 +99,7 @@
             <output class="lector-progreso-texto" id="leer-escala" aria-live="polite">${Math.round(escala * 100)}%</output>
             <button type="button" class="lector-boton" id="leer-mas" aria-label="Aumentar tamaño del texto">A+</button>
             <button type="button" class="lector-boton" id="leer-en-voz">${icono("volumen", "icono--sm")} Escuchar</button>
+            <button type="button" class="lector-boton" id="leer-despejar" aria-pressed="false">${icono("maximize", "icono--sm")} Despejar pantalla</button>
             <button type="button" class="lector-boton" id="descargar-libro">${icono("descargar", "icono--sm")} Descargar PDF</button>
             <button type="button" class="lector-boton" id="terminar-libro">${icono("check", "icono--sm")} Terminar</button>
           </div>
@@ -128,6 +139,7 @@
       const html = `
         <section class="lector">
           ${barra(recurso, secciones, escala)}
+          <button type="button" class="lector-salir" id="salir-despejar" hidden>${icono("cerrar", "icono--sm")} Salir del modo lectura</button>
           <article class="lector-texto" id="lector-articulo" style="--lector-escala:${escala}">
             <header class="lector-texto__portada">
               ${BV.portadaHTML(recurso)}
@@ -149,11 +161,13 @@
                 <button type="button" class="boton boton--pequeno" data-favorito="${recurso.id}" aria-pressed="${fav}">${icono("corazon")} ${fav ? "En favoritos" : "Guardar"}</button>
               </div>
             </div>
+            ${ilustracionHTML(recurso, 0, "lector-ilustracion--portada")}
             ${indiceHTML(secciones)}
             <div class="lector-texto__cuerpo" id="lector-cuerpo">
               ${secciones.map((s, i) => `
                 <section class="lector-capitulo" id="capitulo-${i}" data-capitulo="${i}" aria-labelledby="titulo-cap-${i}">
                   <h2 id="titulo-cap-${i}">${esc(s.titulo)}</h2>
+                  ${ilustracionHTML(recurso, i + 1)}
                   ${s.bloques.map(bloqueHTML).join("")}
                   ${secciones.length > 1 && i < secciones.length - 1 ? `<button type="button" class="lector-boton capitulo-siguiente" data-capitulo-siguiente="${i + 1}">Siguiente capítulo ${icono("siguiente", "icono--sm")}</button>` : ""}
                 </section>`).join("")}
@@ -212,8 +226,28 @@
           let escalaActual = escala;
           let ultimoGuardado = 0;
           let terminado = false;
+          let despejado = false;
 
           document.body.classList.add("modo-lector");
+
+          const botonDespejar = document.getElementById("leer-despejar");
+          const botonSalir = document.getElementById("salir-despejar");
+          const alternarDespeje = (activar) => {
+            const progreso = calcular();
+            despejado = typeof activar === "boolean" ? activar : !despejado;
+            document.body.classList.toggle("lector-despejado", despejado);
+            if (botonSalir) botonSalir.hidden = !despejado;
+            if (botonDespejar) botonDespejar.setAttribute("aria-pressed", String(despejado));
+            BV.ui.anunciar(despejado ? "Modo lectura activado. Pulsa Escape para volver." : "Modo lectura desactivado.");
+            window.requestAnimationFrame(() => {
+              const maximo = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+              window.scrollTo(0, (progreso / 100) * maximo);
+            });
+          };
+          botonDespejar?.addEventListener("click", () => alternarDespeje(true));
+          botonSalir?.addEventListener("click", () => alternarDespeje(false));
+          const alTeclear = (e) => { if (e.key === "Escape" && despejado) alternarDespeje(false); };
+          window.addEventListener("keydown", alTeclear);
 
           const ajustarEscala = (delta) => {
             escalaActual = U.limitar(Math.round((escalaActual + delta) * 100) / 100, 0.9, 1.5);
@@ -325,8 +359,9 @@
 
           this.destruir = () => {
             window.removeEventListener("scroll", alDesplazarse);
+            window.removeEventListener("keydown", alTeclear);
             window.clearTimeout(temporizador);
-            document.body.classList.remove("modo-lector", "imprimir-libro");
+            document.body.classList.remove("modo-lector", "lector-despejado", "imprimir-libro");
           };
         },
         destruir() {}

@@ -17,7 +17,8 @@ Después visita `http://localhost:8000`.
 
 ## Qué incluye
 
-- **Lectura propia:** el texto de los clásicos se extrajo de ediciones autorizadas y se muestra con portada, capítulos, índice, progreso, tamaño de texto y lectura en voz alta. El PDF original **no se incrusta ni se abre**.
+- **Lectura propia:** el texto de los clásicos se extrajo de ediciones autorizadas y se muestra con portada, capítulos, índice, progreso, tamaño de texto, lectura en voz alta e **ilustraciones originales** por capítulo. El PDF original **no se incrusta ni se abre**.
+- **Modo lectura:** el botón «Despejar pantalla» oculta menús, barra y elementos decorativos para dejar solo el texto y las ilustraciones. Sal con el botón flotante o con `Escape`.
 - **PDF diseñado:** el botón «Descargar PDF» abre la impresión del navegador; elige *Guardar como PDF*. Se genera una edición con portada, índice, capítulos y créditos, creada por la biblioteca.
 - **8 juegos:** sopa de letras, crucigrama, memorama, adivinanzas, trabalenguas, rompecabezas, comprensión lectora y completa la palabra. Cada juego tiene ficha imprimible/descargable y guarda estrellas y logros.
 - **Gamificación:** estrellas, 18 logros, 5 diplomas imprimibles, racha de visitas y progreso de lectura guardado en `LocalStorage`.
