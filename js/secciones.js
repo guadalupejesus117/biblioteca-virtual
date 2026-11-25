@@ -558,7 +558,7 @@
           </div>`)}
         </section>
         <section class="seccion seccion--compacta" style="padding-top:0">
-          ${cont(`<div class="rejilla-juegos">${juegos.map((j) => C.tarjetaJuego(j, completados.includes(j.clave))).join("")}</div>`)}
+          ${cont(`<div class="fila" role="group" aria-label="Nivel de juegos" style="margin-bottom:18px">${[["todos","Todos"],["preescolar","Kínder · Fácil"],["primaria","Primaria · Medio"],["secundaria","Secundaria · Difícil"]].map(([id,n])=>`<button type="button" class="boton boton--pequeno" data-nivel-juego="${id}" aria-pressed="${id==="todos"}">${n}</button>`).join("")}</div><div class="rejilla-juegos" id="juegos-por-nivel">${juegos.map((j) => `<div data-clave-juego="${esc(j.clave)}">${C.tarjetaJuego(j, completados.includes(j.clave))}</div>`).join("")}</div>`)}
         </section>
         <section class="seccion seccion--alterna">
           ${cont(`
@@ -568,7 +568,8 @@
               <article class="tarjeta-nivel"><span class="tarjeta-nivel__icono">${icono("estrella", "icono--lg")}</span><div><h3>Gana estrellas</h3><p>Las estrellas miden tu esfuerzo, no tu velocidad. Repetir un juego también cuenta.</p></div></article>
               <article class="tarjeta-nivel"><span class="tarjeta-nivel__icono">${icono("medalla", "icono--lg")}</span><div><h3>Desbloquea logros</h3><p>Cada logro se guarda en este dispositivo. Algunos desbloquean diplomas imprimibles.</p></div></article>
             </div>`)}
-        </section>`
+        </section>`,
+      init(){const grupos={preescolar:["memorama","rompecabezas","adivinanzas"],primaria:["sopa","memorama","rompecabezas","adivinanzas","trabalenguas","comprension"],secundaria:["sopa","crucigrama","trabalenguas","comprension"]};document.querySelectorAll("[data-nivel-juego]").forEach(b=>b.onclick=()=>{const n=b.dataset.nivelJuego;document.querySelectorAll("[data-nivel-juego]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));document.querySelectorAll("[data-clave-juego]").forEach(x=>x.hidden=n!=="todos"&&!grupos[n].includes(x.dataset.claveJuego));});}
     };
   };
 
