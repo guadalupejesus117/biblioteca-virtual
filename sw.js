@@ -1,5 +1,6 @@
 /* Biblioteca Virtual · Service Worker (caché local, sin rastreo) */
-const VERSION = "bv-v1";
+const VERSION = "bv-v2-20261124";
+const PREFIX = "bv-v";
 const NUCLEO = [
   "./", "./index.html", "./manifest.webmanifest",
   "./css/base.css", "./css/paginas.css", "./css/juegos.css", "./css/lector.css", "./css/adaptable.css",
@@ -14,12 +15,12 @@ const NUCLEO = [
 ];
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(caches.open(VERSION).then((cache) => cache.addAll(NUCLEO)).then(() => self.skipWaiting()).catch(() => undefined));
+  event.waitUntil(caches.open(VERSION).then((cache) => cache.addAll(NUCLEO)));
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((claves) => Promise.all(claves.filter((c) => c !== VERSION).map((c) => caches.delete(c))))
+    caches.keys().then((claves) => Promise.all(claves.filter((c) => c.startsWith(PREFIX) && c !== VERSION).map((c) => caches.delete(c))))
       .then(() => self.clients.claim())
   );
 });
@@ -27,8 +28,10 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
+  if (req.cache === "no-store") return;
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
+  if (!url.pathname.startsWith(new URL(self.registration.scope).pathname)) return;
 
   if (req.mode === "navigate") {
     event.respondWith(fetch(req).then((res) => {
@@ -51,4 +54,9 @@ self.addEventListener("fetch", (event) => {
       });
     })
   );
+});
+
+self.addEventListener("message", (event) => {
+  if (event.data?.type === "SKIP_WAITING") self.skipWaiting();
+  if (event.data?.type === "GET_VERSION") event.source?.postMessage({ type: "BV_VERSION", version: VERSION });
 });
