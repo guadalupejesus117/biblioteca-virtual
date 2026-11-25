@@ -190,16 +190,17 @@
               <div class="libro-impresion__sello">Biblioteca Virtual</div>
               <h1>${esc(recurso.titulo)}</h1>
               <p>${esc(recurso.autor)}</p>
-              <div class="libro-impresion__adorno">${icono("libroAbierto", "icono--xl")}</div>
+              <div class="libro-impresion__adorno">${ilustracionHTML(recurso,0) || `<img src="assets/svg/mascota-draco.svg" alt="Pío">`}</div>
               <small>Edición para lectura · ${esc(D.subgeneroNombre(recurso))}</small>
             </div>
             <div class="libro-impresion__indice">
               <h2>Contenido</h2>
               <ol>${secciones.map((s) => `<li>${esc(s.titulo)}</li>`).join("")}</ol>
             </div>
-            ${secciones.map((s) => `
+            ${secciones.map((s,i) => `
               <section class="libro-impresion__capitulo">
-                <h2>${esc(s.titulo)}</h2>
+                <div class="impreso-etiqueta">Biblioteca Virtual · ${i+1} / ${secciones.length}</div><h2>${esc(s.titulo)}</h2>
+                ${ilustracionHTML(recurso,i+1)}
                 ${s.bloques.map((b) => {
                   if ((b.t === "verso" || b.tipo === "verso")) return `<p class="verso-impreso">${esc(b.x || b.texto)}</p>`;
                   return `<p>${esc(b.x || b.texto || "")}</p>`;
@@ -379,7 +380,7 @@
             BV.sonido("clic");
             BV.ui.dialogo("Descargar PDF diseñado", "<p>Se abrirá la ventana de impresión. Elige <strong>Guardar como PDF</strong> para descargar una versión con portada, índice y capítulos, creada por la biblioteca.</p><p>El archivo original no se muestra ni se copia: el PDF se genera a partir de este texto.</p>", [
               { texto: "Cancelar", clase: "boton--fantasma", accion: () => { document.body.classList.remove("imprimir-libro"); } },
-              { texto: "Abrir impresión", clase: "boton--primario", accion: () => { window.setTimeout(() => window.print(), 120); } }
+              { texto: "Abrir impresión", clase: "boton--primario", accion: async () => { const imgs=[...document.querySelectorAll(".libro-impresion img")]; imgs.forEach(img=>img.loading="eager"); await Promise.race([Promise.allSettled(imgs.map(img=>img.decode())),new Promise(resolve=>setTimeout(resolve,2500))]); window.addEventListener("afterprint",()=>document.body.classList.remove("imprimir-libro"),{once:true}); window.print(); } }
             ]);
           };
           ["descargar-libro", "descargar-libro-fin"].forEach((id) => {
