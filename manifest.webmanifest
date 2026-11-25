@@ -1,0 +1,22 @@
+{
+  "name": "Biblioteca Virtual · Un mundo de historias",
+  "short_name": "Biblioteca Virtual",
+  "description": "Biblioteca educativa gratuita y accesible con clásicos, cuentos, poemas y juegos de lectura.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fbf7ef",
+  "theme_color": "#19123b",
+  "lang": "es-MX",
+  "categories": ["education", "books", "kids"],
+  "icons": [
+    { "src": "assets/img/icono-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "assets/img/icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Explorar la biblioteca", "url": "#/biblioteca" },
+    { "name": "Juegos educativos", "url": "#/juegos" },
+    { "name": "Mis logros", "url": "#/logros" }
+  ]
+}

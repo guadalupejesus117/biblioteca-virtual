@@ -1,0 +1,614 @@
+/* ============================================================
+   Biblioteca Virtual · Juegos educativos
+   ============================================================ */
+
+.pagina-juego { padding: clamp(22px, 3vw, 40px) 0 clamp(40px, 6vw, 72px); }
+.juego-cabecera {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+.juego-cabecera__volver { flex-shrink: 0; margin-top: 4px; }
+.juego-cabecera__titulo { flex: 1; min-width: 0; }
+.juego-cabecera__titulo h1 { font-size: clamp(1.8rem, 3.4vw, 2.9rem); margin: 5px 0 4px; }
+.juego-cabecera__titulo p { margin: 0; color: var(--tinta-suave); max-width: 70ch; font-size: 0.9rem; }
+.juego-cabecera__acciones { display: flex; gap: 7px; flex-wrap: wrap; justify-content: flex-end; }
+
+.juego-panel {
+  border: 1px solid var(--borde);
+  border-radius: 26px;
+  background: var(--superficie-solida);
+  box-shadow: var(--sombra-sm);
+  overflow: hidden;
+}
+.juego-panel__barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--borde);
+  background: var(--superficie);
+}
+.juego-panel__barra p { margin: 0; font-size: 0.8rem; color: var(--tinta-suave); font-weight: 700; }
+.juego-panel__barra strong { color: var(--tinta); }
+.juego-panel__cuerpo { padding: clamp(18px, 3vw, 34px); }
+.juego-puntos { display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 0.86rem; }
+.juego-puntos .icono { color: var(--dorado); fill: var(--dorado); stroke: none; }
+.juego-puntos__numero { font-variant-numeric: tabular-nums; }
+.juego-progreso { display: flex; align-items: center; gap: 10px; min-width: 180px; flex: 1; max-width: 340px; }
+.juego-progreso__barra { flex: 1; height: 9px; border-radius: 99px; background: var(--fondo-3); overflow: hidden; }
+.juego-progreso__barra span { display: block; height: 100%; border-radius: inherit; background: var(--degradado-magico); transition: width 350ms ease; }
+.juego-progreso__texto { font-size: 0.76rem; font-weight: 800; color: var(--tinta-suave); white-space: nowrap; }
+.juego-instruccion {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px 16px;
+  margin-bottom: 22px;
+  border-radius: 12px;
+  background: var(--primario-suave);
+  color: var(--tinta);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+.juego-instruccion .icono { color: var(--primario); flex-shrink: 0; margin-top: 1px; }
+.juego-instruccion p { margin: 0; }
+
+/* ---------- Selector de juegos / niveles ---------- */
+.rejilla-seleccion { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.tarjeta-seleccion {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 22px;
+  border: 1px solid var(--borde);
+  border-radius: 20px;
+  background: var(--superficie-solida);
+  color: var(--tinta);
+  text-decoration: none;
+  transition: var(--transicion);
+  box-shadow: var(--sombra-xs);
+}
+.tarjeta-seleccion:hover { transform: translateY(-4px); border-color: var(--primario-2); box-shadow: var(--sombra-sm); color: var(--tinta); }
+.tarjeta-seleccion__top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.tarjeta-seleccion h3 { font-size: 1.12rem; margin: 0; }
+.tarjeta-seleccion p { margin: 0; color: var(--tinta-suave); font-size: 0.8rem; line-height: 1.5; flex: 1; }
+.tarjeta-seleccion__pie { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 0.7rem; font-weight: 900; color: var(--primario); }
+.tarjeta-seleccion__mini {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid var(--borde);
+  margin-bottom: 4px;
+}
+.pildora-dificultad { padding: 3px 8px; border-radius: 999px; font-size: 0.62rem; font-weight: 900; letter-spacing: 0.05em; text-transform: uppercase; }
+.pildora-dificultad--facil { background: var(--turquesa-suave); color: var(--turquesa); }
+.pildora-dificultad--medio { background: var(--dorado-suave); color: #8a5b00; }
+html[data-tema="oscuro"] .pildora-dificultad--medio { color: var(--dorado); }
+.pildora-dificultad--dificil { background: var(--acento-suave); color: var(--acento); }
+
+/* ---------- Sopa de letras ---------- */
+.sopa-layout { display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: clamp(18px, 3vw, 34px); align-items: start; }
+.sopa-tablero-marco { display: grid; place-items: center; }
+.sopa-tablero {
+  display: grid;
+  grid-template-columns: repeat(var(--n), 1fr);
+  gap: 4px;
+  width: min(100%, 580px);
+  padding: 10px;
+  border-radius: 18px;
+  background: var(--fondo-2);
+  border: 1px solid var(--borde);
+  touch-action: none;
+  user-select: none;
+}
+.celda {
+  position: relative;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: var(--superficie-solida);
+  color: var(--tinta);
+  font-family: var(--fuente-texto);
+  font-size: clamp(0.65rem, calc(28vw / var(--n)), 1.05rem);
+  font-weight: 800;
+  line-height: 1;
+  transition: background 100ms linear, color 100ms linear, transform 100ms linear;
+  cursor: crosshair;
+}
+.celda:hover { background: var(--primario-suave); }
+.celda.seleccion { background: var(--primario); color: #fff; border-color: var(--primario-3); }
+.celda.encontrada { background: var(--turquesa-suave); color: var(--turquesa); border-color: color-mix(in srgb, var(--turquesa) 35%, transparent); }
+.celda.encontrada::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 5px;
+  border: 1.5px solid color-mix(in srgb, var(--turquesa) 40%, transparent);
+  pointer-events: none;
+}
+.celda.error { animation: sacudir 280ms ease; background: color-mix(in srgb, var(--rojo) 16%, var(--superficie-solida)); }
+@keyframes sacudir { 20%, 60% { transform: translateX(-3px); } 40%, 80% { transform: translateX(3px); } }
+.sopa-palabras { padding: 18px; border: 1px solid var(--borde); border-radius: 18px; background: var(--fondo-2); }
+.sopa-palabras h2 { font-family: var(--fuente-texto); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tinta-tenue); margin: 0 0 10px; }
+.sopa-palabras ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 5px; }
+.sopa-palabras li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--tinta-suave);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  transition: var(--transicion);
+}
+.sopa-palabras li .icono { margin-left: auto; width: 0.95em; height: 0.95em; opacity: 0; color: var(--verde); }
+.sopa-palabras li.encontrada { color: var(--verde); text-decoration: line-through; background: color-mix(in srgb, var(--verde) 10%, transparent); }
+.sopa-palabras li.encontrada .icono { opacity: 1; }
+.sopa-leyenda { margin-top: 12px; font-size: 0.7rem; color: var(--tinta-tenue); line-height: 1.4; }
+
+/* ---------- Crucigrama ---------- */
+.crucigrama-layout { display: grid; grid-template-columns: minmax(0, auto) minmax(240px, 1fr); gap: clamp(18px, 3vw, 34px); align-items: start; }
+.crucigrama-marco { overflow-x: auto; padding: 4px; max-width: 100%; }
+.crucigrama-tablero {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), clamp(30px, 4.2vw, 44px));
+  grid-template-rows: repeat(var(--rows), clamp(30px, 4.2vw, 44px));
+  gap: 2px;
+  width: max-content;
+  margin-inline: auto;
+  background: var(--fondo-2);
+  padding: 7px;
+  border-radius: 10px;
+  border: 1px solid var(--borde);
+}
+.crucigrama-celda { position: relative; background: transparent; }
+.crucigrama-celda--bloque { background: transparent; }
+.crucigrama-celda--letra { background: var(--superficie-solida); border: 1px solid var(--borde-fuerte); border-radius: 3px; }
+.crucigrama-celda input {
+  width: 100%; height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-size: clamp(0.9rem, 1.6vw, 1.2rem);
+  border-radius: 3px;
+  caret-color: var(--primario);
+}
+.crucigrama-celda input:focus { background: var(--dorado-suave); outline: 2px solid var(--primario); outline-offset: -2px; }
+.crucigrama-celda .num {
+  position: absolute;
+  top: 1px; left: 3px;
+  font-size: 0.45rem;
+  font-weight: 900;
+  color: var(--tinta-tenue);
+  pointer-events: none;
+  line-height: 1;
+}
+.crucigrama-celda.correcta { background: color-mix(in srgb, var(--verde) 14%, var(--superficie-solida)); border-color: var(--verde); }
+.crucigrama-celda.incorrecta { background: color-mix(in srgb, var(--rojo) 13%, var(--superficie-solida)); border-color: var(--rojo); }
+.crucigrama-pistas { display: flex; flex-direction: column; gap: 16px; }
+.crucigrama-pistas h2 { font-family: var(--fuente-texto); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tinta-tenue); margin: 0 0 4px; }
+.crucigrama-pistas ol { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: 7px; }
+.crucigrama-pistas li { font-size: 0.82rem; color: var(--tinta-suave); line-height: 1.45; }
+.crucigrama-pistas li strong { color: var(--tinta); }
+.crucigrama-pistas li.resuelta { color: var(--verde); text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--verde) 50%, transparent); }
+
+/* ---------- Memorama ---------- */
+.memorama-barra { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; }
+.memorama-barra p { margin: 0; font-size: 0.82rem; color: var(--tinta-suave); }
+.memorama-tablero {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
+  gap: clamp(7px, 1.2vw, 13px);
+  max-width: 640px;
+  margin-inline: auto;
+  perspective: 1000px;
+}
+.carta-memoria {
+  position: relative;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  background: none;
+  perspective: 800px;
+}
+.carta-memoria__interior {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  border-radius: 14px;
+}
+.carta-memoria[aria-pressed="true"] .carta-memoria__interior,
+.carta-memoria--emparejada .carta-memoria__interior { transform: rotateY(180deg); }
+.carta-memoria__cara {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  backface-visibility: hidden;
+  border: 1px solid var(--borde);
+}
+.carta-memoria__dorso {
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.2), transparent 35%),
+    var(--degradado-magico);
+  color: #fff;
+  font-size: 1.6rem;
+}
+.carta-memoria__dorso .icono { width: 1.5em; height: 1.5em; opacity: 0.9; }
+.carta-memoria__frente {
+  transform: rotateY(180deg);
+  background: var(--superficie-solida);
+  color: var(--primario);
+  flex-direction: column;
+  gap: 5px;
+}
+.carta-memoria__frente .icono { width: 42%; height: 42%; }
+.carta-memoria__nombre { font-size: 0.62rem; font-weight: 900; color: var(--tinta-suave); }
+.carta-memoria--emparejada .carta-memoria__frente { border-color: var(--verde); background: color-mix(in srgb, var(--verde) 10%, var(--superficie-solida)); color: var(--verde); }
+.carta-memoria--emparejada { animation: latido 400ms ease; }
+@keyframes latido { 50% { transform: scale(1.05); } }
+
+/* ---------- Adivinanzas ---------- */
+.adivinanza-juego { max-width: 760px; margin-inline: auto; }
+.adivinanza-juego__cabecera { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+.adivinanza-juego__cabecera span { font-size: 0.75rem; font-weight: 900; color: var(--tinta-tenue); letter-spacing: 0.08em; text-transform: uppercase; }
+.adivinanza-juego__pregunta {
+  position: relative;
+  padding: clamp(24px, 4vw, 38px);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(255, 209, 102, 0.18), transparent 35%),
+    var(--degradado-noche);
+  color: #fff;
+  margin-bottom: 18px;
+}
+.adivinanza-juego__pregunta p {
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-size: clamp(1.4rem, 3vw, 2.1rem);
+  font-weight: 700;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+.adivinanza-juego__pista { display: flex; gap: 8px; align-items: flex-start; margin-top: 16px; color: #d7d0ea; font-family: var(--fuente-texto); font-size: 0.84rem; line-height: 1.5; }
+.adivinanza-juego__pista .icono { color: #ffd166; flex-shrink: 0; }
+.opciones-adivinanza { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.opcion-adivinanza {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1.5px solid var(--borde);
+  border-radius: 14px;
+  background: var(--superficie-solida);
+  color: var(--tinta);
+  font-weight: 800;
+  font-size: 0.9rem;
+  text-align: left;
+  transition: var(--transicion);
+}
+.opcion-adivinanza:hover { border-color: var(--primario-2); background: var(--primario-suave); }
+.opcion-adivinanza__letra { width: 27px; height: 27px; display: grid; place-items: center; border-radius: 50%; background: var(--fondo-2); font-size: 0.72rem; font-weight: 900; flex-shrink: 0; }
+.opcion-adivinanza.correcta { border-color: var(--verde); background: color-mix(in srgb, var(--verde) 12%, var(--superficie-solida)); color: var(--verde); }
+.opcion-adivinanza.incorrecta { border-color: var(--rojo); background: color-mix(in srgb, var(--rojo) 10%, var(--superficie-solida)); color: var(--rojo); }
+.opcion-adivinanza[disabled] { pointer-events: none; }
+.retroalimentacion {
+  display: flex;
+  gap: 11px;
+  padding: 14px 16px;
+  margin-top: 16px;
+  border-radius: 13px;
+  background: var(--turquesa-suave);
+  border-left: 4px solid var(--turquesa);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+.retroalimentacion--error { background: color-mix(in srgb, var(--rojo) 9%, var(--superficie-solida)); border-left-color: var(--rojo); }
+.retroalimentacion .icono { color: var(--turquesa); flex-shrink: 0; margin-top: 2px; }
+.retroalimentacion--error .icono { color: var(--rojo); }
+.retroalimentacion p { margin: 0; }
+.adivinanza-juego__pie { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; }
+
+/* ---------- Trabalenguas ---------- */
+.traba-juego { max-width: 760px; margin-inline: auto; }
+.traba-juego__tarjeta {
+  padding: clamp(24px, 4vw, 40px);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 15% 12%, rgba(255, 143, 171, 0.2), transparent 35%),
+    var(--superficie-solida);
+  border: 1px solid var(--borde);
+  box-shadow: var(--sombra-xs);
+  text-align: center;
+}
+.traba-juego__nivel { margin-bottom: 14px; }
+.traba-juego__texto { font-family: var(--fuente-titulo); font-size: clamp(1.4rem, 3vw, 2.2rem); line-height: 1.4; color: var(--tinta); margin: 0 0 18px; text-wrap: balance; }
+.traba-juego__reto { display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px; border-radius: 999px; background: var(--dorado-suave); color: #8a5b00; font-size: 0.78rem; font-weight: 800; }
+html[data-tema="oscuro"] .traba-juego__reto { color: var(--dorado); }
+.traba-juego__acciones { display: flex; justify-content: center; flex-wrap: wrap; gap: 9px; margin-top: 22px; }
+.traba-juego__pie { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 18px; font-size: 0.78rem; color: var(--tinta-suave); }
+.cronometro { display: inline-flex; align-items: center; gap: 7px; font-variant-numeric: tabular-nums; font-weight: 900; color: var(--primario); }
+.cronometro .icono { width: 1em; height: 1em; }
+
+/* ---------- Rompecabezas ---------- */
+.puzzle-layout { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: clamp(18px, 3vw, 34px); align-items: start; }
+.puzzle-marco { display: grid; place-items: center; }
+.puzzle-tablero {
+  display: grid;
+  grid-template-columns: repeat(var(--n), 1fr);
+  gap: 3px;
+  width: min(100%, 550px);
+  aspect-ratio: 1;
+  padding: 6px;
+  border-radius: 16px;
+  background: var(--fondo-2);
+  border: 1px solid var(--borde);
+  position: relative;
+  touch-action: manipulation;
+}
+.pieza {
+  position: relative;
+  border: 0;
+  padding: 0;
+  border-radius: 5px;
+  background-color: var(--fondo-3);
+  background-repeat: no-repeat;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+}
+.pieza:hover { filter: brightness(1.06); box-shadow: inset 0 0 0 3px rgba(255, 209, 102, 0.8); }
+.pieza--vacia { background: var(--fondo); border: 1px dashed var(--borde-fuerte); cursor: default; box-shadow: none; }
+.pieza__num {
+  position: absolute;
+  top: 3px; left: 3px;
+  min-width: 17px; height: 17px;
+  display: grid; place-items: center;
+  padding: 0 3px;
+  border-radius: 4px;
+  background: rgba(16, 11, 38, 0.55);
+  color: #fff;
+  font-size: 0.55rem;
+  font-weight: 900;
+}
+.puzzle-preview { width: 100%; border-radius: 14px; border: 1px solid var(--borde); overflow: hidden; }
+.puzzle-preview img { width: 100%; height: auto; }
+.puzzle-lado { display: flex; flex-direction: column; gap: 13px; }
+.puzzle-lado h2 { font-family: var(--fuente-texto); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tinta-tenue); margin: 0; }
+.puzzle-datos { display: flex; gap: 8px; flex-wrap: wrap; }
+.puzzle-dato { flex: 1; min-width: 80px; padding: 10px; border-radius: 10px; background: var(--fondo-2); text-align: center; }
+.puzzle-dato strong { display: block; font-family: var(--fuente-titulo); font-size: 1.3rem; line-height: 1.1; }
+.puzzle-dato span { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--tinta-suave); font-weight: 800; }
+.selector-dificultad { display: flex; gap: 6px; flex-wrap: wrap; }
+.selector-dificultad button {
+  flex: 1;
+  min-width: 52px;
+  padding: 8px;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  background: var(--superficie-solida);
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+.selector-dificultad button[aria-pressed="true"] { border-color: var(--primario); background: var(--primario-suave); color: var(--primario); }
+
+/* ---------- Comprensión lectora ---------- */
+.comprension-layout { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: clamp(20px, 3vw, 36px); align-items: start; }
+.texto-actividad {
+  padding: clamp(20px, 3vw, 32px);
+  border-radius: 20px;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+.texto-actividad h2 { font-size: 1.4rem; margin-bottom: 12px; }
+.texto-actividad p { margin-bottom: 0.8em; }
+.texto-actividad p:last-child { margin-bottom: 0; }
+.comprension-preguntas { display: flex; flex-direction: column; gap: 14px; }
+.pregunta-comprension { padding: 16px 18px; border: 1px solid var(--borde); border-radius: 16px; background: var(--superficie-solida); }
+.pregunta-comprension legend, .pregunta-comprension__titulo { display: block; font-weight: 800; font-size: 0.88rem; margin-bottom: 9px; line-height: 1.45; padding: 0; }
+.pregunta-comprension label { display: flex; align-items: flex-start; gap: 8px; padding: 7px 8px; margin: 0 -8px; border-radius: 7px; cursor: pointer; font-size: 0.82rem; color: var(--tinta-suave); }
+.pregunta-comprension label:hover { background: var(--fondo-2); }
+.pregunta-comprension input { margin-top: 4px; accent-color: var(--primario); }
+.pregunta-comprension.correcta { border-color: var(--verde); background: color-mix(in srgb, var(--verde) 6%, var(--superficie-solida)); }
+.pregunta-comprension.incorrecta { border-color: var(--rojo); background: color-mix(in srgb, var(--rojo) 6%, var(--superficie-solida)); }
+.pregunta-comprension label.elegida-bien { color: var(--verde); font-weight: 800; }
+.pregunta-comprension label.elegida-mal { color: var(--rojo); font-weight: 800; text-decoration: line-through; }
+.explicacion-pregunta { margin: 8px 0 0; padding: 9px 11px; border-radius: 8px; background: var(--fondo-2); font-size: 0.76rem; color: var(--tinta-suave); line-height: 1.5; }
+
+/* ---------- Completa la palabra ---------- */
+.completa-juego { max-width: 700px; margin-inline: auto; text-align: center; }
+.completa-pista { display: inline-flex; align-items: center; gap: 7px; padding: 7px 13px; border-radius: 999px; background: var(--primario-suave); color: var(--primario); font-size: 0.8rem; font-weight: 800; margin-bottom: 20px; }
+.completa-palabra { display: flex; justify-content: center; gap: clamp(5px, 1.2vw, 10px); flex-wrap: wrap; margin: 8px 0 26px; }
+.letra-fija, .letra-slot {
+  width: clamp(38px, 8vw, 58px);
+  height: clamp(48px, 10vw, 66px);
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  font-family: var(--fuente-titulo);
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.letra-fija { color: var(--tinta); background: var(--fondo-2); border: 1px solid var(--borde); }
+.letra-slot { position: relative; border: 2px dashed var(--borde-fuerte); background: var(--superficie-solida); }
+.letra-slot input {
+  width: 100%; height: 100%;
+  border: 0; background: transparent;
+  text-align: center;
+  text-transform: uppercase;
+  font: inherit;
+  color: var(--primario);
+  border-radius: inherit;
+  outline: none;
+}
+.letra-slot:focus-within { border-color: var(--primario); box-shadow: 0 0 0 4px color-mix(in srgb, var(--primario) 12%, transparent); }
+.letra-slot.correcta { border-style: solid; border-color: var(--verde); background: color-mix(in srgb, var(--verde) 12%, var(--superficie-solida)); color: var(--verde); }
+.letra-slot.incorrecta { border-style: solid; border-color: var(--rojo); background: color-mix(in srgb, var(--rojo) 10%, var(--superficie-solida)); }
+.letra-slot.correcta input { color: var(--verde); }
+.banco-letras { display: flex; flex-wrap: wrap; justify-content: center; gap: 7px; margin-bottom: 20px; }
+.letra-banco {
+  width: 44px; height: 44px;
+  display: grid; place-items: center;
+  border: 1px solid var(--borde);
+  border-radius: 9px;
+  background: var(--superficie-solida);
+  color: var(--tinta);
+  font-weight: 900;
+  font-size: 1.1rem;
+  transition: var(--transicion);
+}
+.letra-banco:hover { background: var(--primario-suave); border-color: var(--primario-2); color: var(--primario); transform: translateY(-2px); }
+.letra-banco.usada { opacity: 0.3; pointer-events: none; }
+.completa-acciones { display: flex; justify-content: center; gap: 9px; flex-wrap: wrap; }
+
+/* ---------- Resultado ---------- */
+.resultado-juego {
+  max-width: 640px;
+  margin: 10px auto;
+  padding: clamp(26px, 5vw, 44px);
+  text-align: center;
+  border: 1px solid var(--borde);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--dorado) 20%, transparent), transparent 45%),
+    var(--superficie-solida);
+  animation: entrar-resultado 440ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+@keyframes entrar-resultado { from { opacity: 0; transform: scale(0.94) translateY(14px); } }
+.resultado-juego__icono {
+  width: 84px; height: 84px;
+  display: grid; place-items: center;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  background: var(--dorado-suave);
+  color: #9a6700;
+  animation: flotar-icono 3s ease-in-out infinite;
+}
+html[data-tema="oscuro"] .resultado-juego__icono { color: var(--dorado); }
+.resultado-juego__icono .icono { width: 42px; height: 42px; }
+@keyframes flotar-icono { 50% { transform: translateY(-5px); } }
+.resultado-juego h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); margin-bottom: 6px; }
+.resultado-juego__mensaje { color: var(--tinta-suave); max-width: 46ch; margin: 0 auto 16px; }
+.resultado-juego__estrellas { display: flex; justify-content: center; gap: 7px; margin: 14px 0; }
+.resultado-juego__estrellas .icono { width: 34px; height: 34px; color: var(--fondo-3); stroke: none; fill: currentColor; }
+.resultado-juego__estrellas .icono.activa { color: var(--dorado); animation: aparecer-estrella 400ms both; }
+.resultado-juego__estrellas .icono:nth-child(2) { animation-delay: 120ms; }
+.resultado-juego__estrellas .icono:nth-child(3) { animation-delay: 240ms; }
+@keyframes aparecer-estrella { from { transform: scale(0) rotate(-30deg); } }
+.resultado-juego__datos { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin: 18px 0 22px; }
+.resultado-juego__datos div { text-align: center; }
+.resultado-juego__datos strong { display: block; font-family: var(--fuente-titulo); font-size: 1.5rem; line-height: 1.1; }
+.resultado-juego__datos span { font-size: 0.66rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--tinta-suave); font-weight: 800; }
+.resultado-juego__acciones { display: flex; justify-content: center; flex-wrap: wrap; gap: 9px; }
+.resultado-juego__nota { margin: 16px 0 0; font-size: 0.74rem; color: var(--tinta-tenue); }
+
+/* ---------- Ficha PDF generada (solo impresión) ---------- */
+.hoja-juego { display: none; }
+@media print {
+  body.imprimir-juego .cabecera,
+  body.imprimir-juego .pie,
+  body.imprimir-juego .mascota-flotante,
+  body.imprimir-juego .burbuja-mascota,
+  body.imprimir-juego .fondo-magico,
+  body.imprimir-juego .toasts,
+  body.imprimir-juego .confeti,
+  body.imprimir-juego dialog { display: none !important; }
+  body.imprimir-juego .pagina-juego > .contenedor > *:not(.hoja-juego) { display: none !important; }
+  body.imprimir-juego .hoja-juego { display: block !important; color: #19123b; font-family: Arial, Helvetica, sans-serif; }
+  .hoja-juego__cabecera { display: flex; align-items: center; gap: 14px; border-bottom: 3px solid #6b4de6; padding-bottom: 10px; margin-bottom: 14px; }
+  .hoja-juego__marca { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 12px; background: #efe9ff; color: #6b4de6; }
+  .hoja-juego__marca svg { width: 26px; height: 26px; }
+  .hoja-juego__cabecera span { font-size: 9pt; letter-spacing: 0.12em; text-transform: uppercase; color: #6b4de6; font-weight: 800; }
+  .hoja-juego__cabecera h1 { font-size: 20pt; margin: 2px 0 0; }
+  .hoja-juego__datos { display: flex; gap: 22px; font-size: 10pt; margin-bottom: 12px; }
+  .hoja-juego__datos i { display: inline-block; width: 140px; border-bottom: 1px solid #999; }
+  .hoja-juego__instrucciones { font-size: 10.5pt; line-height: 1.5; background: #f5f1ff; padding: 10px 12px; border-radius: 6px; margin: 0 0 18px; }
+  .hoja-juego__pie { margin-top: 22px; border-top: 1px solid #ddd; padding-top: 8px; font-size: 8pt; color: #777; text-align: center; }
+  .sopa-tablero-impreso { display: grid; grid-template-columns: repeat(var(--n), 1fr); gap: 2px; width: min(150mm, 100%); margin: 0 auto 16px; }
+  .sopa-tablero-impreso span { aspect-ratio: 1; display: grid; place-items: center; border: 1px solid #bbb; font-size: 12pt; font-weight: 800; }
+  .hoja-lista-palabras { display: flex; flex-wrap: wrap; gap: 10px 22px; text-transform: uppercase; font-weight: 800; font-size: 11pt; }
+  .hoja-solucion { break-before: page; padding-top: 10mm; }
+  .hoja-solucion h2 { font-size: 15pt; color: #6b4de6; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+  .hoja-solucion p, .hoja-solucion li { font-size: 11pt; line-height: 1.7; }
+  .crucigrama-impreso { display: grid; grid-template-columns: repeat(var(--cols), 9mm); gap: 1px; width: max-content; margin: 0 0 16px; }
+  .crucigrama-impreso > div { width: 9mm; height: 9mm; border: 1px solid #666; position: relative; }
+  .crucigrama-impreso > div.vacio { border-color: transparent; }
+  .crucigrama-impreso small { position: absolute; top: 0; left: 1px; font-size: 6pt; color: #888; }
+  .hoja-pistas { font-size: 10.5pt; line-height: 1.6; columns: 2; }
+  .hoja-memorama { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .hoja-memorama > div { border: 1px dashed #999; border-radius: 6px; min-height: 24mm; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+  .hoja-memorama svg { width: 24px; height: 24px; color: #6b4de6; }
+  .hoja-memorama strong { font-size: 9pt; }
+  .hoja-preguntas { font-size: 11pt; line-height: 1.6; padding-left: 20px; }
+  .hoja-preguntas li { margin-bottom: 12mm; break-inside: avoid; }
+  .hoja-preguntas small { display: block; font-size: 8pt; color: #777; }
+  .hoja-linea { border-bottom: 1px solid #aaa; height: 8mm; margin-top: 4mm; }
+  .hoja-linea.corta { width: 55%; }
+  .hoja-texto { padding: 12px; background: #f7f4ff; border-left: 3px solid #6b4de6; font-size: 10.5pt; line-height: 1.65; margin-bottom: 16px; }
+  .puzzle-impreso img { width: min(150mm, 100%); border: 1px solid #ccc; }
+  .puzzle-rejilla { display: grid; grid-template-columns: repeat(var(--n), 1fr); width: min(150mm, 100%); margin-top: 6px; }
+  .puzzle-rejilla span { aspect-ratio: 4 / 3; border: 1px dashed #999; }
+}
+
+/* ---------- Ayuda lateral ---------- */
+.juego-ayuda {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--fondo-2);
+  font-size: 0.8rem;
+  color: var(--tinta-suave);
+  line-height: 1.5;
+}
+.juego-ayuda .icono { color: var(--primario); flex-shrink: 0; margin-top: 2px; }
+.juego-ayuda p { margin: 0; }
+
+@media (max-width: 900px) {
+  .sopa-layout, .crucigrama-layout, .puzzle-layout, .comprension-layout { grid-template-columns: 1fr; }
+  .sopa-palabras { order: -1; }
+  .sopa-palabras ul { flex-direction: row; flex-wrap: wrap; }
+  .sopa-palabras li { font-size: 0.7rem; padding: 4px 7px; }
+  .puzzle-lado { order: -1; }
+  .puzzle-preview { display: none; }
+  .rejilla-seleccion { grid-template-columns: repeat(2, 1fr); }
+  .juego-cabecera { flex-wrap: wrap; }
+  .juego-cabecera__acciones { margin-left: 58px; }
+}
+@media (max-width: 620px) {
+  .juego-panel__cuerpo { padding: 14px; }
+  .juego-panel__barra { padding: 12px 14px; }
+  .rejilla-seleccion { grid-template-columns: 1fr; }
+  .opciones-adivinanza { grid-template-columns: 1fr; }
+  .sopa-tablero { gap: 2px; padding: 5px; border-radius: 12px; }
+  .celda { border-radius: 4px; font-size: clamp(0.58rem, calc(26vw / var(--n)), 0.95rem); }
+  .memorama-tablero { --cols: 4 !important; gap: 6px; }
+  .carta-memoria__frente .icono { width: 46%; height: 46%; }
+  .carta-memoria__nombre { display: none; }
+  .juego-cabecera__acciones { margin-left: 0; }
+  .juego-cabecera__volver .texto-volver { display: none; }
+  .letra-fija, .letra-slot { width: 34px; height: 44px; font-size: 1.25rem; }
+  .letra-banco { width: 38px; height: 38px; font-size: 0.95rem; }
+  .resultado-juego__estrellas .icono { width: 26px; height: 26px; }
+  .traba-juego__texto { font-size: 1.3rem; }
+}

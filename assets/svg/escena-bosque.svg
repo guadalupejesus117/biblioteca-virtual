@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Un bosque de cuento con árboles, setas luminosas y un sendero">
+  <defs>
+    <linearGradient id="b-cielo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b2b31"/><stop offset=".5" stop-color="#1c5f58"/><stop offset="1" stop-color="#5fae87"/></linearGradient>
+    <linearGradient id="b-suelo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#315b42"/><stop offset="1" stop-color="#133126"/></linearGradient>
+    <linearGradient id="b-arbol" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f7f66"/><stop offset="1" stop-color="#16524b"/></linearGradient>
+    <radialGradient id="b-luz" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff3b0" stop-opacity=".9"/><stop offset="1" stop-color="#ffd166" stop-opacity="0"/></radialGradient>
+    <filter id="b-brillo" x="-70%" y="-70%" width="240%" height="240%"><feGaussianBlur stdDeviation="10"/></filter>
+  </defs>
+  <rect width="600" height="600" fill="url(#b-cielo)"/>
+  <circle cx="300" cy="180" r="140" fill="#b8f2d8" opacity=".13" filter="url(#b-brillo)"/>
+  <g fill="#d7ffe9">
+    <circle cx="105" cy="94" r="2.4"/><circle cx="217" cy="54" r="2"/><circle cx="376" cy="82" r="2.8"/><circle cx="505" cy="142" r="2.2"/><circle cx="465" cy="52" r="1.8"/><circle cx="58" cy="198" r="2"/><circle cx="548" cy="244" r="2.5"/>
+  </g>
+  <path d="M0 437c75-31 137-39 201-28 76 13 122 44 197 38 70-6 132-37 202-12v165H0Z" fill="url(#b-suelo)"/>
+  <!-- sendero -->
+  <path d="M274 600c8-60 12-108 5-145-7-38 4-68 24-92 13-17 30-27 43-41 12-14 7-30 14-44 2 24 16 40 4 60-12 20-35 33-46 54-13 25-20 53-13 95 4 22 1 65-9 113Z" fill="#c9a86e" opacity=".55"/>
+  <path d="M278 600c5-56 7-102 1-138-7-43 5-76 27-103 12-15 26-24 37-37" fill="none" stroke="#f1d9a3" stroke-width="7" stroke-linecap="round" opacity=".35" stroke-dasharray="2 18"/>
+  <!-- árboles traseros -->
+  <g opacity=".6">
+    <path d="m92 440 32-96 32 96Z" fill="#1b5a4c"/>
+    <path d="m162 450 26-74 26 74Z" fill="#1b5a4c"/>
+    <path d="m438 450 30-88 30 88Z" fill="#1b5a4c"/>
+    <path d="m506 442 26-72 26 72Z" fill="#1b5a4c"/>
+  </g>
+  <!-- árbol izquierdo -->
+  <g>
+    <path d="M32 436c12-47 53-77 99-77 40 0 76 20 94 51-14 0-24 7-31 20-23-13-49-16-73-8-29 9-47 31-52 57-19-8-31-14-37-14Z" fill="url(#b-arbol)"/>
+    <path d="M41 486c21-35 55-52 92-46 29 5 48 23 59 43-21-8-41-6-60 5-28 15-41 39-46 64-20-22-35-44-45-66Z" fill="#236d59"/>
+    <path d="M118 531c-4-57 1-101 16-133" fill="none" stroke="#123a31" stroke-width="19" stroke-linecap="round"/>
+    <path d="M132 418c-17-24-33-36-54-43M136 447c20-20 37-29 59-31" fill="none" stroke="#123a31" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  <!-- árbol derecho -->
+  <g>
+    <path d="M399 421c15-42 53-67 96-64 40 3 72 25 86 56-19-3-34 2-45 16-17-18-41-27-67-23-28 4-48 21-59 44-7-15-11-25-11-29Z" fill="url(#b-arbol)"/>
+    <path d="M404 478c26-33 63-43 98-30 27 10 43 31 50 55-23-13-46-15-69-5-23 9-38 28-47 50-18-25-29-48-32-70Z" fill="#2a7a62"/>
+    <path d="M501 523c-2-46 3-82 16-110" fill="none" stroke="#123a31" stroke-width="16" stroke-linecap="round"/>
+    <path d="M512 438c16-19 32-28 51-32" fill="none" stroke="#123a31" stroke-width="7" stroke-linecap="round"/>
+  </g>
+  <!-- setas luminosas -->
+  <g>
+    <ellipse cx="205" cy="520" rx="44" ry="26" fill="url(#b-luz)" filter="url(#b-brillo)"/>
+    <path d="M199 520c0-15 3-24 8-32 5 8 8 17 8 32Z" fill="#f5e8c8"/>
+    <path d="M178 502c4-24 19-38 29-38s25 14 29 38c-9 8-18 11-29 11s-20-3-29-11Z" fill="#ff8fab" stroke="#b64568" stroke-width="3"/>
+    <circle cx="198" cy="491" r="3" fill="#fff2d9"/><circle cx="219" cy="497" r="2.5" fill="#fff2d9"/>
+  </g>
+  <g>
+    <ellipse cx="410" cy="548" rx="32" ry="20" fill="url(#b-luz)" filter="url(#b-brillo)"/>
+    <path d="M406 548c0-10 2-17 5-22 4 5 6 12 6 22Z" fill="#f5e8c8"/>
+    <path d="M391 536c3-17 14-27 21-27s18 10 21 27c-7 5-13 7-21 7s-14-2-21-7Z" fill="#ffd166" stroke="#a0681e" stroke-width="2.5"/>
+  </g>
+  <!-- luciérnagas -->
+  <g fill="#fff4a8">
+    <circle cx="150" cy="396" r="3"/><circle cx="340" cy="440" r="3.4"/><circle cx="474" cy="360" r="2.6"/><circle cx="246" cy="350" r="2.4"/><circle cx="94" cy="352" r="2.2"/><circle cx="510" cy="482" r="2.8"/>
+  </g>
+  <g fill="#fff4a8" opacity=".25" filter="url(#b-brillo)">
+    <circle cx="150" cy="396" r="8"/><circle cx="340" cy="440" r="9"/><circle cx="474" cy="360" r="7"/><circle cx="246" cy="350" r="6"/>
+  </g>
+  <!-- libro olvidado -->
+  <g transform="translate(472 510) rotate(-8)">
+    <path d="M0 0c12-6 25-4 38 4v26C25 22 12 20 0 26Z" fill="#b9a6ff" stroke="#4c3a9e" stroke-width="3"/>
+    <path d="M38 4c12 8 23 10 34 5v26c-11 5-22 3-34-5Z" fill="#e6deff" stroke="#4c3a9e" stroke-width="3"/>
+  </g>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Icono de Biblioteca Virtual: un libro abierto y una estrella">
+  <defs>
+    <linearGradient id="i-fondo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2a1b5e"/><stop offset=".55" stop-color="#4330b8"/><stop offset="1" stop-color="#b64586"/>
+    </linearGradient>
+    <linearGradient id="i-pagina" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#ffd9b8"/>
+    </linearGradient>
+    <linearGradient id="i-estrella" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffe08a"/><stop offset="1" stop-color="#ffb347"/>
+    </linearGradient>
+    <filter id="i-sombra" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#09061c" flood-opacity=".4"/></filter>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#i-fondo)"/>
+  <circle cx="132" cy="118" r="4" fill="#fff" opacity=".7"/>
+  <circle cx="402" cy="150" r="5" fill="#ffd166" opacity=".8"/>
+  <circle cx="378" cy="362" r="3.5" fill="#fff" opacity=".55"/>
+  <circle cx="112" cy="338" r="3" fill="#ff8fab" opacity=".7"/>
+  <path d="m400 82 8 16 18 2.7-13 12.8 3 18-16-8.7-16 8.7 3-18-13-12.8 18-2.7 8-16Z" fill="url(#i-estrella)" filter="url(#i-sombra)"/>
+  <g filter="url(#i-sombra)">
+    <path d="M92 190c52-16 105-8 154 25v196c-49-33-102-41-154-25V190Z" fill="url(#i-pagina)"/>
+    <path d="M420 190c-52-16-105-8-154 25v196c49-33 102-41 154-25V190Z" fill="url(#i-pagina)"/>
+    <path d="M256 218v190" stroke="#8c6a5c" stroke-width="10" stroke-linecap="round"/>
+    <path d="M124 232c31-6 60-1 88 13M124 274c31-6 60-1 88 13M124 316c31-6 60-1 88 13M124 358c31-6 60-1 88 13" fill="none" stroke="#c9a58f" stroke-width="9" stroke-linecap="round" opacity=".8"/>
+    <path d="M388 232c-31-6-60-1-88 13M388 274c-31-6-60-1-88 13M388 316c-31-6-60-1-88 13M388 358c-31-6-60-1-88 13" fill="none" stroke="#c9a58f" stroke-width="9" stroke-linecap="round" opacity=".8"/>
+    <path d="M256 190c-8-17-25-28-46-32" fill="none" stroke="#ffd166" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  <path d="m256 110 11 22 24 3.6-17.5 17 4 24-21.5-11.7-21.5 11.7 4-24-17.5-17 24-3.6 11-22Z" fill="url(#i-estrella)"/>
+</svg>

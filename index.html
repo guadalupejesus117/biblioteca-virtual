@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es" data-tema="claro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Biblioteca Virtual · Un mundo de historias para leer y jugar</title>
+  <meta name="description" content="Biblioteca Virtual educativa para preescolar, primaria y secundaria: clásicos, cuentos, poemas, leyendas, juegos de lectura, logros y diplomas. Accesible, gratuita y sin publicidad.">
+  <meta name="theme-color" content="#19123b">
+  <meta name="color-scheme" content="light dark">
+  <meta property="og:title" content="Biblioteca Virtual · Un mundo de historias">
+  <meta property="og:description" content="Lee, escucha y juega. Una biblioteca mágica para estudiantes de preescolar, primaria y secundaria.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/img/og-biblioteca.png">
+  <link rel="icon" href="assets/img/icono-biblioteca.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/img/icono-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/paginas.css">
+  <link rel="stylesheet" href="css/juegos.css">
+  <link rel="stylesheet" href="css/lector.css">
+  <link rel="stylesheet" href="css/adaptable.css">
+</head>
+<body>
+  <a class="salto-contenido" href="#vista">Saltar al contenido principal</a>
+
+  <div class="fondo-magico" aria-hidden="true">
+    <span class="fondo-magico__brillo fondo-magico__brillo--1"></span>
+    <span class="fondo-magico__brillo fondo-magico__brillo--2"></span>
+    <span class="fondo-magico__brillo fondo-magico__brillo--3"></span>
+    <span class="fondo-magico__estrella" style="--x:8%;--y:18%;--d:0s"></span>
+    <span class="fondo-magico__estrella" style="--x:22%;--y:64%;--d:1.4s"></span>
+    <span class="fondo-magico__estrella" style="--x:78%;--y:12%;--d:.8s"></span>
+    <span class="fondo-magico__estrella" style="--x:92%;--y:44%;--d:2.1s"></span>
+    <span class="fondo-magico__estrella" style="--x:64%;--y:82%;--d:1.9s"></span>
+  </div>
+
+  <header class="cabecera" id="cabecera">
+    <div class="cabecera__interior">
+      <a class="marca" href="#/inicio" aria-label="Biblioteca Virtual, ir al inicio">
+        <span class="marca__icono" aria-hidden="true">
+          <svg viewBox="0 0 48 48" class="marca__svg">
+            <defs>
+              <linearGradient id="marca-grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#ffd166"/><stop offset="1" stop-color="#ff8fab"/>
+              </linearGradient>
+            </defs>
+            <path d="M6 12c6-2 12-1 18 3v27c-6-4-12-5-18-3V12Z" fill="#ffffff" opacity=".95"/>
+            <path d="M42 12c-6-2-12-1-18 3v27c6-4 12-5 18-3V12Z" fill="url(#marca-grad)"/>
+            <path d="M24 15v27" stroke="#19123b" stroke-width="2" stroke-linecap="round"/>
+            <path d="m33 4 1.7 3.5 3.8.5-2.8 2.6.7 3.8-3.4-1.8-3.4 1.8.7-3.8L27.5 8l3.8-.5L33 4Z" fill="#ffd166"/>
+          </svg>
+        </span>
+        <span class="marca__texto">
+          <strong>Biblioteca</strong>
+          <span>Virtual</span>
+        </span>
+      </a>
+
+      <nav class="nav-principal" id="nav-principal" aria-label="Secciones de la biblioteca">
+        <a href="#/inicio" data-nav="inicio">Inicio</a>
+        <a href="#/biblioteca" data-nav="biblioteca">Biblioteca</a>
+        <a href="#/generos" data-nav="generos">Géneros</a>
+        <a href="#/cuentos" data-nav="cuentos">Cuentos</a>
+        <a href="#/juegos" data-nav="juegos">Juegos</a>
+        <a href="#/logros" data-nav="logros">Mis logros</a>
+        <div class="nav-mas" id="nav-mas">
+          <button type="button" class="nav-mas__boton" id="btn-nav-mas" aria-expanded="false" aria-controls="nav-mas-lista">
+            Más <svg class="icono icono--xs" aria-hidden="true"><use href="assets/svg/iconos.svg#chevron-down"></use></svg>
+          </button>
+          <div class="nav-mas__lista" id="nav-mas-lista" hidden>
+            <a href="#/trabalenguas" data-nav="trabalenguas"><svg class="icono" aria-hidden="true"><use href="assets/svg/iconos.svg#speech"></use></svg> Trabalenguas</a>
+            <a href="#/adivinanzas" data-nav="adivinanzas"><svg class="icono" aria-hidden="true"><use href="assets/svg/iconos.svg#circle-help"></use></svg> Adivinanzas</a>
+            <a href="#/favoritos" data-nav="favoritos"><svg class="icono" aria-hidden="true"><use href="assets/svg/iconos.svg#heart"></use></svg> Favoritos</a>
+            <a href="#/informacion" data-nav="informacion"><svg class="icono" aria-hidden="true"><use href="assets/svg/iconos.svg#info"></use></svg> Información</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="acciones-cabecera">
+        <form class="buscador-cabecera" id="form-buscar-cabecera" role="search">
+          <label class="visualmente-oculto" for="busqueda-cabecera">Buscar libros, cuentos y juegos</label>
+          <input type="search" id="busqueda-cabecera" name="q" placeholder="Buscar historias…" autocomplete="off" enterkeyhint="search">
+          <button type="submit" aria-label="Buscar">
+            <svg class="icono" aria-hidden="true"><use href="assets/svg/iconos.svg#search"></use></svg>
+          </button>
+        </form>
+        <a class="accion-icono accion-icono--estrellas" href="#/logros" title="Tus estrellas" aria-label="Ver tus estrellas">
+          <svg class="icono" aria-hidden="true"><use href="assets/svg/iconos.svg#star"></use></svg>
+          <span id="contador-estrellas" class="contador">0</span>
+        </a>
+        <a class="accion-icono" href="#/favoritos" title="Favoritos" aria-label="Ver tus favoritos">
+          <svg class="icono" aria-hidden="true"><use href="assets/svg/iconos.svg#heart"></use></svg>
+          <span id="contador-favoritos" class="insignia-contador" hidden>0</span>
+        </a>
+        <button type="button" class="accion-icono" id="btn-ajustes" aria-label="Abrir ajustes de accesibilidad" title="Ajustes de accesibilidad">
+          <svg class="icono" aria-hidden="true"><use href="assets/svg/iconos.svg#settings"></use></svg>
+        </button>
+        <button type="button" class="accion-icono boton-menu" id="btn-menu" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="nav-principal">
+          <svg class="icono" aria-hidden="true"><use href="assets/svg/iconos.svg#menu"></use></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="vista" tabindex="-1" aria-label="Contenido de la biblioteca">
+    <div class="cargando-pagina">
+      <span class="cargando-pagina__libro"></span>
+      <p>Abriendo la biblioteca…</p>
+    </div>
+  </main>
+
+  <footer class="pie" id="pie">
+    <div class="pie__interior">
+      <div class="pie__marca">
+        <span class="marca__icono marca__icono--grande" aria-hidden="true">
+          <svg viewBox="0 0 48 48">
+            <path d="M6 12c6-2 12-1 18 3v27c-6-4-12-5-18-3V12Z" fill="currentColor" opacity=".12"/>
+            <path d="M42 12c-6-2-12-1-18 3v27c6-4 12-5 18-3V12Z" fill="currentColor" opacity=".22"/>
+            <path d="M24 15v27" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="m33 4 1.7 3.5 3.8.5-2.8 2.6.7 3.8-3.4-1.8-3.4 1.8.7-3.8L27.5 8l3.8-.5L33 4Z" fill="#ffd166"/>
+          </svg>
+        </span>
+        <div>
+          <strong>Biblioteca Virtual</strong>
+          <p>Un mundo de historias para leer, escuchar y jugar.</p>
+        </div>
+      </div>
+      <nav class="pie__columnas" aria-label="Enlaces del pie de página">
+        <div>
+          <h2>Explora</h2>
+          <a href="#/biblioteca">Biblioteca</a>
+          <a href="#/cuentos">Cuentos</a>
+          <a href="#/juegos">Juegos</a>
+          <a href="#/logros">Mis logros</a>
+        </div>
+        <div>
+          <h2>Ayuda</h2>
+          <a href="#/informacion">Cómo usar la biblioteca</a>
+          <a href="#/informacion#accesibilidad">Accesibilidad</a>
+          <a href="#/informacion#licencias">Licencias y derechos</a>
+          <a href="#/informacion#privacidad">Privacidad</a>
+        </div>
+        <div>
+          <h2>Contacto y créditos</h2>
+          <a href="https://github.com/guadalupejesus117/biblioteca-virtual" target="_blank" rel="noopener noreferrer">Código en GitHub <svg class="icono icono--xs" aria-hidden="true"><use href="assets/svg/iconos.svg#external-link"></use></svg></a>
+          <a href="#/informacion#creditos">Créditos y tecnologías</a>
+          <a href="#/informacion#fuentes">Fuentes consultadas</a>
+          <a href="#/informacion#aviso">Aviso educativo</a>
+        </div>
+      </nav>
+    </div>
+    <div class="pie__legal">
+      <p>© <span id="anio-actual">2026</span> Biblioteca Virtual. Contenido propio bajo <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>, salvo donde se indique otra licencia.</p>
+      <p>Sin publicidad, sin cuentas y sin rastreo. Tus logros se guardan solo en este dispositivo.</p>
+    </div>
+  </footer>
+
+  <button type="button" class="mascota-flotante" id="mascota-flotante" aria-expanded="false" aria-controls="burbuja-mascota" title="Hablar con Draco">
+    <img src="assets/svg/mascota-draco.svg" alt="" width="72" height="72">
+    <span class="visualmente-oculto">Abrir consejos de Draco</span>
+  </button>
+  <div class="burbuja-mascota" id="burbuja-mascota" role="status" hidden>
+    <button type="button" class="burbuja-mascota__cerrar" id="cerrar-burbuja" aria-label="Cerrar consejo">
+      <svg class="icono icono--xs" aria-hidden="true"><use href="assets/svg/iconos.svg#x"></use></svg>
+    </button>
+    <strong id="burbuja-titulo">¡Hola! Soy Draco</strong>
+    <p id="burbuja-texto">¿Buscamos una historia juntos?</p>
+    <div id="burbuja-acciones" class="burbuja-mascota__acciones"></div>
+  </div>
+
+  <dialog class="dialogo-ajustes" id="dialogo-ajustes" aria-labelledby="titulo-ajustes">
+    <div class="dialogo-ajustes__cabecera">
+      <div>
+        <span class="etiqueta">A tu manera</span>
+        <h2 id="titulo-ajustes">Ajustes de lectura</h2>
+      </div>
+      <button type="button" class="boton-cerrar" id="cerrar-ajustes" aria-label="Cerrar ajustes">
+        <svg class="icono" aria-hidden="true"><use href="assets/svg/iconos.svg#x"></use></svg>
+      </button>
+    </div>
+    <div class="dialogo-ajustes__cuerpo">
+      <section aria-labelledby="ajuste-tema">
+        <h3 id="ajuste-tema">Tema de la biblioteca</h3>
+        <div class="grupo-opciones" role="group" aria-label="Tema de color">
+          <button type="button" class="opcion-tema" data-tema-opcion="claro"><svg class="icono" aria-hidden="true"><use href="assets/svg/iconos.svg#sun"></use></svg> Claro</button>
+          <button type="button" class="opcion-tema" data-tema-opcion="oscuro"><svg class="icono" aria-hidden="true"><use href="assets/svg/iconos.svg#moon"></use></svg> Oscuro</button>
+          <button type="button" class="opcion-tema" data-tema-opcion="auto"><svg class="icono" aria-hidden="true"><use href="assets/svg/iconos.svg#sun-moon"></use></svg> Sistema</button>
+        </div>
+      </section>
+
+      <section aria-labelledby="ajuste-texto">
+        <h3 id="ajuste-texto">Tamaño del texto</h3>
+        <div class="control-texto">
+          <button type="button" class="boton-redondo" id="texto-menos" aria-label="Reducir tamaño del texto">A−</button>
+          <output id="texto-valor" for="texto-menos texto-mas">100 %</output>
+          <button type="button" class="boton-redondo" id="texto-mas" aria-label="Aumentar tamaño del texto">A+</button>
+          <button type="button" class="boton-enlace" id="texto-reset">Restablecer</button>
+        </div>
+      </section>
+
+      <section aria-labelledby="ajuste-lectura">
+        <h3 id="ajuste-lectura">Comodidad visual</h3>
+        <label class="interruptor">
+          <span><strong>Alto contraste</strong><small>Bordes y textos más definidos.</small></span>
+          <input type="checkbox" id="ajuste-contraste">
+          <span class="interruptor__pista" aria-hidden="true"></span>
+        </label>
+        <label class="interruptor">
+          <span><strong>Reducir movimiento</strong><small>Detiene animaciones y el paralaje.</small></span>
+          <input type="checkbox" id="ajuste-movimiento">
+          <span class="interruptor__pista" aria-hidden="true"></span>
+        </label>
+        <label class="interruptor">
+          <span><strong>Sonidos de la biblioteca</strong><small>Pequeños efectos al acertar o celebrar.</small></span>
+          <input type="checkbox" id="ajuste-sonido">
+          <span class="interruptor__pista" aria-hidden="true"></span>
+        </label>
+      </section>
+
+      <section aria-labelledby="ajuste-voz">
+        <h3 id="ajuste-voz">Lectura en voz alta</h3>
+        <p class="texto-ayuda">El botón «Escuchar» usa la voz de tu navegador. No se envía texto a ningún servidor.</p>
+        <label class="campo">
+          <span>Velocidad de la voz</span>
+          <input type="range" id="ajuste-velocidad" min="0.6" max="1.4" step="0.1" value="0.95">
+        </label>
+        <button type="button" class="boton boton--suave boton--pequeno" id="probar-voz">
+          <svg class="icono" aria-hidden="true"><use href="assets/svg/iconos.svg#volume-2"></use></svg> Probar voz
+        </button>
+      </section>
+
+      <section aria-labelledby="ajuste-progreso">
+        <h3 id="ajuste-progreso">Mi progreso</h3>
+        <p class="texto-ayuda">Todo se guarda en este navegador. Si borras los datos del sitio, el progreso también se borra.</p>
+        <button type="button" class="boton boton--peligro boton--pequeno" id="reiniciar-progreso">
+          <svg class="icono" aria-hidden="true"><use href="assets/svg/iconos.svg#trash-2"></use></svg> Reiniciar mi progreso
+        </button>
+      </section>
+    </div>
+  </dialog>
+
+  <dialog class="dialogo" id="dialogo" aria-labelledby="dialogo-titulo">
+    <div class="dialogo__cabecera">
+      <h2 id="dialogo-titulo">Aviso</h2>
+      <button type="button" class="boton-cerrar" id="cerrar-dialogo" aria-label="Cerrar ventana">
+        <svg class="icono" aria-hidden="true"><use href="assets/svg/iconos.svg#x"></use></svg>
+      </button>
+    </div>
+    <div class="dialogo__cuerpo" id="dialogo-cuerpo"></div>
+    <div class="dialogo__acciones" id="dialogo-acciones"></div>
+  </dialog>
+
+  <div class="toasts" id="toasts" role="status" aria-live="polite" aria-atomic="false"></div>
+  <div class="confeti" id="confeti" aria-hidden="true"></div>
+
+  <script src="data/catalogo.js" defer></script>
+  <script src="data/generos.js" defer></script>
+  <script src="data/logros.js" defer></script>
+  <script src="data/textos.js" defer></script>
+  <script src="data/juegos.js" defer></script>
+  <script src="data/clasicos.js" defer></script>
+  <script src="js/nucleo.js" defer></script>
+  <script src="js/componentes.js" defer></script>
+  <script src="js/secciones.js" defer></script>
+  <script src="js/lector.js" defer></script>
+  <script src="js/juegos.js" defer></script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>

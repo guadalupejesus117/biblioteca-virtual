@@ -1,0 +1,93 @@
+/* ============================================================
+   Biblioteca Virtual · Ajustes finos, impresión y modo lector
+   ============================================================ */
+
+body.modo-lector .pie,
+body.modo-lector .mascota-flotante,
+body.modo-lector .burbuja-mascota { display: none; }
+
+body.modo-lector .cabecera { position: relative; }
+body.modo-lector .cabecera__interior { min-height: 60px; }
+
+body.modo-lector .fondo-magico__estrella { opacity: 0.25; }
+
+/* Evita que el lector PDF tape el menú móvil */
+body.menu-abierto .lector-barra { position: static; }
+
+/* En pantallas muy anchas, las portadas no crecen sin control */
+@media (min-width: 1500px) {
+  .rejilla-libros { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+}
+
+/* Texto de solo lectura para lectores de pantalla */
+.solo-lectores {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Página de error */
+.pagina-error { min-height: 60vh; display: grid; place-content: center; text-align: center; padding: 40px 20px; }
+.pagina-error__codigo { font-family: var(--fuente-titulo); font-size: clamp(5rem, 16vw, 11rem); line-height: 0.8; color: var(--primario); opacity: 0.18; font-weight: 900; }
+.pagina-error h1 { margin-top: -14px; }
+
+/* Reporte de progreso: solo en impresión */
+.hoja-progreso { display: none; }
+@media print {
+  body.imprimir-progreso .cabecera,
+  body.imprimir-progreso .pie,
+  body.imprimir-progreso .mascota-flotante,
+  body.imprimir-progreso .burbuja-mascota,
+  body.imprimir-progreso .fondo-magico,
+  body.imprimir-progreso .toasts,
+  body.imprimir-progreso .confeti,
+  body.imprimir-progreso dialog { display: none !important; }
+  body.imprimir-progreso #vista > *:not(.hoja-progreso) { display: none !important; }
+  body.imprimir-progreso .hoja-progreso { display: block !important; color: #19123b; font-family: Arial, Helvetica, sans-serif; }
+}
+
+/* Impresión general: no imprimir menús ni controles */
+@media print {
+  body { background: #fff; color: #000; }
+  .cabecera, .pie, .mascota-flotante, .burbuja-mascota, .toasts, .fondo-magico,
+  .lector-barra, .pdf-controles, .boton, .boton-favorito, .confeti { display: none !important; }
+  .libro3d { filter: none !important; }
+  .portada { transform: none !important; box-shadow: none !important; }
+  a { color: #000; text-decoration: none; }
+  .seccion { padding: 16px 0; }
+}
+
+/* Modo de movimiento reducido activado manualmente */
+body.sin-movimiento .hero__libro-flotante,
+body.sin-movimiento .hero__mascota,
+body.sin-movimiento .fondo-magico__brillo { animation: none !important; }
+
+/* Alto contraste: refuerzos de legibilidad */
+body.alto-contraste .portada { background-image: linear-gradient(150deg, var(--p1), var(--p2)); }
+body.alto-contraste .portada__titulo { text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7); }
+body.alto-contraste .hero__entrada,
+body.alto-contraste .seccion__cabecera p,
+body.alto-contraste .tarjeta-libro__info p,
+body.alto-contraste .tarjeta-juego p { color: var(--ink, var(--tinta)); }
+body.alto-contraste .cita { outline: 3px solid #ffd166; }
+body.alto-contraste .boton--primario { outline: 2px solid #fff; outline-offset: 2px; }
+body.alto-contraste .etiqueta { font-weight: 900; }
+
+/* Foco aún más visible en tarjetas y juegos */
+body.alto-contraste :focus-visible { outline-width: 4px; }
+
+/* Ajuste para pantallas bajas */
+@media (max-height: 620px) {
+  .dialogo-ajustes__cabecera { padding-top: 14px; padding-bottom: 10px; }
+  .dialogo-ajustes__cuerpo section { padding: 14px 0; }
+}
+
+/* Enlace externo */
+a[target="_blank"]::after { content: none; }
+
+/* Reduce el riesgo de desbordamiento de palabras muy largas */
+.tarjeta-libro__info h3,
+.ficha-recurso__cabecera h1,
+.lector-texto__cuerpo { overflow-wrap: anywhere; }
