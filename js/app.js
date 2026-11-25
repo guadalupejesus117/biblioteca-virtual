@@ -334,3 +334,19 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", iniciar);
   else iniciar();
 })();
+
+(function(){
+ let promptEvent=null, installed=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+ const status=()=>document.getElementById("bv-estado-app");
+ const say=t=>{if(status())status().textContent=t;};
+ function refresh(){document.querySelectorAll("[data-bv-instalar]").forEach(b=>{b.disabled=installed;b.textContent=installed?"Biblioteca instalada":"Instalar biblioteca";});const f=document.getElementById("bv-instalar-franja");if(f)f.hidden=installed;say((installed?"Aplicación instalada. ":"Instalación disponible según tu navegador. ")+(navigator.onLine?"Con conexión.":"Sin conexión."));}
+ window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();promptEvent=e;refresh();});
+ window.addEventListener("appinstalled",()=>{installed=true;promptEvent=null;refresh();});
+ window.addEventListener("online",()=>{refresh();navigator.serviceWorker?.getRegistration().then(r=>r?.update()).catch(()=>{});});
+ window.addEventListener("offline",refresh);
+ document.querySelectorAll("[data-bv-instalar]").forEach(b=>b.addEventListener("click",async()=>{if(promptEvent){const p=promptEvent;promptEvent=null;try{await p.prompt();await p.userChoice;}catch(e){say("No se pudo abrir la instalación.");}}else{window.BV.ui.dialogo("Instalar Biblioteca Virtual","<p>En Android o computadora, abre esta página en Chrome o Edge y busca Instalar aplicación o Añadir a pantalla de inicio en el menú. En iPhone, abre Safari, pulsa Compartir y Añadir a pantalla de inicio.</p><p>Si estás dentro de otra aplicación, abre primero el enlace en tu navegador. No se puede instalar sin tu autorización.</p>",[{texto:"Entendido",clase:"boton--primario"}]);}}));
+ document.getElementById("bv-actualizar")?.addEventListener("click",async()=>{try{if(!navigator.onLine)throw Error();const r=await navigator.serviceWorker.getRegistration();if(!r)throw Error();await r.update();say(r.installing||r.waiting?"Descargando actualización. Abre de nuevo la biblioteca cuando termine.":"Comprobación terminada. Si hay una versión nueva, se aplicará automáticamente.");}catch(e){say("No se pudo comprobar. Revisa tu conexión y navegador.");}});
+ document.getElementById("bv-offline")?.addEventListener("click",async e=>{const b=e.currentTarget;b.disabled=true;try{if(!navigator.onLine||!navigator.serviceWorker?.controller)throw Error();const urls=[...new Set((window.BV_CATALOGO||[]).filter(x=>x.tipo==="pdf"&&x.archivo&&x.acceso==="abierto").map(x=>x.archivo))];const cache=await caches.open("bv-libros-offline");let ok=0;for(const url of urls){try{await cache.add(url);ok++;}catch(e){}say("Libros descargados: "+ok+" de "+urls.length);}say(ok+" de "+urls.length+" PDF guardados. Los cuentos de texto se incluyen en la aplicación.");}catch(e){say("Conéctate a internet y vuelve a abrir la biblioteca antes de descargar.");}finally{b.disabled=false;}});
+ document.getElementById("bv-respaldo")?.addEventListener("click",()=>{const blob=new Blob([JSON.stringify(window.BV.store.estado,null,2)],{type:"application/json"});const u=URL.createObjectURL(blob);const a=document.createElement("a");a.href=u;a.download="biblioteca-progreso.json";a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);});
+ refresh();
+})();
