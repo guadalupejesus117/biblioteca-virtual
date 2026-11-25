@@ -11,7 +11,7 @@ const NUCLEO = [
   "./assets/svg/ilu-nube.svg", "./assets/svg/ilu-dragon.svg", "./assets/svg/ilu-luna.svg", "./assets/svg/ilu-jardin.svg", "./assets/svg/ilu-fabula.svg",
   "./assets/svg/ilu-bosque-cuento.svg", "./assets/svg/ilu-castillo-magico.svg", "./assets/svg/ilu-mar.svg", "./assets/svg/ilu-conejo.svg",
   "./assets/svg/ilu-espejo.svg", "./assets/svg/ilu-marioneta.svg", "./assets/svg/ilu-estrellas.svg", "./assets/svg/ilu-maiz.svg", "./assets/svg/ilu-biblioteca-noche.svg",
-  "./js/nucleo.js", "./js/componentes.js", "./js/secciones.js", "./js/lector.js", "./js/juegos.js", "./js/app.js"
+  "./js/nucleo.js", "./js/componentes.js", "./js/secciones.js", "./js/lector.js", "./js/juegos.js", "./js/app.js", "./js/pwa.js", "./assets/img/icono-192.png", "./assets/img/icono-512.png"
 ];
 
 self.addEventListener("install", (event) => {
@@ -34,11 +34,7 @@ self.addEventListener("fetch", (event) => {
   if (!url.pathname.startsWith(new URL(self.registration.scope).pathname)) return;
 
   if (req.mode === "navigate") {
-    event.respondWith(fetch(req).then((res) => {
-      const copia = res.clone();
-      caches.open(VERSION).then((cache) => cache.put("./index.html", copia));
-      return res;
-    }).catch(() => caches.match("./index.html")));
+    event.respondWith(caches.open(VERSION).then(cache => cache.match("./index.html")).then(res => res || fetch(req)));
     return;
   }
 
