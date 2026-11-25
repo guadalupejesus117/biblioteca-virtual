@@ -783,7 +783,7 @@
     const lectura = estado.lectura[id];
     if (!lectura) return;
     const nuevo = limitar(Math.round(porcentaje), 0, 100);
-    if (nuevo > (lectura.percent || 0)) lectura.percent = nuevo;
+    if (nuevo > (lectura.percent || 0)) { lectura.percent = nuevo; estado.pioDias = [...new Set([...(estado.pioDias||[]),fechaLocal()])].slice(-366); }
     if (extra.page) lectura.page = extra.page;
     if (extra.totalPages) lectura.totalPages = extra.totalPages;
     lectura.updated = new Date().toISOString();
