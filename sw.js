@@ -1,5 +1,5 @@
 /* Biblioteca Virtual · Service Worker (caché local, sin rastreo) */
-const VERSION = "bv-v4-educativa";
+const VERSION = "bv-v5-instalable";
 const NUCLEO = [
   "./", "./index.html", "./manifest.webmanifest",
   "./css/base.css", "./css/paginas.css", "./css/juegos.css", "./css/lector.css", "./css/adaptable.css",
@@ -14,12 +14,12 @@ const NUCLEO = [
 ];
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(caches.open(VERSION).then((cache) => cache.addAll(NUCLEO)).then(() => self.skipWaiting()).catch(() => undefined));
+  event.waitUntil(caches.open(VERSION).then((cache) => cache.addAll(NUCLEO)).then(() => self.skipWaiting()));
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((claves) => Promise.all(claves.filter((c) => c !== VERSION).map((c) => caches.delete(c))))
+    caches.keys().then((claves) => Promise.all(claves.filter((c) => c.startsWith("bv-v") && c !== VERSION).map((c) => caches.delete(c))))
       .then(() => self.clients.claim())
   );
 });
@@ -28,12 +28,11 @@ self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
   const url = new URL(req.url);
-  if (url.origin !== self.location.origin) return;
+  if (url.origin !== self.location.origin || !url.href.startsWith(self.registration.scope)) return;
 
   if (req.mode === "navigate") {
     event.respondWith(fetch(req).then((res) => {
-      const copia = res.clone();
-      caches.open(VERSION).then((cache) => cache.put("./index.html", copia));
+      if (!res.ok) throw new Error("Navigation failed");
       return res;
     }).catch(() => caches.match("./index.html")));
     return;
