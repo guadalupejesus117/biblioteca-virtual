@@ -375,14 +375,7 @@
           estilo.textContent += "\n@media screen and (max-width:600px){body.lector-paginado .lector-barra__interior{flex-wrap:nowrap;width:calc(100% - 12px)}body.lector-paginado .lector-barra__titulo{flex-basis:0;overflow:hidden}body.lector-paginado .lector-barra__titulo strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}body.lector-paginado .hoja-nav button{padding:0 7px}.hoja-nav output{font-size:.65rem}} @media screen and (min-width:900px){body.lector-paginado .lector-texto{width:min(92%,850px)}.hoja-libro{padding-inline:65px}.hoja-nav{font-size:.9rem}}";
           vozLista=true;
           botonVoz.addEventListener("click",alternarVoz);controlVoz.addEventListener("click",alternarVoz);
-          const imprimir = () => {
-            document.body.classList.add("imprimir-libro");
-            BV.sonido("clic");
-            BV.ui.dialogo("Descargar PDF diseñado", "<p>Se abrirá la ventana de impresión. Elige <strong>Guardar como PDF</strong> para descargar una versión con portada, índice y capítulos, creada por la biblioteca.</p><p>El archivo original no se muestra ni se copia: el PDF se genera a partir de este texto.</p>", [
-              { texto: "Cancelar", clase: "boton--fantasma", accion: () => { document.body.classList.remove("imprimir-libro"); } },
-              { texto: "Abrir impresión", clase: "boton--primario", accion: async () => { const imgs=[...document.querySelectorAll(".libro-impresion img")]; imgs.forEach(img=>img.loading="eager"); await Promise.race([Promise.allSettled(imgs.map(img=>img.decode())),new Promise(resolve=>setTimeout(resolve,2500))]); window.addEventListener("afterprint",()=>document.body.classList.remove("imprimir-libro"),{once:true}); window.print(); } }
-            ]);
-          };
+          const imprimir = async () => { try { await window.BVPDF.descargar(document.querySelector(".libro-impresion"),recurso.titulo); } catch(e){BV.ui.dialogo("No se pudo descargar","<p>Intenta nuevamente.</p>");} };
           ["descargar-libro", "descargar-libro-fin"].forEach((id) => {
             const b = document.getElementById(id);
             if (b) b.addEventListener("click", imprimir);
