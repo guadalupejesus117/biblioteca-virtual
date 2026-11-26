@@ -1,0 +1,106 @@
+{
+  "alicia": {
+    "url": "https://bibliotecadigital.ilce.edu.mx/Colecciones/CuentosMas/ALICIAENELPAISDELASMARAVILLAS.pdf",
+    "paginas": 165,
+    "capitulos": 13,
+    "palabras": 28067,
+    "sha256": "702e1e546f827ff9eed24fe4a86517339e384890099a37f5fb9b366e86c0f48f",
+    "portada": "assets/portadas/alicia.webp"
+  },
+  "espejo": {
+    "url": "https://bibliotecadigital.ilce.edu.mx/Colecciones/CuentosMas/ATRAVESDELESPEJO.pdf",
+    "paginas": 166,
+    "capitulos": 12,
+    "palabras": 32919,
+    "sha256": "6910e8276f37759a2e397fcd5849a032680d187ff082b34de01583fa62c71e45",
+    "portada": "assets/portadas/espejo.webp"
+  },
+  "pinocho": {
+    "url": "https://bibliotecadigital.ilce.edu.mx/Colecciones/CuentosMas/AventurasPinocho.pdf",
+    "paginas": 304,
+    "capitulos": 36,
+    "palabras": 39735,
+    "sha256": "66d407438c3331bb8050bdf87a8e22000b7d9c93544811749a8ca5e6a41cdc6c",
+    "portada": "assets/portadas/pinocho.webp"
+  },
+  "blancanieves": {
+    "url": "https://bibliotecadigital.ilce.edu.mx/Colecciones/CuentosMas/BLANCANIEVES.pdf",
+    "paginas": 24,
+    "capitulos": 1,
+    "palabras": 2840,
+    "sha256": "be30119ab9217b3c947a8a8e3f80c2e0eeec47590c8e17a054680176628f899f",
+    "portada": "assets/portadas/blancanieves.webp"
+  },
+  "camisa": {
+    "url": "https://bibliotecadigital.ilce.edu.mx/Colecciones/CuentosMas/Camisa.pdf",
+    "paginas": 3,
+    "capitulos": 1,
+    "palabras": 383,
+    "sha256": "d2f93ac21e42db5a778bf65ec3051e2501f463671c148a1d134c99d1399257f2",
+    "portada": "assets/portadas/camisa.webp"
+  },
+  "caperucita": {
+    "url": "https://bibliotecadigital.ilce.edu.mx/Colecciones/CuentosMas/Caperucita.pdf",
+    "paginas": 12,
+    "capitulos": 1,
+    "palabras": 713,
+    "sha256": "5c5d72491ce59a8a6a3a63bd509b68e3cbf39e3d8b90346d603b8756d5cc600c",
+    "portada": "assets/portadas/caperucita.webp"
+  },
+  "durmiente": {
+    "url": "https://bibliotecadigital.ilce.edu.mx/Colecciones/CuentosMas/Durmiente.pdf",
+    "paginas": 27,
+    "capitulos": 1,
+    "palabras": 3246,
+    "sha256": "7d91a1cfd4a985f26f54f4e36848e94b3b10504ba8ef94e84eef5e716059a011",
+    "portada": "assets/portadas/durmiente.webp"
+  },
+  "habichuelas": {
+    "url": "https://bibliotecadigital.ilce.edu.mx/Colecciones/CuentosMas/Habichuelas.pdf",
+    "paginas": 10,
+    "capitulos": 1,
+    "palabras": 642,
+    "sha256": "975d32939959f2db6d3d27bad52fba1183c823f03230e3813a71641a34daf670",
+    "portada": "assets/portadas/habichuelas.webp"
+  },
+  "pulgarcito": {
+    "url": "https://bibliotecadigital.ilce.edu.mx/Colecciones/CuentosMas/Pulgarcito.pdf",
+    "paginas": 28,
+    "capitulos": 1,
+    "palabras": 3322,
+    "sha256": "8abc643de5e900ebad010799edeb2423a7c53bce95bf5c1f0f4e4340f7318236",
+    "portada": "assets/portadas/pulgarcito.webp"
+  },
+  "ruisenor": {
+    "url": "https://bibliotecadigital.ilce.edu.mx/Colecciones/CuentosMas/Ruisenor.pdf",
+    "paginas": 12,
+    "capitulos": 1,
+    "palabras": 2233,
+    "sha256": "9d57dfa32e230df4143a22dd3b60eb008cf99e5299e6202d188c10c0995af2bb",
+    "portada": "assets/portadas/ruisenor.webp"
+  },
+  "margarita": {
+    "url": "https://bibliotecadigital.ilce.edu.mx/Colecciones/CuentosMas/Debayle.pdf",
+    "paginas": 5,
+    "capitulos": 1,
+    "palabras": 416,
+    "sha256": "f5e3baa147ae2d173f2e09efc9fc6e983800764d3a256e62cb9b526f074ad552",
+    "portada": "assets/portadas/margarita.webp"
+  },
+  "barba-azul": {
+    "url": "https://bibliotecadigital.ilce.edu.mx/Colecciones/CuentosMas/BarbaAzul.pdf",
+    "paginas": 19,
+    "capitulos": 1,
+    "palabras": 1790,
+    "sha256": "087d00ecc47a8d698487d394297ea354da3683fc809117e68234ff34d301004c",
+    "portada": "assets/portadas/barba-azul.webp"
+  },
+  "bella-bestia": {
+    "url": "https://bibliotecadigital.ilce.edu.mx/Colecciones/CuentosMas/LABELLAYLABESTIA.pdf",
+    "paginas": 31,
+    "capitulos": 1,
+    "palabras": 5489,
+    "sha256": "d763bbc2a594f997508398496cc2e93fddb68dc7b20f92ce25a68c749915e08c",
+    "portada": "assets/portadas/bella-bestia.webp"
+  }
+}

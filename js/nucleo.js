@@ -443,6 +443,9 @@
   }
 
   const voz = {
+    limpiar: window.BV_TEXTO_VOZ,
+    fragmentar: window.BV_FRAGMENTOS_VOZ,
+    elegir: elegirVoz,
     disponible: "speechSynthesis" in window,
     detener() {
       if ("speechSynthesis" in window) window.speechSynthesis.cancel();
@@ -453,14 +456,14 @@
         BV.ui.toast({ titulo: "Voz no disponible", texto: "Este navegador no incluye lectura en voz alta. Prueba con Edge, Chrome o Safari.", tipo: "error" });
         return;
       }
-      const contenido = texto || (boton ? boton.dataset.textoVoz || textoDeBoton(boton) : "");
+      const contenido = window.BV_TEXTO_VOZ(texto || (boton ? boton.dataset.textoVoz || textoDeBoton(boton) : ""));
       if (!contenido) return;
       if (botonActivo === boton && window.speechSynthesis.speaking) {
         voz.detener();
         return;
       }
       voz.detener();
-      const partes = partirTexto(contenido);
+      const partes = window.BV_FRAGMENTOS_VOZ(contenido).map(p => p.texto);
       if (!partes.length) return;
       botonActivo = boton;
       if (boton) {
@@ -864,6 +867,7 @@
 
   function portadaHTML(recurso, opciones = {}) {
     if (!recurso) return "";
+    if (recurso.portadaOriginal) return `<div class="libro3d"><div class="portada portada--edicion${opciones.mini ? " portada--mini" : ""}"><img src="${esc(recurso.portadaOriginal)}" alt="${esc(recurso.titulo)}: portada de la edición ILCE" width="420" height="596" loading="lazy" decoding="async"></div></div>`;
     const arte = recurso.portada || {};
     const paleta = PALETAS.includes(arte.paleta) ? arte.paleta : PALETAS[(recurso.id || "").length % PALETAS.length];
     const motivo = arte.motivo || "libro";

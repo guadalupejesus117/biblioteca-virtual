@@ -955,3 +955,6 @@ body.sin-movimiento *::after {
   .grupo-opciones { grid-template-columns: 1fr 1fr 1fr; }
   .dialogo-ajustes__cabecera, .dialogo-ajustes__cuerpo { padding-left: 18px; padding-right: 18px; }
 }
+
+.portada--edicion { padding:0; overflow:hidden; background:#fff; }
+.portada--edicion img { width:100%; height:100%; object-fit:contain; display:block; }

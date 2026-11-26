@@ -30,7 +30,7 @@
     const lectura = estado().lectura[recurso.id];
     const nivel = nivelCorto(recurso);
     const accesoClase = recurso.acceso === "abierto" ? "abierto" : "ficha";
-    const accesoTexto = recurso.acceso === "abierto" ? (recurso.tipo === "pdf" ? "Clásico" : "Texto") : "Ficha";
+    const accesoTexto = recurso.acceso === "abierto" ? (recurso.tipo === "pdf" ? "Clásico" : "Versión propia") : "Ficha";
     const indice = opciones.indice || 0;
     let progreso = "";
     if (lectura && lectura.percent > 0) {

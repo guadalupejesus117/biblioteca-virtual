@@ -490,7 +490,7 @@
   /* ---------------- Cuentos ---------------- */
   secciones.cuentos = () => {
     const lista = D.abiertos().filter((r) => D.generoDe(r) === "narrativo");
-    const destacado = D.buscarRecurso("nube") || lista[0];
+    const destacado = D.buscarRecurso("habichuelas") || lista[0];
     return {
       titulo: "Cuentos y narraciones · Biblioteca Virtual",
       html: `
@@ -901,6 +901,7 @@
                 <h1>${esc(r.titulo)}</h1>
                 <p class="ficha-recurso__autor">de <strong>${esc(r.autor)}</strong>${r.anio ? ` · ${esc(r.anio)}` : ""}</p>
                 <p class="ficha-recurso__descripcion">${esc(r.descripcion)}</p>
+                ${r.portadaOriginal ? `<p><a href="${esc(r.fuenteUrl)}" target="_blank" rel="noopener">${esc(r.portadaCredito)} · Consultar fuente</a></p><p class="texto-ayuda">Edición digital. Derechos Reservados. Biblioteca Digital © Instituto Latinoamericano de la Comunicación Educativa ILCE.</p>` : r.tipo === "texto" ? `<p class="texto-ayuda">Texto o adaptación creada para esta biblioteca. No es una transcripción de una edición histórica.</p>` : ""}
                 <div class="ficha-meta">
                   <div><span>Tipo</span><strong>${r.tipo === "pdf" ? "PDF" : r.tipo === "texto" ? "Texto" : "Ficha"}</strong></div>
                   <div><span>Páginas</span><strong>${r.paginas || "—"}</strong></div>
@@ -977,7 +978,7 @@
                       <tr><td>Clásicos en PDF de la Biblioteca Digital ILCE</td><td>13</td><td>Consulta educativa, cultural y no lucrativa citando la fuente. No se venden ni se relicencian.</td></tr>
                       <tr><td>Textos, cuentos, poemas y adaptaciones propias</td><td>${propios.length}</td><td>CC BY-SA 4.0 · Biblioteca Virtual. Puedes compartir y adaptar citando la fuente y manteniendo la misma licencia.</td></tr>
                       <tr><td>Fichas de obras protegidas</td><td>${restringidos.length}</td><td>Solo metadatos y descripción original. No se incluye el archivo ni fragmentos protegidos.</td></tr>
-                      <tr><td>Ilustraciones SVG, portadas y mascota</td><td>—</td><td>Diseño original del proyecto, CC BY-SA 4.0, salvo iconos de terceros indicados en créditos.</td></tr>
+                      <tr><td>Ilustraciones SVG y mascota</td><td>—</td><td>Diseño original del proyecto, CC BY-SA 4.0, salvo iconos de terceros indicados en créditos. Las portadas de los clásicos proceden de sus ediciones ILCE y conservan sus derechos y atribución.</td></tr>
                     </tbody>
                   </table>
                   <p>Las obras de dominio público pueden consultarse y compartirse según la legislación de cada país. Aun así, una edición concreta puede tener derechos de traducción, ilustración o digitalización; por eso revisamos cada archivo antes de publicarlo.</p>
@@ -1002,7 +1003,7 @@
                     <div class="info-tarjeta"><h3>${icono("archivo")} PDF generado</h3><p>El botón «Descargar PDF» abre la impresión del navegador. El archivo se crea con portada, índice, capítulos y tipografía propia; no es una copia del PDF original.</p></div>
                     <div class="info-tarjeta"><h3>${icono("formas")} Lucide</h3><p>Familia de iconos de código abierto, licencia ISC. Los iconos se distribuyen como sprite SVG local.</p></div>
                     <div class="info-tarjeta"><h3>${icono("texto")} Baloo 2 y Nunito</h3><p>Tipografías de Google Fonts bajo SIL Open Font License 1.1, incluidas localmente con sus licencias.</p></div>
-                    <div class="info-tarjeta"><h3>${icono("paleta")} Ilustraciones</h3><p>Escenas, portadas, mascota e iconos personalizados creados para este proyecto como SVG originales.</p></div>
+                    <div class="info-tarjeta"><h3>${icono("paleta")} Ilustraciones</h3><p>Escenas, portadas de textos propios, mascota e iconos personalizados creados para este proyecto como SVG originales.</p></div>
                   </div>
                   <p>El catálogo y los textos se basan en los archivos proporcionados; no se inventaron autores, fechas ni datos editoriales. Las descripciones y adaptaciones son redacción propia.</p>
                 </section>
@@ -1013,7 +1014,7 @@
                 <section id="faq"><h2>Preguntas frecuentes</h2>
                   <details class="acordeon"><summary>¿Necesito una cuenta? ${icono("abajo", "icono--xs")}</summary><div class="acordeon__cuerpo"><p>No. Todo el sitio funciona sin registro. El progreso se guarda en el navegador y puedes borrarlo desde Ajustes → Reiniciar mi progreso.</p></div></details>
                   <details class="acordeon"><summary>¿Por qué algunos libros no se pueden leer? ${icono("abajo", "icono--xs")}</summary><div class="acordeon__cuerpo"><p>Porque sus derechos de autor no permiten redistribuirlos. Mostramos una ficha con los datos para que puedas buscarlos legalmente en una biblioteca o en la fuente original.</p></div></details>
-                  <details class="acordeon"><summary>¿Puedo usar la biblioteca sin internet? ${icono("abajo", "icono--xs")}</summary><div class="acordeon__cuerpo"><p>La web guarda en caché los archivos principales después de la primera visita, incluidos los textos de los clásicos. Aun así, la primera carga necesita conexión.</p></div></details>
+                  <details class="acordeon"><summary>¿Puedo usar la biblioteca sin internet? ${icono("abajo", "icono--xs")}</summary><div class="acordeon__cuerpo"><p>La web guarda en caché los archivos principales después de la primera visita, y cada clásico que hayas abierto. Aun así, la primera carga necesita conexión.</p></div></details>
                   <details class="acordeon"><summary>¿Los juegos tienen límite de tiempo? ${icono("abajo", "icono--xs")}</summary><div class="acordeon__cuerpo"><p>No. Puedes tomarte el tiempo que necesites, repetir y consultar las explicaciones. Las estrellas premian el esfuerzo y la constancia.</p></div></details>
                   <details class="acordeon"><summary>¿Cómo se calculan las estrellas? ${icono("abajo", "icono--xs")}</summary><div class="acordeon__cuerpo"><p>Completar una lectura suma 8 estrellas; abrirla por primera vez suma 1; los juegos suman entre 3 y 5; cada logro añade su recompensa. No hay compras ni canjes.</p></div></details>
                 </section>

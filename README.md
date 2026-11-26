@@ -31,7 +31,7 @@ Después visita `http://localhost:8000`.
 index.html            Aplicación (SPA por hash)
 css/                  Diseño, páginas, juegos, lector y ajustes
 js/                   Núcleo, componentes, páginas, lector, juegos y router
-data/                 Catálogo, textos originales, clásicos extraídos, juegos y logros
+data/                 Catálogo, textos propios, clásicos por libro, fuentes, juegos y logros
 assets/               Ilustraciones SVG, iconos y tipografías con licencia
 docs/                 Informe final y detalles de derechos
 ```
@@ -51,3 +51,25 @@ Se probaron todas las rutas y los ocho juegos con automatización de navegador (
 ## Despliegue
 
 El sitio es estático. Se publica con GitHub Pages desde la rama `main`, carpeta raíz.
+
+## Corrección de lecturas y rendimiento (26 de noviembre de 2026)
+
+Los 13 clásicos se reconstruyeron desde las ediciones enlazadas en `data/fuentes.json`.
+Se conservaron los textos de esas ediciones, incluidos sus finales; no se generaron
+continuaciones. Sus portadas son las de la edición ILCE consultada, no una promesa
+de primera edición histórica. Los relatos propios se identifican como «Versión propia».
+
+Los clásicos se descargan individualmente al abrirlos y quedan disponibles sin
+conexión después de esa primera apertura. La paginación no mide repetidamente
+el DOM y el árbol de impresión se incorpora solo al descargar el PDF.
+
+La narración omite marcas Markdown y separadores; divide los textos largos en
+fragmentos cortos y respeta la velocidad configurada. La voz concreta depende
+de las voces en español disponibles en el dispositivo.
+
+Para reproducir la importación: instala `pymupdf` y ejecuta
+`python scripts/restaurar_clasicos.py [directorio-de-PDFs]`.
+El importador verifica el SHA-256 de cada fuente antes de procesarla.
+Los PDF originales no se incluyen en el repositorio.
+
+Consulta `docs/VERIFICACION-2026-11-26.md` para conocer alcance y pruebas.

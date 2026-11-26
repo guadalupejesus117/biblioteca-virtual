@@ -44,12 +44,33 @@
     if (lista) lista.hidden = !sub;
   }
 
-  function renderizar() {
+  let turnoRuta = 0;
+  async function renderizar() {
+    const turno = ++turnoRuta;
     const { segmentos, params, ancla } = parsearHash();
     limpiarPagina();
     const vista = $("#vista");
     const [seccion, id, extra] = segmentos;
     let pagina = null;
+    const recurso = BV.datos.buscarRecurso(id || "");
+    if (["leer", "pdf"].includes(seccion) && recurso?.tipo === "pdf" && recurso.acceso === "abierto") {
+      window.BV_CLASICOS ||= {};
+      if (!window.BV_CLASICOS[id]) {
+        vista.innerHTML = '<p role="status" class="contenedor">Preparando tu lectura…</p>';
+        try {
+          const respuesta = await fetch(`data/clasicos/${encodeURIComponent(id)}.json`);
+          if (!respuesta.ok) throw new Error("Lectura no disponible");
+          window.BV_CLASICOS[id] = await respuesta.json();
+        } catch (error) {
+          if (turno !== turnoRuta) return;
+          vista.innerHTML = '<div class="contenedor"><h1>No se pudo cargar la lectura</h1><p>Conéctate a internet para abrir este libro por primera vez.</p><button class="boton" id="reintentar-lectura">Reintentar</button> <a href="#/biblioteca">Volver a la biblioteca</a></div>';
+          document.getElementById("reintentar-lectura").onclick = renderizar;
+          return;
+        }
+        if (turno !== turnoRuta) return;
+      }
+    }
+
 
     switch (seccion) {
       case undefined:

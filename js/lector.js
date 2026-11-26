@@ -27,7 +27,9 @@
 
   function bloqueHTML(b) {
     if (!b) return "";
-    const texto = esc(b.texto || b.x || "");
+    const original = b.texto || b.x || "";
+    if (/^[\s*]+$/.test(original)) return '<hr class="separador-lectura" aria-hidden="true">';
+    const texto = esc(original);
     switch (b.tipo || b.t) {
       case "h2": return `<h2>${texto}</h2>`;
       case "verso": return `<p class="verso">${texto}</p>`;
@@ -101,6 +103,7 @@
             <button type="button" class="lector-boton" id="leer-en-voz">${icono("volumen", "icono--sm")} Escuchar</button>
             <button type="button" class="lector-boton" id="leer-despejar" aria-pressed="false">${icono("maximize", "icono--sm")} Despejar pantalla</button>
             <button type="button" class="lector-boton" id="descargar-libro">${icono("descargar", "icono--sm")} Descargar PDF</button>
+            ${recurso.fuenteUrl ? `<a class="lector-boton" href="${esc(recurso.fuenteUrl)}" target="_blank" rel="noopener">Ver edición fuente</a>` : ""}
             <button type="button" class="lector-boton" id="terminar-libro">${icono("check", "icono--sm")} Terminar</button>
           </div>
         </div>
@@ -156,6 +159,7 @@
             </header>
             <div class="lector-texto__resumen">
               <p>${esc(recurso.descripcion)}</p>
+              ${recurso.fuenteUrl ? `<p><a href="${esc(recurso.fuenteUrl)}" target="_blank" rel="noopener">Consultar la edición fuente · ILCE</a></p>` : ""}
               <div class="fila">
                 <button type="button" class="boton boton--suave boton--pequeno" data-voz="${esc(`${recurso.titulo}. ${recurso.descripcion}`)}">${icono("volumen")} Escuchar resumen</button>
                 <button type="button" class="boton boton--pequeno" data-favorito="${recurso.id}" aria-pressed="${fav}">${icono("corazon")} ${fav ? "En favoritos" : "Guardar"}</button>
@@ -185,12 +189,12 @@
             ${sugerencias(recurso)}
           </article>
 
-          <section class="libro-impresion" aria-hidden="true">
+          <template id="plantilla-impresion"><section class="libro-impresion" aria-hidden="true">
             <div class="libro-impresion__portada">
               <div class="libro-impresion__sello">Biblioteca Virtual</div>
               <h1>${esc(recurso.titulo)}</h1>
               <p>${esc(recurso.autor)}</p>
-              <div class="libro-impresion__adorno">${ilustracionHTML(recurso,0) || `<img src="assets/svg/mascota-draco.svg" alt="Pío">`}</div>
+              <div class="libro-impresion__adorno">${recurso.portadaOriginal ? `<img src="${esc(recurso.portadaOriginal)}" alt="${esc(recurso.portadaCredito)}">` : ilustracionHTML(recurso,0)}</div>
               <small>Edición para lectura · ${esc(D.subgeneroNombre(recurso))}</small>
             </div>
             <div class="libro-impresion__indice">
@@ -209,11 +213,12 @@
             <div class="libro-impresion__colofon">
               <h2>Fuente y licencia</h2>
               <p>${esc(recurso.licencia || "Contenido propio bajo CC BY-SA 4.0.")}</p>
+              ${recurso.portadaOriginal ? `<p>Edición digital. Derechos Reservados. Biblioteca Digital © Instituto Latinoamericano de la Comunicación Educativa ILCE. Portada de la edición consultada; no corresponde necesariamente a la primera edición de la obra.</p>` : ""}
               ${recurso.fuente ? `<p>Fuente: ${esc(recurso.fuente)}${recurso.fuenteUrl ? ` · ${esc(recurso.fuenteUrl)}` : ""}</p>` : ""}
               <p>PDF generado por Biblioteca Virtual con diseño propio. No es una copia del archivo original.</p>
               <p>© Biblioteca Virtual · Edición educativa, gratuita y sin publicidad.</p>
             </div>
-          </section>
+          </section></template>
         </section>`;
 
       return {
@@ -227,7 +232,7 @@
           const selector = document.getElementById("selector-capitulo");
           const escalaOut = document.getElementById("leer-escala");
           let escalaActual = escala, terminado = false, paginas = [], actual = 0;
-          const clave = "bv:pagina:" + recurso.id;
+          const clave = "bv:pagina:v2:" + recurso.id;
           let guardado = null;
           try { guardado = JSON.parse(localStorage.getItem(clave)); } catch(e) {}
           document.body.classList.add("modo-lector", "lector-paginado");
@@ -278,27 +283,36 @@
             try {localStorage.setItem(clave,JSON.stringify({cap:p.cap,offset:p.offset}));}catch(e){}
           }
           function paginar(pos) {
-            paginas=[]; hoja.replaceChildren();
+            if (vozLista && narrando) detenerVoz();
+            paginas=[];
+            // Páginas lógicas: sin medir el DOM miles de veces al abrir una novela.
+            // El desplazamiento vertical permite leer cualquier bloque sin recortes.
+            const limite = Math.max(450, Math.min(1800, Math.floor(
+              hoja.clientWidth * Math.max(220, hoja.clientHeight - 100) / (200 * escalaActual * escalaActual))));
             fuentes.forEach((nodos,cap)=>{
-              let lote=[], offset=0, inicio=0;
-              function cerrar(){if(lote.length) paginas.push({cap,offset:inicio,nodos:lote}); lote=[]; hoja.replaceChildren(); inicio=offset;}
-              function agregar(n){
-                const copia=n.cloneNode(true); hoja.append(copia);
-                if(hoja.scrollHeight>hoja.clientHeight+2 && lote.length){copia.remove();cerrar();hoja.append(copia);}
-                lote.push(n);offset++;
-              }
+              let lote=[], peso=0, offset=0, inicio=0;
+              const cerrar=()=>{if(lote.length)paginas.push({cap,offset:inicio,nodos:lote});lote=[];peso=0;inicio=offset;};
               nodos.forEach(n=>{
-                if(n.matches("p") && n.textContent.length>240 && !n.children.length){
-                  const partes=n.textContent.match(/\S+\s*/g)||[];
+                const trozos=[];
+                if(n.matches("p") && n.textContent.length>limite && !n.children.length){
+                  const palabras=n.textContent.match(/\S+\s*/g)||[];
                   let texto="";
-                  partes.forEach(w=>{if(texto.length+w.length>240 && texto){const q=n.cloneNode(false);q.textContent=texto;agregar(q);texto="";}texto+=w;});
-                  if(texto){const q=n.cloneNode(false);q.textContent=texto;agregar(q);}
-                }else agregar(n);
+                  for(const palabra of palabras){
+                    if(texto && texto.length+palabra.length>limite){const q=n.cloneNode(false);q.textContent=texto;trozos.push(q);texto="";}
+                    texto+=palabra;
+                  }
+                  if(texto){const q=n.cloneNode(false);q.textContent=texto;trozos.push(q);}
+                }else trozos.push(n);
+                for(const q of trozos){
+                  const longitud=q.textContent.length, costo=q.matches("figure")?350:longitud+40;
+                  if(lote.length && peso+costo>limite)cerrar();
+                  lote.push(q);peso+=costo;offset+=Math.max(1,longitud);
+                }
               });cerrar();
             });
             let destino=0;
-            if(pos) paginas.forEach((p,i)=>{if(p.cap===pos.cap && p.offset<=pos.offset) destino=i;});
-            else if(porcentaje>0 && porcentaje<100) destino=Math.floor(paginas.length*porcentaje/100);
+            if(pos)paginas.forEach((p,i)=>{if(p.cap===pos.cap && p.offset<=pos.offset)destino=i;});
+            else if(porcentaje>0 && porcentaje<100)destino=Math.floor(paginas.length*porcentaje/100);
             mostrar(destino);
           }
           const ajustarEscala = delta => {
@@ -330,13 +344,14 @@
           function detenerVoz(){
             turno++; narrando=false;
             if(motor) motor.cancel();
+            hoja.querySelectorAll(".voz-palabra").forEach(m=>m.replaceWith(document.createTextNode(m.textContent)));
             hoja.querySelectorAll(".voz-activa").forEach(n=>n.classList.remove("voz-activa"));
             controlVoz.textContent="▶ Escuchar"; botonVoz.textContent="Escuchar";
           }
           function narrarPagina(){
             const token=turno;
-            const bloques=Array.from(hoja.querySelectorAll("h2,p,li,figcaption,aside")).filter(n=>n.textContent.trim()&&!n.closest(".hoja-relleno"));
-            let i=0;
+            const bloques=Array.from(hoja.querySelectorAll("h2,p,li,aside")).filter(n=>BV.voz.limpiar(n.textContent)&&!n.closest(".hoja-relleno,.nota"));
+            let i=0, segmento=0;
             function paso(){
               if(!narrando||token!==turno)return;
               hoja.querySelectorAll(".voz-activa").forEach(n=>n.classList.remove("voz-activa"));
@@ -346,16 +361,20 @@
                 else {detenerVoz();terminar();}
                 return;
               }
-              const n=bloques[i++]; n.classList.add("voz-activa");
+              const n=bloques[i]; n.classList.add("voz-activa");
               n.scrollIntoView({block:"nearest",inline:"nearest"});
-              const texto=n.textContent.trim();
-              const u=new SpeechSynthesisUtterance(texto);u.lang="es-MX";
-              const voces=motor.getVoices(); const voz=voces.find(v=>v.lang==="es-MX")||voces.find(v=>v.lang.startsWith("es"));
+              const original=n.textContent.trim();
+              const texto=BV.voz.limpiar(original);
+              const partes=BV.voz.fragmentar(texto), parte=partes[segmento++];
+              if(segmento>=partes.length){segmento=0;i++;}
+              const u=new SpeechSynthesisUtterance(parte.texto);u.lang="es-MX";
+              u.rate=estado().velocidadVoz;
+              const voz=BV.voz.elegir();
               if(voz)u.voice=voz;
               u.onboundary=e=>{
-                if(token!==turno||!narrando||e.name!=="word")return;
+                if(token!==turno||!narrando||e.name!=="word"||texto!==original)return;
                 if(n.children.length && !n.querySelector(".voz-palabra"))return;
-                const inicio=e.charIndex, fin=inicio+(e.charLength||((texto.slice(inicio).match(/^\S+/)||[""])[0].length));
+                const inicio=parte.inicio+e.charIndex, fin=inicio+(e.charLength||((texto.slice(inicio).match(/^\S+/)||[""])[0].length));
                 const marca=document.createElement("mark");marca.className="voz-palabra";marca.textContent=texto.slice(inicio,fin);
                 n.replaceChildren(document.createTextNode(texto.slice(0,inicio)),marca,document.createTextNode(texto.slice(fin)));
               };
@@ -375,7 +394,20 @@
           estilo.textContent += "\n@media screen and (max-width:600px){body.lector-paginado .lector-barra__interior{flex-wrap:nowrap;width:calc(100% - 12px)}body.lector-paginado .lector-barra__titulo{flex-basis:0;overflow:hidden}body.lector-paginado .lector-barra__titulo strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}body.lector-paginado .hoja-nav button{padding:0 7px}.hoja-nav output{font-size:.65rem}} @media screen and (min-width:900px){body.lector-paginado .lector-texto{width:min(92%,850px)}.hoja-libro{padding-inline:65px}.hoja-nav{font-size:.9rem}}";
           vozLista=true;
           botonVoz.addEventListener("click",alternarVoz);controlVoz.addEventListener("click",alternarVoz);
-          const imprimir = async () => { try { await window.BVPDF.descargar(document.querySelector(".libro-impresion"),recurso.titulo); } catch(e){BV.ui.dialogo("No se pudo descargar","<p>Intenta nuevamente.</p>");} };
+          let generandoPDF = false;
+          const imprimir = async () => {
+            if (generandoPDF) return;
+            generandoPDF = true;
+            const botones = ["descargar-libro", "descargar-libro-fin"].map(id=>document.getElementById(id)).filter(Boolean);
+            botones.forEach(b=>{b.disabled=true;b.setAttribute("aria-busy","true");});
+            BV.ui.anunciar("Preparando el PDF. Espera un momento.");
+            try {
+              if(!document.querySelector(".libro-impresion")) document.querySelector(".lector").append(document.getElementById("plantilla-impresion").content.cloneNode(true));
+              await new Promise(resolve=>requestAnimationFrame(resolve));
+              await window.BVPDF.descargar(document.querySelector(".libro-impresion"),recurso.titulo);
+            } catch(e) { BV.ui.dialogo("No se pudo descargar","<p>Intenta nuevamente.</p>"); }
+            finally { generandoPDF=false;botones.forEach(b=>{b.disabled=false;b.removeAttribute("aria-busy");}); }
+          };
           ["descargar-libro", "descargar-libro-fin"].forEach((id) => {
             const b = document.getElementById(id);
             if (b) b.addEventListener("click", imprimir);
