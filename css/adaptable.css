@@ -107,3 +107,13 @@ a[target="_blank"]::after { content: none; }
 .lector-texto__cuerpo,.hoja-libro{letter-spacing:.015em;word-spacing:.055em;line-height:1.7!important}.hoja-libro p,.lector-texto__cuerpo p{margin-bottom:1em;overflow-wrap:break-word}.portada__titulo{letter-spacing:0;line-height:1.2;overflow-wrap:break-word}.pio-nav a span{letter-spacing:0;line-height:1.3}
 .lector-paginado .bv-instalar-franja { display:none !important; }
 .tarjeta-libro { animation-delay:0ms; animation-duration:180ms; }
+
+/* Revisión 26-nov: objetivos táctiles de 44 px y textos mínimos de 12 px */
+@media (max-width: 620px), (pointer: coarse) {
+  .accion-icono, .boton-favorito { min-width: 44px; min-height: 44px; }
+  .boton--pequeno { min-height: 44px; }
+  .pie__columnas a { display: inline-block; padding: 10px 0; }
+}
+.insignia-contador { font-size: 0.75rem; }
+.tarjeta-libro__meta { font-size: 0.75rem; }
+.tarjeta-libro__meta span { font-size: 0.75rem; }
